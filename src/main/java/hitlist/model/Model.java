@@ -3,9 +3,9 @@ package hitlist.model;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
-import javafx.collections.ObservableList;
 import hitlist.commons.core.GuiSettings;
 import hitlist.model.person.Person;
+import javafx.collections.ObservableList;
 
 /**
  * The API of the Model component.

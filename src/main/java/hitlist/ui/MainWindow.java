@@ -2,6 +2,12 @@ package hitlist.ui;
 
 import java.util.logging.Logger;
 
+import hitlist.commons.core.GuiSettings;
+import hitlist.commons.core.LogsCenter;
+import hitlist.logic.Logic;
+import hitlist.logic.commands.CommandResult;
+import hitlist.logic.commands.exceptions.CommandException;
+import hitlist.logic.parser.exceptions.ParseException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -10,12 +16,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import hitlist.commons.core.GuiSettings;
-import hitlist.commons.core.LogsCenter;
-import hitlist.logic.Logic;
-import hitlist.logic.commands.CommandResult;
-import hitlist.logic.commands.exceptions.CommandException;
-import hitlist.logic.parser.exceptions.ParseException;
 
 /**
  * The Main Window. Provides the basic application layout containing

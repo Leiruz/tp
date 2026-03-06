@@ -1,11 +1,11 @@
 package hitlist.logic.commands;
 
+import static hitlist.testutil.Assert.assertThrows;
+import static hitlist.testutil.TypicalPersons.ALICE;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static hitlist.testutil.Assert.assertThrows;
-import static hitlist.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -15,15 +15,15 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import hitlist.model.HitList;
-import hitlist.model.ReadOnlyHitList;
-import javafx.collections.ObservableList;
 import hitlist.commons.core.GuiSettings;
 import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
+import hitlist.model.ReadOnlyHitList;
 import hitlist.model.ReadOnlyUserPrefs;
 import hitlist.model.person.Person;
 import hitlist.testutil.PersonBuilder;
+import javafx.collections.ObservableList;
 
 public class AddCommandTest {
 

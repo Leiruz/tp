@@ -1,17 +1,17 @@
 package hitlist.model;
 
-import static java.util.Objects.requireNonNull;
 import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import hitlist.commons.core.GuiSettings;
 import hitlist.commons.core.LogsCenter;
 import hitlist.model.person.Person;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 /**
  * Represents the in-memory model of the address book data.

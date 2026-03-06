@@ -1,7 +1,7 @@
 package hitlist.model;
 
-import javafx.collections.ObservableList;
 import hitlist.model.person.Person;
+import javafx.collections.ObservableList;
 
 /**
  * Unmodifiable view of an address book

@@ -1,10 +1,10 @@
 package hitlist.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static hitlist.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;

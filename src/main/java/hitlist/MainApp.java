@@ -5,9 +5,6 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import hitlist.model.HitList;
-import javafx.application.Application;
-import javafx.stage.Stage;
 import hitlist.commons.core.Config;
 import hitlist.commons.core.LogsCenter;
 import hitlist.commons.core.Version;
@@ -16,6 +13,7 @@ import hitlist.commons.util.ConfigUtil;
 import hitlist.commons.util.StringUtil;
 import hitlist.logic.Logic;
 import hitlist.logic.LogicManager;
+import hitlist.model.HitList;
 import hitlist.model.Model;
 import hitlist.model.ModelManager;
 import hitlist.model.ReadOnlyHitList;
@@ -30,6 +28,8 @@ import hitlist.storage.StorageManager;
 import hitlist.storage.UserPrefsStorage;
 import hitlist.ui.Ui;
 import hitlist.ui.UiManager;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 /**
  * Runs the application.

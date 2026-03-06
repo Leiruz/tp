@@ -2,14 +2,14 @@ package hitlist.logic;
 
 import java.nio.file.Path;
 
-import hitlist.model.Model;
-import hitlist.model.ReadOnlyHitList;
-import javafx.collections.ObservableList;
 import hitlist.commons.core.GuiSettings;
 import hitlist.logic.commands.CommandResult;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.model.Model;
+import hitlist.model.ReadOnlyHitList;
 import hitlist.model.person.Person;
+import javafx.collections.ObservableList;
 
 /**
  * API of the Logic component

@@ -1,15 +1,15 @@
 package hitlist.model.person;
 
-import static java.util.Objects.requireNonNull;
 import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Iterator;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import hitlist.model.person.exceptions.DuplicatePersonException;
 import hitlist.model.person.exceptions.PersonNotFoundException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not allow nulls.

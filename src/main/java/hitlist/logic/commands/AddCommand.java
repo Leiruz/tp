@@ -1,11 +1,11 @@
 package hitlist.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static hitlist.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
 import static hitlist.logic.parser.CliSyntax.PREFIX_PHONE;
 import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
+import static java.util.Objects.requireNonNull;
 
 import hitlist.commons.util.ToStringBuilder;
 import hitlist.logic.Messages;

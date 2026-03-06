@@ -1,14 +1,14 @@
 package hitlist.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static hitlist.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static hitlist.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static hitlist.testutil.TypicalPersons.CARL;
 import static hitlist.testutil.TypicalPersons.ELLE;
 import static hitlist.testutil.TypicalPersons.FIONA;
 import static hitlist.testutil.TypicalPersons.getTypicalHitList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;

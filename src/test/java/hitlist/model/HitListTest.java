@@ -1,13 +1,13 @@
 package hitlist.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static hitlist.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static hitlist.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.getTypicalHitList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,31 +16,31 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import hitlist.model.person.Person;
 import hitlist.model.person.exceptions.DuplicatePersonException;
 import hitlist.testutil.PersonBuilder;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public class AddressBookTest {
+public class HitListTest {
 
-    private final HitList addressBook = new HitList();
+    private final HitList hitList = new HitList();
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), addressBook.getPersonList());
+        assertEquals(Collections.emptyList(), hitList.getPersonList());
     }
 
     @Test
     public void resetData_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> addressBook.resetData(null));
+        assertThrows(NullPointerException.class, () -> hitList.resetData(null));
     }
 
     @Test
     public void resetData_withValidReadOnlyAddressBook_replacesData() {
         HitList newData = getTypicalHitList();
-        addressBook.resetData(newData);
-        assertEquals(newData, addressBook);
+        hitList.resetData(newData);
+        assertEquals(newData, hitList);
     }
 
     @Test
@@ -51,42 +51,42 @@ public class AddressBookTest {
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
         HitListStub newData = new HitListStub(newPersons);
 
-        assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
+        assertThrows(DuplicatePersonException.class, () -> hitList.resetData(newData));
     }
 
     @Test
     public void hasPerson_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> addressBook.hasPerson(null));
+        assertThrows(NullPointerException.class, () -> hitList.hasPerson(null));
     }
 
     @Test
     public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasPerson(ALICE));
+        assertFalse(hitList.hasPerson(ALICE));
     }
 
     @Test
     public void hasPerson_personInAddressBook_returnsTrue() {
-        addressBook.addPerson(ALICE);
-        assertTrue(addressBook.hasPerson(ALICE));
+        hitList.addPerson(ALICE);
+        assertTrue(hitList.hasPerson(ALICE));
     }
 
     @Test
     public void hasPerson_personWithSameIdentityFieldsInAddressBook_returnsTrue() {
-        addressBook.addPerson(ALICE);
+        hitList.addPerson(ALICE);
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
-        assertTrue(addressBook.hasPerson(editedAlice));
+        assertTrue(hitList.hasPerson(editedAlice));
     }
 
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> hitList.getPersonList().remove(0));
     }
 
     @Test
     public void toStringMethod() {
-        String expected = HitList.class.getCanonicalName() + "{persons=" + addressBook.getPersonList() + "}";
-        assertEquals(expected, addressBook.toString());
+        String expected = HitList.class.getCanonicalName() + "{persons=" + hitList.getPersonList() + "}";
+        assertEquals(expected, hitList.toString());
     }
 
     /**

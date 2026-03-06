@@ -1,11 +1,11 @@
 package hitlist.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static hitlist.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static hitlist.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +29,9 @@ import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.PersonBuilder;
 import hitlist.testutil.PersonUtil;
 
-public class AddressBookParserTest {
+public class HitListParserTest {
 
-    private final AddressBookParser parser = new AddressBookParser();
+    private final HitListParser parser = new HitListParser();
 
     @Test
     public void parseCommand_add() throws Exception {

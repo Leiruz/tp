@@ -5,18 +5,18 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-import hitlist.model.ReadOnlyHitList;
-import javafx.collections.ObservableList;
 import hitlist.commons.core.GuiSettings;
 import hitlist.commons.core.LogsCenter;
 import hitlist.logic.commands.Command;
 import hitlist.logic.commands.CommandResult;
 import hitlist.logic.commands.exceptions.CommandException;
-import hitlist.logic.parser.AddressBookParser;
+import hitlist.logic.parser.HitListParser;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;
+import hitlist.model.ReadOnlyHitList;
 import hitlist.model.person.Person;
 import hitlist.storage.Storage;
+import javafx.collections.ObservableList;
 
 /**
  * The main LogicManager of the app.
@@ -31,7 +31,7 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final AddressBookParser addressBookParser;
+    private final HitListParser hitListParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -39,7 +39,7 @@ public class LogicManager implements Logic {
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
+        hitListParser = new HitListParser();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = addressBookParser.parseCommand(commandText);
+        Command command = hitListParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
         try {

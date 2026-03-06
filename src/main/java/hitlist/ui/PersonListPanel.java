@@ -2,13 +2,13 @@ package hitlist.ui;
 
 import java.util.logging.Logger;
 
+import hitlist.commons.core.LogsCenter;
+import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import hitlist.commons.core.LogsCenter;
-import hitlist.model.person.Person;
 
 /**
  * Panel containing the list of persons.

@@ -2,15 +2,15 @@ package hitlist.ui;
 
 import java.util.logging.Logger;
 
+import hitlist.MainApp;
+import hitlist.commons.core.LogsCenter;
+import hitlist.commons.util.StringUtil;
+import hitlist.logic.Logic;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import hitlist.MainApp;
-import hitlist.commons.core.LogsCenter;
-import hitlist.commons.util.StringUtil;
-import hitlist.logic.Logic;
 
 /**
  * The manager of the UI component.

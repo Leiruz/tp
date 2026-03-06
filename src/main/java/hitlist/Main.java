@@ -2,8 +2,8 @@ package hitlist;
 
 import java.util.logging.Logger;
 
-import javafx.application.Application;
 import hitlist.commons.core.LogsCenter;
+import javafx.application.Application;
 
 /**
  * The main entry point to the application.
@@ -21,7 +21,7 @@ import hitlist.commons.core.LogsCenter;
  * By having a separate main class (Main) that doesn't extend Application
  * to be the entry point of the application, we avoid this issue.
  */
-public class  Main {
+public class Main {
     private static Logger logger = LogsCenter.getLogger(Main.class);
 
     public static void main(String[] args) {

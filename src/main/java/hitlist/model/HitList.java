@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import javafx.collections.ObservableList;
 import hitlist.commons.util.ToStringBuilder;
 import hitlist.model.person.Person;
 import hitlist.model.person.UniquePersonList;
+import javafx.collections.ObservableList;
 
 /**
  * Wraps all data at the address-book level
