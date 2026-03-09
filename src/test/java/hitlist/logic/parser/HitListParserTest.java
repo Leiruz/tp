@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import hitlist.commons.core.index.Index;
 import hitlist.logic.commands.AddCommand;
 import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.DeleteCommand;
@@ -22,9 +23,11 @@ import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
+import hitlist.logic.commands.RemarkCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.person.NameContainsKeywordsPredicate;
 import hitlist.model.person.Person;
+import hitlist.model.person.Remark;
 import hitlist.testutil.EditPersonDescriptorBuilder;
 import hitlist.testutil.PersonBuilder;
 import hitlist.testutil.PersonUtil;
@@ -32,6 +35,13 @@ import hitlist.testutil.PersonUtil;
 public class HitListParserTest {
 
     private final HitListParser parser = new HitListParser();
+
+    @Test
+    public void parseCommand_remark() throws Exception {
+        String remark = "hello";
+        RemarkCommand command = (RemarkCommand) parser.parseCommand("remark 1 r/" + remark);
+        assertEquals(new RemarkCommand(Index.fromOneBased(1), new Remark(remark)), command);
+    }
 
     @Test
     public void parseCommand_add() throws Exception {
@@ -91,7 +101,7 @@ public class HitListParserTest {
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
-            -> parser.parseCommand(""));
+                -> parser.parseCommand(""));
     }
 
     @Test

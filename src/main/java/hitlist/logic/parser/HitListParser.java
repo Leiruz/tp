@@ -18,6 +18,7 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
+import hitlist.logic.commands.RemarkCommand;
 
 /**
  * Parses user input.
@@ -77,6 +78,8 @@ public class HitListParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
+        case RemarkCommand.COMMAND_WORD:
+            return new RemarkCommandParser().parse(arguments);
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
