@@ -41,12 +41,20 @@ public class Prefix {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Prefix)) {
             return false;
         }
 
         Prefix otherPrefix = (Prefix) other;
-        return prefix.equals(otherPrefix.prefix);
+
+        // Handle null cases
+        if (this.prefix == null && otherPrefix.prefix == null) {
+            return true;
+        }
+        if (this.prefix == null || otherPrefix.prefix == null) {
+            return false;
+        }
+
+        return this.prefix.equals(otherPrefix.prefix);
     }
 }
