@@ -14,7 +14,7 @@ import hitlist.model.group.Group;
  */
 public class AddGroupCommand extends Command {
 
-    public static final String COMMAND_WORD = "groupadd";
+    public static final String COMMAND_WORD = "grpadd";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the address book. "
             + "Parameters: "
