@@ -26,7 +26,7 @@ import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
-import hitlist.model.person.NameContainsKeywordsPredicate;
+import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import hitlist.model.person.PersonMatchesFindPredicate;
 import hitlist.testutil.EditPersonDescriptorBuilder;

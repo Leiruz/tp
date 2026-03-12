@@ -11,10 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import hitlist.logic.commands.FindCommand;
 import hitlist.model.person.PersonMatchesFindPredicate;
+import hitlist.model.tag.Tag;
 
 public class FindCommandParserTest {
 
-    private FindCommandParser parser = new FindCommandParser();
+    private final FindCommandParser parser = new FindCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
@@ -38,8 +39,8 @@ public class FindCommandParserTest {
                 new FindCommand(new PersonMatchesFindPredicate(Collections.emptyList(),
                         Arrays.asList("school", "friend")));
 
-        assertParseSuccess(parser, "t/school t/friend", expectedFindCommand);
-        assertParseSuccess(parser, " \n t/school \n \t t/friend \t", expectedFindCommand);
+        assertParseSuccess(parser, "/tschool /tfriend", expectedFindCommand);
+        assertParseSuccess(parser, " /t school \n \t /t friend \t", expectedFindCommand);
     }
 
     @Test
@@ -48,7 +49,29 @@ public class FindCommandParserTest {
                 new FindCommand(new PersonMatchesFindPredicate(Arrays.asList("Han", "Bo"),
                         Arrays.asList("school")));
 
-        assertParseSuccess(parser, "Han Bo t/school", expectedFindCommand);
-        assertParseSuccess(parser, " \n Han \n \t Bo \t t/school ", expectedFindCommand);
+        assertParseSuccess(parser, "Han Bo /tschool", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_tagThenNameKeywords_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new PersonMatchesFindPredicate(Arrays.asList("Han"),
+                        Arrays.asList("school")));
+
+        assertParseSuccess(parser, "/tschool Han", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_interleavedNameAndTagKeywords_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new PersonMatchesFindPredicate(Arrays.asList("A", "B", "C", "D"),
+                        Arrays.asList("MyTag")));
+
+        assertParseSuccess(parser, "A B /tMyTag C D", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_emptyTag_throwsParseException() {
+        assertParseFailure(parser, "Han /t", Tag.MESSAGE_CONSTRAINTS);
     }
 }

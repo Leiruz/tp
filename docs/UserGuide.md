@@ -118,20 +118,22 @@ Examples:
 
 Finds persons whose names match any given prefix and/or whose tags match any given tag.
 
-Format: `find [KEYWORD]... [t/TAG]...`
+Format: `find [KEYWORD]... [/t TAG]...`
 
 - Name search is case-insensitive. e.g. `han` matches `Hans`
 - Name search uses prefix matching. e.g. `Han` matches `Hans`
-- Tag search uses exact but case-insensitive matching. e.g. `t/school` matches `school`
+- Tag search uses exact but case-insensitive matching. e.g. `/t school` matches `school`
 - If multiple name keywords are given, a person matching any one of them is returned
 - If multiple tags are given, a person matching any one of them is returned
 - If both name keywords and tags are given, a person must satisfy both parts
+- Name keywords and tags may appear in any order
 
 Examples:
 - `find Han`
 - `find Han Bo`
-- `find t/school`
-- `find Han t/school`
+- `find /t school`
+- `find Han /t school`
+- `find /t school Han`
 
 ### Deleting a person : `delete`
 
@@ -202,6 +204,6 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | `find [KEYWORD]... [/t TAG]...`<br> e.g., `find James /t friend`
 **List**   | `list`
 **Help**   | `help`
