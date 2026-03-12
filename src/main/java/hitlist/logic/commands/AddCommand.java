@@ -8,7 +8,6 @@ import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
 
 import hitlist.commons.util.ToStringBuilder;
-import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.person.Person;
@@ -35,8 +34,9 @@ public class AddCommand extends Command {
             + PREFIX_TAG + " friends "
             + PREFIX_TAG + " owesMoney";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "Added %1$s with contact number %2$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Duplicate Contact: Another contact "
+            + "with the same number already exists";
 
     private final Person toAdd;
 
@@ -57,7 +57,7 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.getName(), toAdd.getPhone()));
     }
 
     @Override
