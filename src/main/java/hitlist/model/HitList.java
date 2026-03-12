@@ -6,8 +6,8 @@ import java.util.List;
 
 import hitlist.commons.util.ToStringBuilder;
 import hitlist.model.company.Company;
-import hitlist.model.company.role.Role;
 import hitlist.model.company.UniqueCompanyList;
+import hitlist.model.company.role.Role;
 import hitlist.model.company.role.UniqueRoleList;
 import hitlist.model.group.Group;
 import hitlist.model.group.UniqueGroupList;
@@ -90,7 +90,7 @@ public class HitList implements ReadOnlyHitList {
     //// person-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a person with the same identity as {@code person} exists in hitList.
      */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
@@ -98,8 +98,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a person to hitList.
+     * The person must not already exist in hitList.
      */
     public void addPerson(Person p) {
         persons.add(p);
@@ -107,8 +107,8 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * {@code target} must exist in hitList.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in hitList.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
@@ -118,7 +118,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Removes {@code key} from this {@code HitList}.
-     * {@code key} must exist in the address book.
+     * {@code key} must exist in hitList.
      */
     public void removePerson(Person key) {
         persons.remove(key);
@@ -127,7 +127,7 @@ public class HitList implements ReadOnlyHitList {
     //// role-level operations
 
     /**
-     * Returns true if a role with the same identity as {@code role} exists in the address book.
+     * Returns true if a role with the same identity as {@code role} exists in hitList.
      */
     public boolean hasRole(Role role) {
         requireNonNull(role);
@@ -135,8 +135,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a role to the address book.
-     * The role must not already exist in the address book.
+     * Adds a role to hitList.
+     * The role must not already exist in hitList.
      */
     public void addRole(Role r) {
         roles.add(r);
@@ -144,8 +144,8 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Replaces the given role {@code target} in the list with {@code editedRole}.
-     * {@code target} must exist in the address book.
-     * The role identity of {@code editedRole} must not be the same as another existing role in the address book.
+     * {@code target} must exist in hitList.
+     * The role identity of {@code editedRole} must not be the same as another existing role in hitList.
      */
     public void setRole(Role target, Role editedRole) {
         requireNonNull(editedRole);
@@ -155,7 +155,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Removes {@code key} from this {@code HitList}.
-     * {@code key} must exist in the address book.
+     * {@code key} must exist in hitList.
      */
     public void removeRole(Role key) {
         roles.remove(key);
@@ -164,7 +164,7 @@ public class HitList implements ReadOnlyHitList {
     //// company-level operations
 
     /**
-     * Returns true if a company with the same identity as {@code company} exists in the address book.
+     * Returns true if a company with the same identity as {@code company} exists in hitList.
      */
     public boolean hasCompany(Company company) {
         requireNonNull(company);
@@ -172,8 +172,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a company to the address book.
-     * The company must not already exist in the address book.
+     * Adds a company to hitList.
+     * The company must not already exist in hitList.
      */
     public void addCompany(Company c) {
         companies.add(c);
@@ -181,8 +181,8 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Replaces the given company {@code target} in the list with {@code editedCompany}.
-     * {@code target} must exist in the address book.
-     * The company identity of {@code editedCompany} must not be the same as another existing company in the address book.
+     * {@code target} must exist in hitList.
+     * The company identity of {@code editedCompany} must not be the same as another existing company in hitList.
      */
     public void setCompany(Company target, Company editedCompany) {
         requireNonNull(editedCompany);
@@ -192,7 +192,7 @@ public class HitList implements ReadOnlyHitList {
 
     /**
      * Removes {@code key} from this {@code HitList}.
-     * {@code key} must exist in the address book.
+     * {@code key} must exist in hitList.
      */
     public void removeCompany(Company key) {
         companies.remove(key);
@@ -207,8 +207,8 @@ public class HitList implements ReadOnlyHitList {
     }
 
     /**
-     * Adds a group to the address book.
-     * The group must not already exist in the address book.
+     * Adds a group to hitList.
+     * The group must not already exist in hitList.
      */
     public void addGroup(Group g) {
         groups.add(g);
