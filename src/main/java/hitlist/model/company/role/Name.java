@@ -10,7 +10,8 @@ import static java.util.Objects.requireNonNull;
 public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Role names must be between 2 and 50 characters long, cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
+            "Role names must be between 2 and 50 characters long, "
+                    + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
     /*
      * The first character of the role name must not be a whitespace,

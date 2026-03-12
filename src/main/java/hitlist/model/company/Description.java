@@ -7,7 +7,8 @@ package hitlist.model.company;
 public class Description {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Descriptions must be between 2 and 1000 characters long, cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
+            "Descriptions must be between 2 and 1000 characters long, "
+                    + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
     /*
      * The first character of the description must not be a whitespace,

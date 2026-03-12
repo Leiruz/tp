@@ -1,10 +1,10 @@
 package hitlist.model.company.role;
 
-import hitlist.commons.util.ToStringBuilder;
+import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
-import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
+import hitlist.commons.util.ToStringBuilder;
 
 /**
  * Represents a Role in the hitlist.

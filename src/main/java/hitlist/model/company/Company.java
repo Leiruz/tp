@@ -2,10 +2,10 @@ package hitlist.model.company;
 
 import static hitlist.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Objects;
+
 import hitlist.commons.util.ToStringBuilder;
 import hitlist.model.company.role.UniqueRoleList;
-
-import java.util.Objects;
 
 /**
  * Represents a Company in the hitlist.
@@ -16,9 +16,9 @@ public class Company {
     private final Description description;
     private final UniqueRoleList uniqueRoleList;
 
-     /**
-     * Every field must be present and not null.
-     */
+    /**
+    * Every field must be present and not null.
+    */
     public Company(Name name, Description description, UniqueRoleList uniqueRoleList) {
         requireAllNonNull(name, description, uniqueRoleList);
         this.name = name;
