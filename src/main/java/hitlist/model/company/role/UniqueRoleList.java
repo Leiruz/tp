@@ -61,8 +61,8 @@ public class UniqueRoleList implements Iterable<Role> {
             throw new RoleNotFoundException("The role to be edited does not exist");
         }
 
-        if (!target.equals(editedRole)) {
-            throw new DuplicateRoleException("This role already exists");
+        if (!target.isSameRole(editedRole) && contains(editedRole)) {
+            throw new DuplicateRoleException("This role " + editedRole.getRoleName() + " already exists");
         }
 
         internalList.set(index, editedRole);

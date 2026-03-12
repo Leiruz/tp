@@ -1,5 +1,8 @@
 package hitlist.model.company;
 
+import static hitlist.commons.util.AppUtil.checkArgument;
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents a Company's description in the hitlist.
  * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
@@ -7,7 +10,7 @@ package hitlist.model.company;
 public class Description {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Descriptions must be between 2 and 1000 characters long, "
+            "Company descriptions must be between 2 and 1000 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
     /*
@@ -22,14 +25,16 @@ public class Description {
     /**
     * Constructs a {@code Description}.
     *
-    * @param companyDescription A valid description.
+    * @param companyDescription A valid company description.
     */
     public Description(String companyDescription) {
+        requireNonNull(companyDescription);
+        checkArgument(isValidDescription(companyDescription), MESSAGE_CONSTRAINTS);
         this.companyDescription = companyDescription;
     }
 
     /**
-    * Returns true if a given string is a valid description.
+    * Returns true if a given string is a valid company description.
     */
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);

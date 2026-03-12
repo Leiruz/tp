@@ -25,7 +25,7 @@ public class Name {
     /**
      * Constructs a {@code Name}.
      *
-     * @param roleName A valid company name.
+     * @param roleName A valid role name.
      */
     public Name(String roleName) {
         requireNonNull(roleName);
@@ -34,7 +34,7 @@ public class Name {
     }
 
     /**
-     * Returns true if a given string is a valid company name.
+     * Returns true if a given string is a valid role name.
      */
     public static boolean isValidName(String test) {
         return test.matches(VALIDATION_REGEX);

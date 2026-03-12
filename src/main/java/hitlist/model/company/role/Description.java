@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 public class Description {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Role names must be between 2 and 1000 characters long, "
+            "Role description must be between 2 and 1000 characters long, "
                     + "cannot start with a space, and cannot contain forward slashes (/) or line breaks.";
 
     /*
@@ -25,7 +25,7 @@ public class Description {
     /**
      * Constructs a {@code Description}.
      *
-     * @param roleDescription A valid company name.
+     * @param roleDescription A valid role description.
      */
     public Description(String roleDescription) {
         requireNonNull(roleDescription);
@@ -34,7 +34,7 @@ public class Description {
     }
 
     /**
-     * Returns true if a given string is a valid company name.
+     * Returns true if a given string is a valid role description.
      */
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);
