@@ -11,10 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import hitlist.model.company.exceptions.DuplicateCompanyException;
-import hitlist.model.company.exceptions.CompanyNotFoundException;
-import hitlist.testutil.CompanyBuilder;
 import org.junit.jupiter.api.Test;
+
+import hitlist.model.company.exceptions.CompanyNotFoundException;
+import hitlist.model.company.exceptions.DuplicateCompanyException;
+import hitlist.testutil.CompanyBuilder;
 
 public class UniqueCompanyListTest {
 
@@ -129,7 +130,8 @@ public class UniqueCompanyListTest {
 
     @Test
     public void setCompanies_nullUniqueCompanyList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueCompanyList.setCompanies((UniqueCompanyList) null));
+        assertThrows(NullPointerException.class, ()
+                -> uniqueCompanyList.setCompanies((UniqueCompanyList) null));
     }
 
     @Test
@@ -143,7 +145,8 @@ public class UniqueCompanyListTest {
 
     @Test
     public void setCompanies_nullList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueCompanyList.setCompanies((List<Company>) null));
+        assertThrows(NullPointerException.class, ()
+                -> uniqueCompanyList.setCompanies((List<Company>) null));
     }
 
     @Test
@@ -159,12 +162,14 @@ public class UniqueCompanyListTest {
     @Test
     public void setCompanies_listWithDuplicateCompanies_throwsDuplicateCompanyException() {
         List<Company> listWithDuplicateCompanies = List.of(GOOGLE, GOOGLE);
-        assertThrows(DuplicateCompanyException.class, () -> uniqueCompanyList.setCompanies(listWithDuplicateCompanies));
+        assertThrows(DuplicateCompanyException.class, ()
+                -> uniqueCompanyList.setCompanies(listWithDuplicateCompanies));
     }
 
     @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> uniqueCompanyList.asUnmodifiableObservableList().remove(0));
+        assertThrows(UnsupportedOperationException.class, ()
+                -> uniqueCompanyList.asUnmodifiableObservableList().remove(0));
     }
 
     @Test
