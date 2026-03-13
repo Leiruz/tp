@@ -37,8 +37,9 @@ public class CompanyDescriptionTest {
         // valid description
         assertTrue(CompanyDescription.isValidDescription("Google")); // alphabets only
         assertTrue(CompanyDescription.isValidDescription("12345")); // numbers only
-        assertTrue(CompanyDescription.isValidDescription("An American multinational technology company with headquarters "
-                + "in Redmond, Washington. It develops, manufactures, licenses, supports and sells computer software, "
-                + "consumer electronics, personal computers, and related services")); // long description
+        assertTrue(CompanyDescription.isValidDescription("An American multinational technology company with "
+                + "headquarters in Redmond, Washington. It develops, manufactures, licenses, supports and sells "
+                + "computer software, consumer electronics, personal computers, "
+                + "and related services")); // long description
     }
 }

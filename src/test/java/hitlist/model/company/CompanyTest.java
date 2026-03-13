@@ -23,7 +23,9 @@ public class CompanyTest {
 
     @Test
     public void equals() {
-        Company company = new Company(new CompanyName("Valid Company Name"), new CompanyDescription("Valid Company Description"));
+        Company company = new Company(
+                new CompanyName("Valid Company Name"),
+                new CompanyDescription("Valid Company Description"));
 
         // same values -> returns true
         assertTrue(company.equals(

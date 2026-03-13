@@ -29,7 +29,10 @@ public class RoleTest {
         Role role = new Role(new RoleName("Valid Role Name"), new RoleDescription("Valid Role Description"));
 
         // same values -> returns true
-        assertTrue(role.equals(new Role(new RoleName("Valid Role Name"), new RoleDescription("Valid Role Description"))));
+        assertTrue(role.equals(
+                new Role(
+                        new RoleName("Valid Role Name"),
+                        new RoleDescription("Valid Role Description"))));
 
         // same object -> returns true
         assertTrue(role.equals(role));
