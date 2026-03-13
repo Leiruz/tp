@@ -1,7 +1,7 @@
 package hitlist.testutil;
 
-import hitlist.model.company.role.Description;
-import hitlist.model.company.role.Name;
+import hitlist.model.company.role.RoleDescription;
+import hitlist.model.company.role.RoleName;
 import hitlist.model.company.role.Role;
 
 /**
@@ -12,15 +12,15 @@ public class RoleBuilder {
     public static final String DEFAULT_NAME = "Default Role Name";
     public static final String DEFAULT_DESCRIPTION = "Default Role Description";
 
-    private Name name;
-    private Description description;
+    private RoleName name;
+    private RoleDescription description;
 
     /**
      * Creates a {@code RoleBuilder} with the default details.
      */
     public RoleBuilder() {
-        this.name = new Name(DEFAULT_NAME);
-        this.description = new Description(DEFAULT_DESCRIPTION);
+        this.name = new RoleName(DEFAULT_NAME);
+        this.description = new RoleDescription(DEFAULT_DESCRIPTION);
     }
 
     /**
@@ -35,7 +35,7 @@ public class RoleBuilder {
     * Sets the {@code Name} of the {@code Role} that we are building.
     */
     public RoleBuilder withName(String name) {
-        this.name = new Name(name);
+        this.name = new RoleName(name);
         return this;
     }
 
@@ -43,7 +43,7 @@ public class RoleBuilder {
      * Sets the {@code Description} of the {@code Role} that we are building.
      */
     public RoleBuilder withDescription(String description) {
-        this.description = new Description(description);
+        this.description = new RoleDescription(description);
         return this;
     }
 

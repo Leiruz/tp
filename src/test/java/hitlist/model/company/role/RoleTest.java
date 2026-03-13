@@ -21,15 +21,15 @@ public class RoleTest {
         String invalidName = "";
         String invalidDescription = "";
         assertThrows(IllegalArgumentException.class, ()
-                -> new Role(new Name(invalidName), new Description(invalidDescription)));
+                -> new Role(new RoleName(invalidName), new RoleDescription(invalidDescription)));
     }
 
     @Test
     public void equals() {
-        Role role = new Role(new Name("Valid Role Name"), new Description("Valid Role Description"));
+        Role role = new Role(new RoleName("Valid Role Name"), new RoleDescription("Valid Role Description"));
 
         // same values -> returns true
-        assertTrue(role.equals(new Role(new Name("Valid Role Name"), new Description("Valid Role Description"))));
+        assertTrue(role.equals(new Role(new RoleName("Valid Role Name"), new RoleDescription("Valid Role Description"))));
 
         // same object -> returns true
         assertTrue(role.equals(role));
@@ -42,7 +42,7 @@ public class RoleTest {
 
         // different values -> returns false
         assertFalse(role.equals(new Role(
-                new Name("Other Valid Role Name"),
-                new Description("Other Valid Role Description"))));
+                new RoleName("Other Valid Role Name"),
+                new RoleDescription("Other Valid Role Description"))));
     }
 }

@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  * Represents a Role's name in the hitlist.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
-public class Name {
+public class RoleName {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Role names must be between 2 and 50 characters long, "
@@ -27,7 +27,7 @@ public class Name {
      *
      * @param roleName A valid role name.
      */
-    public Name(String roleName) {
+    public RoleName(String roleName) {
         requireNonNull(roleName);
         checkArgument(isValidName(roleName), MESSAGE_CONSTRAINTS);
         this.roleName = roleName;
@@ -52,11 +52,11 @@ public class Name {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof hitlist.model.company.role.Name)) {
+        if (!(other instanceof RoleName)) {
             return false;
         }
 
-        hitlist.model.company.role.Name otherName = (hitlist.model.company.role.Name) other;
+        RoleName otherName = (RoleName) other;
         return roleName.equals(otherName.roleName);
     }
 

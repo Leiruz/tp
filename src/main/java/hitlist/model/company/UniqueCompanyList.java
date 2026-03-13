@@ -23,6 +23,9 @@ import javafx.collections.ObservableList;
  */
 public class UniqueCompanyList implements Iterable<Company> {
 
+    private static final String DUPLICATE_COMPANY_MESSAGE = "This company %1$s already exists";
+    private static final String COMPANY_NOT_FOUND_MESSAGE = "This company %1$s does not exist";
+
     private final ObservableList<Company> internalList = FXCollections.observableArrayList();
     private final ObservableList<Company> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
@@ -42,7 +45,7 @@ public class UniqueCompanyList implements Iterable<Company> {
     public void add(Company toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicateCompanyException("This company " + toAdd.getName() + " already exists");
+            throw new DuplicateCompanyException(DUPLICATE_COMPANY_MESSAGE);
         }
         internalList.add(toAdd);
     }
@@ -58,11 +61,11 @@ public class UniqueCompanyList implements Iterable<Company> {
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new CompanyNotFoundException("Target company does not exist");
+            throw new CompanyNotFoundException(COMPANY_NOT_FOUND_MESSAGE);
         }
 
         if (!target.isSameCompany(editedCompany) && contains(editedCompany)) {
-            throw new DuplicateCompanyException("This company " + editedCompany.getName() + " already exists");
+            throw new DuplicateCompanyException(DUPLICATE_COMPANY_MESSAGE);
         }
 
         internalList.set(index, editedCompany);
@@ -100,7 +103,7 @@ public class UniqueCompanyList implements Iterable<Company> {
     public void setCompanies(List<Company> companies) {
         requireNonNull(companies);
         if (!companiesAreUnique(companies)) {
-            throw new DuplicateCompanyException("There is already a company with the same name and description");
+            throw new DuplicateCompanyException(DUPLICATE_COMPANY_MESSAGE);
         }
         internalList.setAll(companies);
     }

@@ -12,14 +12,14 @@ import hitlist.model.company.role.UniqueRoleList;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Company {
-    private final Name name;
-    private final Description description;
+    private final CompanyName name;
+    private final CompanyDescription description;
     private final UniqueRoleList uniqueRoleList;
 
     /**
      * Every field must be present and not null.
      */
-    public Company(Name name, Description description) {
+    public Company(CompanyName name, CompanyDescription description) {
         requireAllNonNull(name, description);
         this.name = name;
         this.description = description;
@@ -29,7 +29,7 @@ public class Company {
     /**
     * Every field must be present and not null.
     */
-    public Company(Name name, Description description, UniqueRoleList uniqueRoleList) {
+    public Company(CompanyName name, CompanyDescription description, UniqueRoleList uniqueRoleList) {
         requireAllNonNull(name, description, uniqueRoleList);
         this.name = name;
         this.description = description;
@@ -37,12 +37,12 @@ public class Company {
     }
 
     /* Returns the name of the company. */
-    public Name getName() {
+    public CompanyName getName() {
         return this.name;
     }
 
     /* Returns the description of the company. */
-    public Description getDescription() {
+    public CompanyDescription getDescription() {
         return this.description;
     }
 

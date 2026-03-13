@@ -12,8 +12,8 @@ import hitlist.commons.util.ToStringBuilder;
  */
 public class Role {
 
-    private final Name roleName;
-    private final Description roleDescription;
+    private final RoleName roleName;
+    private final RoleDescription roleDescription;
 
     /**
      * Constructs a {@code Role}.
@@ -21,19 +21,19 @@ public class Role {
      * @param roleName A valid role name.
      * @param roleDescription A valid role description.
      */
-    public Role(Name roleName, Description roleDescription) {
+    public Role(RoleName roleName, RoleDescription roleDescription) {
         requireAllNonNull(roleName, roleDescription);
         this.roleName = roleName;
         this.roleDescription = roleDescription;
     }
 
     /* Returns the name of the role. */
-    public Name getRoleName() {
+    public RoleName getRoleName() {
         return roleName;
     }
 
     /* Returns the description of the role. */
-    public Description getRoleDescription() {
+    public RoleDescription getRoleDescription() {
         return roleDescription;
     }
 

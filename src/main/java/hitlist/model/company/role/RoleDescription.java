@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  * Represents a Role's description in the hitlist.
  * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
  */
-public class Description {
+public class RoleDescription {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Role description must be between 2 and 1000 characters long, "
@@ -27,7 +27,7 @@ public class Description {
      *
      * @param roleDescription A valid role description.
      */
-    public Description(String roleDescription) {
+    public RoleDescription(String roleDescription) {
         requireNonNull(roleDescription);
         checkArgument(isValidDescription(roleDescription), MESSAGE_CONSTRAINTS);
         this.roleDescription = roleDescription.trim();
@@ -52,11 +52,11 @@ public class Description {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof hitlist.model.company.role.Description)) {
+        if (!(other instanceof RoleDescription)) {
             return false;
         }
 
-        hitlist.model.company.role.Description otherDescription = (hitlist.model.company.role.Description) other;
+        RoleDescription otherDescription = (RoleDescription) other;
         return roleDescription.equals(otherDescription.roleDescription);
     }
 

@@ -18,18 +18,18 @@ public class CompanyTest {
         String invalidName = "";
         String invalidDescription = "";
         assertThrows(IllegalArgumentException.class, ()
-                -> new Company(new Name(invalidName), new Description(invalidDescription)));
+                -> new Company(new CompanyName(invalidName), new CompanyDescription(invalidDescription)));
     }
 
     @Test
     public void equals() {
-        Company company = new Company(new Name("Valid Company Name"), new Description("Valid Company Description"));
+        Company company = new Company(new CompanyName("Valid Company Name"), new CompanyDescription("Valid Company Description"));
 
         // same values -> returns true
         assertTrue(company.equals(
                 new Company(
-                        new Name("Valid Company Name"),
-                        new Description("Valid Company Description"))));
+                        new CompanyName("Valid Company Name"),
+                        new CompanyDescription("Valid Company Description"))));
 
         // same object -> returns true
         assertTrue(company.equals(company));
@@ -43,7 +43,7 @@ public class CompanyTest {
         // different values -> returns false
         assertFalse(company.equals(
                 new Company(
-                        new Name("Other Valid Company Name"),
-                        new Description("Other Valid Company Description"))));
+                        new CompanyName("Other Valid Company Name"),
+                        new CompanyDescription("Other Valid Company Description"))));
     }
 }

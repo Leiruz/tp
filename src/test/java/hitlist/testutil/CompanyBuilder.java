@@ -1,8 +1,8 @@
 package hitlist.testutil;
 
 import hitlist.model.company.Company;
-import hitlist.model.company.Description;
-import hitlist.model.company.Name;
+import hitlist.model.company.CompanyDescription;
+import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.UniqueRoleList;
 
 /**
@@ -15,16 +15,16 @@ public class CompanyBuilder {
             "A multinational technology company that specializes in Internet-related services and products.";
     public static final UniqueRoleList DEFAULT_UNIQUE_ROLE = new UniqueRoleList();
 
-    private Name name;
-    private Description description;
+    private CompanyName name;
+    private CompanyDescription description;
     private UniqueRoleList uniqueRoleList;
 
     /**
      * Creates a {@code CompanyBuilder} with the default details.
      */
     public CompanyBuilder() {
-        name = new Name(DEFAULT_NAME);
-        description = new Description(DEFAULT_DESCRIPTION);
+        name = new CompanyName(DEFAULT_NAME);
+        description = new CompanyDescription(DEFAULT_DESCRIPTION);
         uniqueRoleList = DEFAULT_UNIQUE_ROLE;
     }
 
@@ -41,7 +41,7 @@ public class CompanyBuilder {
      * Sets the {@code Name} of the {@code Company} that we are building.
      */
     public CompanyBuilder withName(String name) {
-        this.name = new Name(name);
+        this.name = new CompanyName(name);
         return this;
     }
 
@@ -49,7 +49,7 @@ public class CompanyBuilder {
      * Sets the {@code Description} of the {@code Company} that we are building.
      */
     public CompanyBuilder withDescription(String description) {
-        this.description = new Description(description);
+        this.description = new CompanyDescription(description);
         return this;
     }
 

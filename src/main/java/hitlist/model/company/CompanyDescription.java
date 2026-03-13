@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  * Represents a Company's description in the hitlist.
  * Guarantees: immutable; is valid as declared in {@link #isValidDescription(String)}
  */
-public class Description {
+public class CompanyDescription {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Company descriptions must be between 2 and 1000 characters long, "
@@ -27,7 +27,7 @@ public class Description {
     *
     * @param companyDescription A valid company description.
     */
-    public Description(String companyDescription) {
+    public CompanyDescription(String companyDescription) {
         requireNonNull(companyDescription);
         checkArgument(isValidDescription(companyDescription), MESSAGE_CONSTRAINTS);
         this.companyDescription = companyDescription;
@@ -52,11 +52,11 @@ public class Description {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof hitlist.model.company.Description)) {
+        if (!(other instanceof CompanyDescription)) {
             return false;
         }
 
-        hitlist.model.company.Description otherName = (hitlist.model.company.Description) other;
+        CompanyDescription otherName = (CompanyDescription) other;
         return companyDescription.equals(otherName.companyDescription);
     }
 

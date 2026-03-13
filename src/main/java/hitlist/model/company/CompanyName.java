@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  * Represents a Company's name in the hit list.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
-public class Name {
+public class CompanyName {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Company names must be between 2 and 30 characters long, "
@@ -27,7 +27,7 @@ public class Name {
      *
      * @param companyName A valid company name.
      */
-    public Name(String companyName) {
+    public CompanyName(String companyName) {
         requireNonNull(companyName);
         checkArgument(isValidName(companyName), MESSAGE_CONSTRAINTS);
         this.companyName = companyName;
@@ -52,11 +52,11 @@ public class Name {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof hitlist.model.company.Name)) {
+        if (!(other instanceof CompanyName)) {
             return false;
         }
 
-        hitlist.model.company.Name otherName = (hitlist.model.company.Name) other;
+        CompanyName otherName = (CompanyName) other;
         return companyName.equals(otherName.companyName);
     }
 

@@ -24,6 +24,9 @@ import javafx.collections.ObservableList;
  */
 public class UniqueRoleList implements Iterable<Role> {
 
+    private static final String DUPLICATE_ROLE_MESSAGE = "This role %1$s already exists";
+    private static final String ROLE_NOT_FOUND_MESSAGE = "This role %1$s does not exist";
+
     private final ObservableList<Role> internalList = FXCollections.observableArrayList();
     private final ObservableList<Role> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
@@ -43,7 +46,7 @@ public class UniqueRoleList implements Iterable<Role> {
     public void add(Role toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicateRoleException("This role " + toAdd.getRoleName() + " already exists");
+            throw new DuplicateRoleException(DUPLICATE_ROLE_MESSAGE);
         }
         internalList.add(toAdd);
     }
@@ -58,11 +61,11 @@ public class UniqueRoleList implements Iterable<Role> {
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new RoleNotFoundException("The role to be edited does not exist");
+            throw new RoleNotFoundException(ROLE_NOT_FOUND_MESSAGE);
         }
 
         if (!target.isSameRole(editedRole) && contains(editedRole)) {
-            throw new DuplicateRoleException("This role " + editedRole.getRoleName() + " already exists");
+            throw new DuplicateRoleException(DUPLICATE_ROLE_MESSAGE);
         }
 
         internalList.set(index, editedRole);
@@ -100,7 +103,7 @@ public class UniqueRoleList implements Iterable<Role> {
     public void setRoles(List<Role> roles) {
         requireNonNull(roles);
         if (!rolesAreUnique(roles)) {
-            throw new DuplicateRoleException("There is already a role with the same name in the list.");
+            throw new DuplicateRoleException(DUPLICATE_ROLE_MESSAGE);
         }
 
         internalList.setAll(roles);
