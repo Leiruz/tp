@@ -41,7 +41,7 @@ class JsonSerializableHitList {
     }
 
     /**
-     * Converts this address book into the model's {@code HitList} object.
+     * Converts this hit list into the model's {@code HitList} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
