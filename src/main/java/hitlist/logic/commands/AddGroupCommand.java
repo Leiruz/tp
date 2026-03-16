@@ -16,14 +16,14 @@ public class AddGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "grpadd";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a group to the HitList. "
             + "Parameters: "
             + PREFIX_GROUP + " NAME\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_GROUP + " Students";
 
-    public static final String MESSAGE_SUCCESS = "New group added: %1$s";
-    public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "Group %1$s has been created";
+    public static final String MESSAGE_DUPLICATE_GROUP = "Duplicate Group: Group %1$s already exists";
 
     private final Group toAdd;
 
