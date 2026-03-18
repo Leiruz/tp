@@ -27,6 +27,7 @@ import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
+import hitlist.logic.commands.ListCompanyCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.company.Company;
 import hitlist.model.group.Group;
@@ -108,6 +109,12 @@ public class HitListParserTest {
         Company company = GOOGLE;
         AddCompanyCommand command = (AddCompanyCommand) parser.parseCommand(CompanyUtil.getAddCompanyCommand(company));
         assertEquals(new AddCompanyCommand(company), command);
+    }
+
+    @Test
+    public void parseCommand_listCompany() throws Exception {
+        assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD) instanceof ListCompanyCommand);
+        assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD + " 3") instanceof ListCompanyCommand);
     }
 
     @Test

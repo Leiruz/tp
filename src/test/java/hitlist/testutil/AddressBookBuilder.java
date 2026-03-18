@@ -1,6 +1,7 @@
 package hitlist.testutil;
 
 import hitlist.model.HitList;
+import hitlist.model.company.Company;
 import hitlist.model.person.Person;
 
 /**
@@ -25,6 +26,14 @@ public class AddressBookBuilder {
      */
     public AddressBookBuilder withPerson(Person person) {
         addressBook.addPerson(person);
+        return this;
+    }
+
+    /**
+    * Adds a new {@code Company} to the {@code HitList} that we are building.
+    */
+    public AddressBookBuilder withCompany(Company company) {
+        addressBook.addCompany(company);
         return this;
     }
 

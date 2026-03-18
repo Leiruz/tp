@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 import hitlist.model.HitList;
 import hitlist.model.ReadOnlyHitList;
+import hitlist.model.company.Company;
+import hitlist.model.company.CompanyDescription;
+import hitlist.model.company.CompanyName;
 import hitlist.model.person.Address;
 import hitlist.model.person.Email;
 import hitlist.model.person.Name;
@@ -37,10 +40,33 @@ public class SampleDataUtil {
         };
     }
 
+    public static Company[] getSampleCompanies() {
+        return new Company[] {
+            new Company(new CompanyName("Google Inc."),
+                    new CompanyDescription("A multinational technology company specializing in "
+                            + "Internet-related services and products")),
+            new Company(new CompanyName("Microsoft Corporation"),
+                    new CompanyDescription("An American multinational technology company with headquarters "
+                            + "in Redmond, Washington")),
+            new Company(new CompanyName("Meta Platforms, Inc."),
+                    new CompanyDescription("An American multinational technology conglomerate based in "
+                            + "Menlo Park, California")),
+            new Company(new CompanyName("Apple Inc."),
+                    new CompanyDescription("An American multinational technology company specializing in "
+                            + "consumer electronics and computer software")),
+            new Company(new CompanyName("Amazon.com, Inc."),
+                    new CompanyDescription("An American multinational technology company focusing on "
+                            + "e-commerce, cloud computing, and digital streaming"))
+        };
+    }
+
     public static ReadOnlyHitList getSampleAddressBook() {
         HitList sampleAb = new HitList();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+        }
+        for (Company sampleCompany : getSampleCompanies()) {
+            sampleAb.addCompany(sampleCompany);
         }
         return sampleAb;
     }

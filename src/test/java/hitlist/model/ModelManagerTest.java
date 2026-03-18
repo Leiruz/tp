@@ -1,8 +1,10 @@
 package hitlist.model;
 
+import static hitlist.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
 import static hitlist.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static hitlist.testutil.Assert.assertThrows;
 import static hitlist.testutil.TypicalCompanies.GOOGLE;
+import static hitlist.testutil.TypicalCompanies.META;
 import static hitlist.testutil.TypicalGroups.STUDENTS;
 import static hitlist.testutil.TypicalPersons.ALICE;
 import static hitlist.testutil.TypicalPersons.BENSON;
@@ -159,8 +161,23 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void getFilteredCompanyList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredCompanyList().remove(0));
+    }
+
+    @Test
+    public void updateFilteredCompanyList_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredCompanyList(null));
+    }
+
+    @Test
     public void equals() {
-        HitList hitList = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        HitList hitList = new AddressBookBuilder()
+                .withPerson(ALICE)
+                .withPerson(BENSON)
+                .withCompany(GOOGLE)
+                .withCompany(META)
+                .build();
         HitList differentHitList = new HitList();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -188,6 +205,7 @@ public class ModelManagerTest {
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        modelManager.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
