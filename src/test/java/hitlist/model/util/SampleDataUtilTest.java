@@ -1,9 +1,11 @@
 package hitlist.model.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
+import hitlist.model.ReadOnlyHitList;
 import hitlist.model.person.Person;
 
 public class SampleDataUtilTest {
@@ -14,4 +16,9 @@ public class SampleDataUtilTest {
         // Assert each person has present email/address, etc.
     }
 
+    @Test
+    public void getSampleAddressBook_returnsValidAddressBook() {
+        ReadOnlyHitList hitList = SampleDataUtil.getSampleAddressBook();
+        assertNotNull(hitList);
+    }
 }
