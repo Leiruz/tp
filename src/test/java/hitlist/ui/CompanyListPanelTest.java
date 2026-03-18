@@ -30,7 +30,7 @@ public class CompanyListPanelTest {
     }
 
     @Test
-    public void companyListViewCell_updateItem_emptyOrNull_clearsGraphicAndText() throws Exception {
+    public void updateItem_emptyOrNull_clearsGraphicAndText() throws Exception {
         ObservableList<Company> companies = FXCollections.observableArrayList();
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
@@ -63,7 +63,7 @@ public class CompanyListPanelTest {
     }
 
     @Test
-    public void companyListViewCell_updateItem_nonEmpty_setsGraphic() throws Exception {
+    public void updateItem_nonEmpty_setsGraphic() throws Exception {
         Company company = new CompanyBuilder()
                 .withName("Google Inc.")
                 .withDescription("A multinational technology company")
