@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 
-import hitlist.logic.commands.ListCompanyCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -22,6 +21,7 @@ import org.junit.jupiter.api.io.TempDir;
 import hitlist.logic.commands.AddCommand;
 import hitlist.logic.commands.CommandResult;
 import hitlist.logic.commands.ListCommand;
+import hitlist.logic.commands.ListCompanyCommand;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.Model;

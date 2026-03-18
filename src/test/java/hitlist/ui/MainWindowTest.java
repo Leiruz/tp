@@ -3,9 +3,9 @@ package hitlist.ui;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import hitlist.logic.LogicStub;
 import org.junit.jupiter.api.Test;
 
+import hitlist.logic.LogicStub;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
