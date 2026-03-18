@@ -88,7 +88,7 @@ class JsonAdaptedPerson {
         final Phone modelPhone = new Phone(phone);
 
         Optional<Email> modelEmail;
-        if (email == null) {
+        if (email == null || email.isEmpty()) {
             modelEmail = Optional.empty();
         } else if (!Email.isValidEmail(email)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
@@ -97,7 +97,7 @@ class JsonAdaptedPerson {
         }
 
         Optional<Address> modelAddress;
-        if (address == null) {
+        if (address == null || address.isEmpty()) {
             modelAddress = Optional.empty();
         } else if (!Address.isValidAddress(address)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
