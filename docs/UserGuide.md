@@ -52,7 +52,6 @@ HitList is a **desktop app for managing contacts, optimized for use via a Comman
   e.g. in `add /n NAME`, `NAME` is a parameter which can be used as `add /n John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g. `/n NAME [t/TAG]` can be used as `/n John Doe /t friend` or as `/n John Doe`.
   e.g. `edit INDEX [/n NAME] [/p PHONE]` can be used as `edit 3 /n John Doe` or as `edit 3 /p 98765432`.
 
 * Parameters can be in any order.<br>
@@ -193,16 +192,16 @@ _Details coming soon ..._
 
 ## Command summary
 
-| Action                | Format                                                       | Examples                                                                       |
-|-----------------------|--------------------------------------------------------------|--------------------------------------------------------------------------------|
-| **Getting Help**      | `help`                                                       | `help`                                                                         |
-| **Add contact**       | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`        | `add /n James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665` |
-| **Delete contact**    | `delete INDEX`                                               | `delete 3`                                                                     |
-| **Edit contact**      | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS]` | `edit 2 n/James Lee e/jameslee@example.com`                                    |
-| **List contacts**     | `list`                                                       | `list`                                                                         |
-| **Find contact(s)**   | `find [KEYWORD]...`                                          | `find John`                                                                    |
-| **Add contact group** | `grpadd /n GROUP_NAME`                                       | `grpadd /n Students`                                                           |
-| **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`              | `cmpadd /c Google /d Tech giant`                                               |
-| **Delete Company**    | `cmpdel /c COMPANY_NAME`                                     | `cmpdel /c Google`                                                             |
-| **Clear**             | `clear`                                                      | `clear`                                                                        |
-| **Exit**              | `exit`                                                       | `exit`                                                                         |
+| Action                | Format                                                           | Examples                                                                       |
+|-----------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Getting Help**      | `help`                                                           | `help`                                                                         |
+| **Add contact**       | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665` |
+| **Delete contact**    | `delete INDEX`                                                   | `delete 3`                                                                     |
+| **Edit contact**      | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]` | `edit 2 /n James Lee /e jameslee@example.com`                                  |
+| **List contacts**     | `list`                                                           | `list`                                                                         |
+| **Find contact(s)**   | `find [KEYWORD]...`                                              | `find John`                                                                    |
+| **Add contact group** | `grpadd /n GROUP_NAME`                                           | `grpadd /n Students`                                                           |
+| **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                               |
+| **Delete Company**    | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                             |
+| **Clear**             | `clear`                                                          | `clear`                                                                        |
+| **Exit**              | `exit`                                                           | `exit`                                                                         |
