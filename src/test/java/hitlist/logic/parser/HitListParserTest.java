@@ -117,7 +117,7 @@ public class HitListParserTest {
         assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD) instanceof ListCompanyCommand);
         assertTrue(parser.parseCommand(ListCompanyCommand.COMMAND_WORD + " 3") instanceof ListCompanyCommand);
     }
-  
+
     @Test
     public void parseCommand_deleteCompany() throws Exception {
         Company company = GOOGLE;
