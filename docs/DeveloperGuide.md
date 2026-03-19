@@ -72,7 +72,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `CompanyListPanel`,  `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -81,7 +81,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Person`, and `Company` object residing in the `Model`.
 
 ### Logic component
 
@@ -102,7 +102,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `HitListParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to a `HitListParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -124,19 +124,10 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the HitList data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores HitList data i.e., all `Person`, `Group` and `Company` objects (which are contained in a `UniquePersonList`, `UniqueGroupList` and `UniqueCompanyList` object).
+* stores the currently 'selected' `Person`, `Group` or `Company` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>`, `ObservableList<Group>` or `ObservableList<Company>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<box type="info" seamless>
-
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `HitList`, which `Person` references. This allows `HitList` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
-
-</box>
-
 
 ### Storage component
 
@@ -177,7 +168,7 @@ Step 1. The user launches the application for the first time. The `VersionedHitL
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the HitList. The `delete` command calls `Model#commitHitList()`, causing the modified state of the HitList after the `delete 5` command executes to be saved in the `hitListStateList`, and the `currentStatePointer` is shifted to the newly inserted HitList state.
+Step 2. The user executes `delete 5` command to delete the 5th person in HitList. The `delete` command calls `Model#commitHitList()`, causing the modified state of HitList after the `delete 5` command executes to be saved in the `hitListStateList`, and the `currentStatePointer` is shifted to the newly inserted HitList state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
@@ -187,11 +178,11 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 <box type="info" seamless>
 
-**Note:** If a command fails its execution, it will not call `Model#commitHitList()`, so the HitList state will not be saved into the `hitListStateList`.
+**Note:** If a command fails its execution, it will not call `Model#commitHitList()`, so HitList state will not be saved into the `hitListStateList`.
 
 </box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoHitList()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous HitList state, and restores the HitList to that state.
+Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoHitList()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous HitList state, and restores HitList to that state.
 
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
 
@@ -217,7 +208,7 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 <puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
 
-The `redo` command does the opposite — it calls `Model#redoHitList()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the HitList to that state.
+The `redo` command does the opposite — it calls `Model#redoHitList()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores HitList to that state.
 
 <box type="info" seamless>
 
@@ -225,7 +216,7 @@ The `redo` command does the opposite — it calls `Model#redoHitList()`, whi
 
 </box>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the HitList, such as `list`, will usually not call `Model#commitHitList()`, `Model#undoHitList()` or `Model#redoHitList()`. Thus, the `hitListStateList` remains unchanged.
+Step 5. The user then decides to execute the command `list`. Commands that do not modify HitList, such as `list`, will usually not call `Model#commitHitList()`, `Model#undoHitList()` or `Model#redoHitList()`. Thus, the `hitListStateList` remains unchanged.
 
 <puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
 
@@ -302,9 +293,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | Headhunter | add company profile                         | keep track of the companies I am headhunting for                                                 |
 | `* * *`  | Headhunter | delete company profile                      | remove the companies that have stopped using my headhunting services                             |
 | `* * *`  | Headhunter | list all company profile                    | view all companies I am headhunting for to get a high-level overview of my client base           |
-| `* * *`  | Headhunter | add company details to company profile      | maintain comprehensive records of my clients' requirements and contact information               |
-| `* * *`  | Headhunter | delete company details from company profile | keep my client records accurate by removing outdated or incorrect information                    |
-| `* * *`  | Headhunter | list specific company profile               | review all the active job placements that particular client has hired me to fill                 |
+| `* *`    | Headhunter | add company details to company profile      | maintain comprehensive records of my clients' requirements and contact information               |
+| `* *`    | Headhunter | delete company details from company profile | keep my client records accurate by removing outdated or incorrect information                    |
+| `* *`    | Headhunter | list specific company profile               | review all the active job placements that particular client has hired me to fill                 |
 
 *{More to be added}*
 

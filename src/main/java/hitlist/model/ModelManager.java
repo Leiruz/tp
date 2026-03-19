@@ -27,6 +27,7 @@ public class ModelManager implements Model {
     private final HitList hitList;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Company> filteredCompanies;
 
     /**
      * Initializes a ModelManager with the given HitList and userPrefs.
@@ -39,6 +40,7 @@ public class ModelManager implements Model {
         this.hitList = new HitList(hitList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
+        filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
     }
 
     /**
@@ -144,6 +146,7 @@ public class ModelManager implements Model {
     @Override
     public void addCompany(Company company) {
         hitList.addCompany(company);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 
     @Override
@@ -175,9 +178,20 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Company> getFilteredCompanyList() {
+        return filteredCompanies;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredCompanyList(Predicate<Company> predicate) {
+        requireNonNull(predicate);
+        filteredCompanies.setPredicate(predicate);
     }
 
     @Override
@@ -194,6 +208,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return hitList.equals(otherModelManager.hitList)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredCompanies.equals(otherModelManager.filteredCompanies);
     }
 }
