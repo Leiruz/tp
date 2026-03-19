@@ -142,7 +142,7 @@ Examples:
 
 ### Listing contacts in a contact group : `grplist`
 
-Lists all contacts who are members of a specified contact group.
+Lists all the contacts who are members of a specified contact group.
 
 Format: `grplist /g GROUP_NAME`
 
@@ -185,13 +185,13 @@ Format: `cmpdel /c COMPANY_NAME`
 * The company name must be an existing company in HitList.
 * The company name typed must be the exact company name registered in HitList.
 
-Examples:
-* `cmpdel /c Google`
-* `cmpdel /c Meta`
+Example:
+* `cmpdel /c Google` deletes a company named `Google` from hitList.
+* `cmpdel /c Meta` deletes a company named `Meta` from hitList.
 
-### Listing all companies : `cmplist`
+### Listing all Companies : `cmplist`
 
-Shows a list of all companies in the HitList.
+Shows a list of all companies in the hitList.
 
 Format: `cmplist`
 
@@ -237,8 +237,7 @@ _Details coming soon ..._
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen.  
-   The remedy is to delete the `preferences.json` file created by the application before running the application again.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -258,5 +257,6 @@ _Details coming soon ..._
 | **Assign contact to group** | `grpassign /n NAME /g GROUP_NAME`                          | `grpassign /n Alex Yeoh /g Students`                                           |
 | **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                               |
 | **Delete Company**    | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                             |
+| **List Companies**    | `cmplist`                                                        | `cmplist`                                                                      |
 | **Clear**             | `clear`                                                          | `clear`                                                                        |
 | **Exit**              | `exit`                                                           | `exit`                                                                         |
