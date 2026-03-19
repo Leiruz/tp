@@ -9,6 +9,9 @@ import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.group.Group;
 
+/**
+ * Deletes a contact group from HitList.
+ */
 public class DeleteGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "grpdel";
@@ -22,6 +25,9 @@ public class DeleteGroupCommand extends Command {
 
     private final Group toDelete;
 
+    /**
+     * Creates a DeleteGroupCommand to delete the specified {@code Group}.
+     */
     public DeleteGroupCommand(Group toDelete) {
         requireNonNull(toDelete);
         this.toDelete = toDelete;

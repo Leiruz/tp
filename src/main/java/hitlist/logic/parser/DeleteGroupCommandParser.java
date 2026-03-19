@@ -10,6 +10,9 @@ import hitlist.logic.parser.exceptions.ParseException;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 
+/**
+ * Parses input arguments and creates a new DeleteGroupCommand object.
+ */
 public class DeleteGroupCommandParser implements Parser<DeleteGroupCommand> {
 
     @Override
@@ -29,6 +32,10 @@ public class DeleteGroupCommandParser implements Parser<DeleteGroupCommand> {
         return new DeleteGroupCommand(group);
     }
 
+    /**
+     * Returns true if all prefixes contain non-empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }

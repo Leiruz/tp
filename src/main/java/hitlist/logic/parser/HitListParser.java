@@ -15,13 +15,13 @@ import hitlist.logic.commands.ClearCommand;
 import hitlist.logic.commands.Command;
 import hitlist.logic.commands.DeleteCommand;
 import hitlist.logic.commands.DeleteCompanyCommand;
+import hitlist.logic.commands.DeleteGroupCommand;
 import hitlist.logic.commands.EditCommand;
 import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.parser.exceptions.ParseException;
-import hitlist.logic.commands.DeleteGroupCommand;
 
 /**
  * Parses user input.
