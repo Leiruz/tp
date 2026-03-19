@@ -1,21 +1,23 @@
 package hitlist.ui;
 
-import static hitlist.testutil.TypicalCompanies.GOOGLE;
-import static hitlist.testutil.TypicalCompanies.META;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import hitlist.model.company.Company;
 import hitlist.testutil.CompanyBuilder;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
 
 /**
- * Tests for CompanyCard.
+ * Unit tests for {@link CompanyCard}.
  */
 public class CompanyCardTest {
 
@@ -26,41 +28,59 @@ public class CompanyCardTest {
     }
 
     @Test
-    public void constructor_validCompany_success() {
-        Company company = new CompanyBuilder().withName("OpenAI").withDescription("AI company").build();
-        CompanyCard card = new CompanyCard(company, 1);
+    public void constructor_validCompany_displaysCorrectDetails() throws Exception {
+        Company company = new CompanyBuilder()
+                .withName("Google Inc.")
+                .withDescription("A multinational technology company")
+                .build();
 
-        assertNotNull(card.getRoot());
+        AtomicReference<CompanyCard> cardRef = new AtomicReference<>();
+        AtomicReference<String> idTextRef = new AtomicReference<>();
+        AtomicReference<String> nameTextRef = new AtomicReference<>();
+        AtomicReference<String> descriptionTextRef = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            CompanyCard card = new CompanyCard(company, 1);
+            cardRef.set(card);
+
+            Label idLabel = (Label) card.getRoot().lookup("#id");
+            Label nameLabel = (Label) card.getRoot().lookup("#name");
+            Label descriptionLabel = (Label) card.getRoot().lookup("#description");
+
+            idTextRef.set(idLabel == null ? null : idLabel.getText());
+            nameTextRef.set(nameLabel == null ? null : nameLabel.getText());
+            descriptionTextRef.set(descriptionLabel == null ? null : descriptionLabel.getText());
+            latch.countDown();
+        });
+
+        boolean completed = latch.await(5, TimeUnit.SECONDS);
+        assertEquals(true, completed);
+        assertNotNull(cardRef.get());
+        assertEquals("1. ", idTextRef.get());
+        assertEquals("Google Inc.", nameTextRef.get());
+        assertEquals("A multinational technology company", descriptionTextRef.get());
     }
 
     @Test
-    public void constructor_differentCompany_notEqual() {
-        Company companyA = new CompanyBuilder(GOOGLE).build();
-        Company companyB = new CompanyBuilder(META).build();
+    public void constructor_validCompanyDifferentIndex_displaysCorrectIndex() throws Exception {
+        Company company = new CompanyBuilder()
+                .withName("Meta Platforms, Inc.")
+                .withDescription("A technology conglomerate")
+                .build();
 
-        CompanyCard cardA = new CompanyCard(companyA, 1);
-        CompanyCard cardB = new CompanyCard(companyB, 1);
+        AtomicReference<String> idTextRef = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
 
-        // Different model data should produce different UI nodes/instances
-        assertNotSame(cardA, cardB);
-        assertNotEquals(cardA.getRoot(), cardB.getRoot());
-    }
+        Platform.runLater(() -> {
+            CompanyCard card = new CompanyCard(company, 7);
+            Label idLabel = (Label) card.getRoot().lookup("#id");
+            idTextRef.set(idLabel == null ? null : idLabel.getText());
+            latch.countDown();
+        });
 
-    @Test
-    public void equals() {
-        Company company = new CompanyBuilder().withName("Gamma").withDescription("Desc").build();
-
-        CompanyCard card1 = new CompanyCard(company, 1);
-        CompanyCard card2 = new CompanyCard(company, 1);
-        CompanyCard card3 = new CompanyCard(company, 2);
-
-        Company differentCompany = new CompanyBuilder().withName("Delta").withDescription("Other").build();
-        CompanyCard card4 = new CompanyCard(differentCompany, 1);
-
-        assertEquals(card1, card2);
-        assertNotEquals(null, card1);
-        assertNotEquals(1, card1);
-        assertNotEquals(card1, card3);
-        assertNotEquals(card1, card4);
+        boolean completed = latch.await(5, TimeUnit.SECONDS);
+        assertEquals(true, completed);
+        assertEquals("7. ", idTextRef.get());
     }
 }

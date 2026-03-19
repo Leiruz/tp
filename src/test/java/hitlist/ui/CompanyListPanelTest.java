@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,12 +17,10 @@ import hitlist.testutil.CompanyBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 
 /**
- * Focused tests for CompanyListPanel.
+ * Unit tests for {@link CompanyListPanel}.
  */
 public class CompanyListPanelTest {
 
@@ -34,95 +31,52 @@ public class CompanyListPanelTest {
     }
 
     @Test
-    public void display_nonEmptyList() throws Exception {
+    public void constructor_nonEmptyList_bindsItemsToListView() throws Exception {
         ObservableList<Company> companies = FXCollections.observableArrayList(
-                new CompanyBuilder().withName("Google Inc.").build(),
-                new CompanyBuilder().withName("Meta Platforms").build()
+                new CompanyBuilder().withName("Google Inc.").withDescription("Tech company").build(),
+                new CompanyBuilder().withName("Meta Platforms, Inc.").withDescription("Social company").build()
         );
 
+        AtomicReference<CompanyListPanel> panelRef = new AtomicReference<>();
+        AtomicReference<Integer> sizeRef = new AtomicReference<>(-1);
         CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<Throwable> failure = new AtomicReference<>();
 
         Platform.runLater(() -> {
-            Stage stage = null;
-            try {
-                CompanyListPanel panel = new CompanyListPanel(companies);
+            CompanyListPanel panel = new CompanyListPanel(companies);
+            panelRef.set(panel);
 
-                stage = new Stage();
-                Scene scene = new Scene(panel.getRoot());
-                stage.setScene(scene);
-                stage.show();
-
-                panel.getRoot().applyCss();
-                panel.getRoot().layout();
-
-                assertTrue(panel.getRoot().isVisible());
-
-                // Verify list view has items and is wired
-                ListView<?> listView = getListView(panel);
-                assertNotNull(listView);
-                assertEquals(2, listView.getItems().size());
-            } catch (Throwable t) {
-                failure.set(t);
-            } finally {
-                if (stage != null) {
-                    stage.hide();
-                }
-                latch.countDown();
+            @SuppressWarnings("unchecked")
+            ListView<Company> listView = (ListView<Company>) panel.getRoot().lookup("#companyListView");
+            if (listView != null) {
+                sizeRef.set(listView.getItems().size());
             }
+            latch.countDown();
         });
 
-        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
-        if (failure.get() != null) {
-            throw new AssertionError("JavaFX task failed", failure.get());
-        }
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertNotNull(panelRef.get());
+        assertEquals(2, sizeRef.get());
     }
 
     @Test
-    public void display_emptyList() throws Exception {
-        ObservableList<Company> emptyList = FXCollections.observableArrayList();
+    public void constructor_emptyList_bindsEmptyItemsToListView() throws Exception {
+        ObservableList<Company> companies = FXCollections.observableArrayList();
 
+        AtomicReference<Integer> sizeRef = new AtomicReference<>(-1);
         CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<Throwable> failure = new AtomicReference<>();
 
         Platform.runLater(() -> {
-            Stage stage = null;
-            try {
-                CompanyListPanel panel = new CompanyListPanel(emptyList);
+            CompanyListPanel panel = new CompanyListPanel(companies);
 
-                stage = new Stage();
-                Scene scene = new Scene(panel.getRoot(), 200, 500);
-                stage.setScene(scene);
-                stage.show();
-
-                panel.getRoot().applyCss();
-                panel.getRoot().layout();
-
-                assertTrue(panel.getRoot().isVisible());
-
-                ListView<?> listView = getListView(panel);
-                assertNotNull(listView);
-                assertTrue(listView.getItems().isEmpty());
-            } catch (Throwable t) {
-                failure.set(t);
-            } finally {
-                if (stage != null) {
-                    stage.hide();
-                }
-                latch.countDown();
+            @SuppressWarnings("unchecked")
+            ListView<Company> listView = (ListView<Company>) panel.getRoot().lookup("#companyListView");
+            if (listView != null) {
+                sizeRef.set(listView.getItems().size());
             }
+            latch.countDown();
         });
 
-        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
-        if (failure.get() != null) {
-            throw new AssertionError("JavaFX task failed", failure.get());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static ListView<Company> getListView(CompanyListPanel panel) throws Exception {
-        Field field = CompanyListPanel.class.getDeclaredField("companyListView");
-        field.setAccessible(true);
-        return (ListView<Company>) field.get(panel);
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertEquals(0, sizeRef.get());
     }
 }
