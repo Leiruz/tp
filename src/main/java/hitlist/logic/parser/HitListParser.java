@@ -20,6 +20,7 @@ import hitlist.logic.commands.ExitCommand;
 import hitlist.logic.commands.FindCommand;
 import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
+import hitlist.logic.commands.ListGroupCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 
 /**
@@ -73,6 +74,9 @@ public class HitListParser {
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
+
+        case ListGroupCommand.COMMAND_WORD:
+            return new ListGroupCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

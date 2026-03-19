@@ -14,6 +14,7 @@ import hitlist.commons.core.LogsCenter;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
 import hitlist.model.group.Group;
+import hitlist.model.group.GroupName;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -123,6 +124,18 @@ public class ModelManager implements Model {
     public boolean hasGroup(Group group) {
         requireNonNull(group);
         return hitList.hasGroup(group);
+    }
+
+    @Override
+    public Optional<Group> getGroup(GroupName groupName) {
+        requireNonNull(groupName);
+        List<Group> groupList = hitList.getGroupList();
+        for (Group group : groupList) {
+            if (group.getName().equals(groupName)) {
+                return Optional.of(group);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
