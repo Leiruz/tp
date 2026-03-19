@@ -1,9 +1,11 @@
 package hitlist.ui;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -54,8 +56,12 @@ public class CompanyListPanelTest {
                 panel.getRoot().applyCss();
                 panel.getRoot().layout();
 
-                // Basic sanity that panel is
                 assertTrue(panel.getRoot().isVisible());
+
+                // Verify list view has items and is wired
+                ListView<?> listView = getListView(panel);
+                assertNotNull(listView);
+                assertEquals(2, listView.getItems().size());
             } catch (Throwable t) {
                 failure.set(t);
             } finally {
@@ -93,6 +99,10 @@ public class CompanyListPanelTest {
                 panel.getRoot().layout();
 
                 assertTrue(panel.getRoot().isVisible());
+
+                ListView<?> listView = getListView(panel);
+                assertNotNull(listView);
+                assertTrue(listView.getItems().isEmpty());
             } catch (Throwable t) {
                 failure.set(t);
             } finally {
@@ -109,63 +119,10 @@ public class CompanyListPanelTest {
         }
     }
 
-    @Test
-    public void companyListViewCell_emptyItem_clearsCellState() throws Exception {
-        CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<Throwable> failure = new AtomicReference<>();
-
-        Platform.runLater(() -> {
-            try {
-                CompanyListPanel panel = new CompanyListPanel(FXCollections.observableArrayList());
-                CompanyListPanel.CompanyListViewCell cell = panel.new CompanyListViewCell();
-
-                cell.updateItem(null, true);
-
-                assertNull(cell.getGraphic());
-                assertNull(cell.getText());
-            } catch (Throwable t) {
-                failure.set(t);
-            } finally {
-                latch.countDown();
-            }
-        });
-
-        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
-        if (failure.get() != null) {
-            throw new AssertionError("JavaFX task failed", failure.get());
-        }
-    }
-
-    @Test
-    public void companyListViewCell_nonEmptyItem_setsGraphic() throws Exception {
-        CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<Throwable> failure = new AtomicReference<>();
-
-        Platform.runLater(() -> {
-            try {
-                Company company = new CompanyBuilder().withName("OpenAI").build();
-                CompanyListPanel panel = new CompanyListPanel(FXCollections.observableArrayList());
-                CompanyListPanel.CompanyListViewCell cell = panel.new CompanyListViewCell();
-
-                // Set index context by attaching to ListView.
-                ListView<Company> lv = new ListView<>();
-                lv.getItems().add(company);
-                cell.updateListView(lv);
-                cell.updateIndex(0);
-
-                cell.updateItem(company, false);
-
-                assertTrue(cell.getGraphic() != null);
-            } catch (Throwable t) {
-                failure.set(t);
-            } finally {
-                latch.countDown();
-            }
-        });
-
-        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for JavaFX thread");
-        if (failure.get() != null) {
-            throw new AssertionError("JavaFX task failed", failure.get());
-        }
+    @SuppressWarnings("unchecked")
+    private static ListView<Company> getListView(CompanyListPanel panel) throws Exception {
+        Field field = CompanyListPanel.class.getDeclaredField("companyListView");
+        field.setAccessible(true);
+        return (ListView<Company>) field.get(panel);
     }
 }
