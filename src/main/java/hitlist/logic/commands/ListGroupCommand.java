@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+import hitlist.commons.util.ToStringBuilder;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.Model;
 import hitlist.model.group.Group;
@@ -30,7 +31,11 @@ public class ListGroupCommand extends Command {
 
     private final GroupName toList;
 
+    /**
+     * Creates a ListGroupCommand to list contacts in {@code GroupName}
+     */
     public ListGroupCommand(GroupName toList) {
+        requireNonNull(toList);
         this.toList = toList;
     }
 
@@ -47,5 +52,27 @@ public class ListGroupCommand extends Command {
 
         String message = String.format(MESSAGE_SUCCESS, group.getName());
         return new CommandResult(message);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ListGroupCommand)) {
+            return false;
+        }
+
+        ListGroupCommand otherListGroupCommand = (ListGroupCommand) other;
+        return toList.equals(otherListGroupCommand.toList);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("toList", toList)
+                .toString();
     }
 }
