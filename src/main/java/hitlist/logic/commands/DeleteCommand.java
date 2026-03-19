@@ -79,7 +79,7 @@ public class DeleteCommand extends Command {
         Person personToDelete = lastShownList.stream()
                 .filter(person -> person.getName().equals(targetName))
                 .findFirst()
-                .orElseThrow(() -> new CommandException(Messages.MESSAGE_PERSON_NOT_FOUND));
+                .orElseThrow(() -> new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND, targetName)));
 
         model.deletePerson(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
