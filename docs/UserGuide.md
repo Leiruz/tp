@@ -131,6 +131,16 @@ Examples:
 - `find John` returns `john` and `John Doe`
 - `find alex david` returns `Alex Yeoh`, `David Li`<br>
 
+### Deleting a contact group : `grpdel`
+
+Deletes the specified contact group from HitList.
+
+Format: `grpdel /g GROUP_NAME`
+
+Examples:
+* `grpdel /g Students`
+* `grpdel /g Experienced`
+
 ### Adding a Company : `cmpadd`
 
 Adds a company to the hitList.
@@ -156,16 +166,6 @@ Format: `cmpdel /c COMPANY_NAME`
 Example:
 * `cmpdel /c Google` deletes a company named `Google` from hitList.
 * `cmpdel /c Meta` deletes a company named `Meta` from hitList.
-
-### Deleting a contact group : `grpdel`
-
-Deletes the specified contact group from HitList.
-
-Format: `grpdel /g GROUP_NAME`
-
-Examples:
-* `grpdel /g Students`
-* `grpdel /g Experienced`
 
 ### Clearing all entries : `clear`
 

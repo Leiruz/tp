@@ -84,14 +84,14 @@ public class HitListParser {
         case AddGroupCommand.COMMAND_WORD:
             return new AddGroupCommandParser().parse(arguments);
 
+        case DeleteGroupCommand.COMMAND_WORD:
+            return new DeleteGroupCommandParser().parse(arguments);
+
         case AddCompanyCommand.COMMAND_WORD:
             return new AddCompanyCommandParser().parse(arguments);
 
         case DeleteCompanyCommand.COMMAND_WORD:
             return new DeleteCompanyCommandParser().parse(arguments);
-
-        case DeleteGroupCommand.COMMAND_WORD:
-            return new DeleteGroupCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
