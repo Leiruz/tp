@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import hitlist.model.group.GroupName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -101,6 +102,49 @@ public class HitListTest {
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> hitList.getPersonList().remove(0));
+    }
+
+    @Test
+    public void removePerson_personNotFound_throwsPersonNotFoundException() {
+        Person missing = new PersonBuilder()
+                .withName("Missing Person")
+                .withPhone("99999999")
+                .build();
+
+        assertThrows(hitlist.model.person.exceptions.PersonNotFoundException.class,
+                () -> hitList.removePerson(missing));
+    }
+
+    @Test
+    public void setPerson_targetNotFound_throwsPersonNotFoundException() {
+        Person targetMissing = new PersonBuilder()
+                .withName("Missing Person")
+                .withPhone("99999999")
+                .build();
+        Person edited = new PersonBuilder()
+                .withName("Edited Person")
+                .withPhone("88888888")
+                .build();
+
+        assertThrows(hitlist.model.person.exceptions.PersonNotFoundException.class,
+                () -> hitList.setPerson(targetMissing, edited));
+    }
+
+    @Test
+    public void setPerson_duplicateEditedPerson_throwsDuplicatePersonException() {
+        Person a = new PersonBuilder()
+                .withName("Alpha Person")
+                .withPhone("81111111")
+                .build();
+        Person b = new PersonBuilder()
+                .withName("Beta Person")
+                .withPhone("82222222")
+                .build();
+        hitList.addPerson(a);
+        hitList.addPerson(b);
+
+        assertThrows(hitlist.model.person.exceptions.DuplicatePersonException.class,
+                () -> hitList.setPerson(a, b));
     }
 
     @Test
@@ -227,6 +271,72 @@ public class HitListTest {
         hitList.addCompany(GOOGLE);
         hitList.addCompanyRole(GOOGLE.getName(), role);
         assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void setCompany_validTargetAndEditedCompany_success() {
+        Company original = new CompanyBuilder()
+                .withName("SetCompany Original")
+                .withDescription("Original desc")
+                .build();
+        Company edited = new CompanyBuilder()
+                .withName("SetCompany Edited")
+                .withDescription("Edited desc")
+                .build();
+
+        hitList.addCompany(original);
+        hitList.setCompany(original, edited);
+
+        assertFalse(hitList.hasCompany(original));
+        assertTrue(hitList.hasCompany(edited));
+    }
+
+    @Test
+    public void setCompany_nullEditedCompany_throwsNullPointerException() {
+        Company original = new CompanyBuilder()
+                .withName("SetCompany Null Edited")
+                .withDescription("Desc")
+                .build();
+        hitList.addCompany(original);
+
+        assertThrows(NullPointerException.class, () -> hitList.setCompany(original, null));
+    }
+
+    @Test
+    public void setCompany_targetNotFound_throwsCompanyNotFoundException() {
+        Company targetMissing = new CompanyBuilder()
+                .withName("Target Missing")
+                .withDescription("Desc")
+                .build();
+        Company edited = new CompanyBuilder()
+                .withName("Edited Value")
+                .withDescription("Desc")
+                .build();
+
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class,
+                () -> hitList.setCompany(targetMissing, edited));
+    }
+
+    @Test
+    public void setCompany_duplicateEditedCompany_throwsDuplicateCompanyException() {
+        Company a = new CompanyBuilder().withName("Company A").withDescription("Desc A").build();
+        Company b = new CompanyBuilder().withName("Company B").withDescription("Desc B").build();
+        hitList.addCompany(a);
+        hitList.addCompany(b);
+
+        assertThrows(hitlist.model.company.exceptions.DuplicateCompanyException.class,
+                () -> hitList.setCompany(a, b));
+    }
+
+    @Test
+    public void removeCompany_companyNotFound_throwsCompanyNotFoundException() {
+        Company missing = new CompanyBuilder()
+                .withName("Missing Company")
+                .withDescription("Desc")
+                .build();
+
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class,
+                () -> hitList.removeCompany(missing));
     }
 
     @Test
@@ -382,6 +492,39 @@ public class HitListTest {
                 -> hitList.setCompanyRole(missing, role, role));
         assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
                 -> hitList.removeCompanyRole(missing, role));
+    }
+
+    @Test
+    public void equals_differentCompanies_returnsFalse() {
+        HitList first = new HitList();
+        HitList second = new HitList();
+
+        first.addCompany(new CompanyBuilder().withName("Equal ABCD").withDescription("ABCD").build());
+        second.addCompany(new CompanyBuilder().withName("Equal BCDE").withDescription("BCDE").build());
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentGroups_returnsFalse() {
+        HitList first = new HitList();
+        HitList second = new HitList();
+
+        first.addGroup(new Group(new GroupName("Group A")));
+        second.addGroup(new Group(new GroupName("Group B")));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentPersons_returnsFalse() {
+        HitList first = new HitList();
+        HitList second = new HitList();
+
+        first.addPerson(new PersonBuilder().withName("POne").withPhone("90000001").build());
+        second.addPerson(new PersonBuilder().withName("PTwo").withPhone("90000002").build());
+
+        assertFalse(first.equals(second));
     }
 
     /**

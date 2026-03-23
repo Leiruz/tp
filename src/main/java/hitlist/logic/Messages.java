@@ -69,7 +69,8 @@ public class Messages {
      */
     public static String formatCompany(Company company) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(company.getName())
+        builder.append("Name: ")
+                .append(company.getName())
                 .append("; Description: ")
                 .append(company.getDescription());
         return builder.toString();
@@ -83,7 +84,8 @@ public class Messages {
     */
     public static String formatCompanyRole(Role role) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(role.getRoleName())
+        builder.append("Role: ")
+                .append(role.getRoleName())
                 .append("; Description: ")
                 .append(role.getRoleDescription());
         return builder.toString();
