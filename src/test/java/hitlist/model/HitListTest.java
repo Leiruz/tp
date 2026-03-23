@@ -16,10 +16,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import hitlist.model.company.Company;
+import hitlist.model.company.CompanyName;
 import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.group.exceptions.DuplicateGroupException;
@@ -28,12 +31,18 @@ import hitlist.model.person.Person;
 import hitlist.model.person.exceptions.DuplicatePersonException;
 import hitlist.testutil.CompanyBuilder;
 import hitlist.testutil.PersonBuilder;
+import hitlist.testutil.RoleBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class HitListTest {
 
-    private final HitList hitList = new HitList();
+    private HitList hitList;
+
+    @BeforeEach
+    public void setUp() {
+        hitList = new HitList();
+    }
 
     @Test
     public void constructor() {
@@ -54,14 +63,13 @@ public class HitListTest {
 
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
-        // Two persons with the same identity fields
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
         HitListStub newData = new HitListStub(newPersons,
-                                              Collections.emptyList(),
-                                              Collections.emptyList(),
-                                              Collections.emptyList());
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList());
 
         assertThrows(DuplicatePersonException.class, () -> hitList.resetData(newData));
     }
@@ -129,7 +137,6 @@ public class HitListTest {
     public void toStringMethod() {
         String expected = HitList.class.getCanonicalName()
                 + "{persons=" + hitList.getPersonList()
-                + ", roles=" + hitList.getRoleList()
                 + ", companies=" + hitList.getCompanyList()
                 + ", groups=" + hitList.getGroupList() + "}";
         assertEquals(expected, hitList.toString());
@@ -173,6 +180,210 @@ public class HitListTest {
         assertThrows(GroupNotFoundException.class, () -> hitList.deleteGroup(STUDENTS));
     }
 
+    @Test
+    public void hasCompanyRole_nullCompanyName_throwsNullPointerException() {
+        Role role = new RoleBuilder().withName("Role_HasNullCompany").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.hasCompanyRole(null, role));
+    }
+
+    @Test
+    public void hasCompanyRole_nullRole_throwsNullPointerException() {
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.hasCompanyRole(GOOGLE.getName(), null));
+    }
+
+    @Test
+    public void hasCompanyRole_roleNotInCompany_returnsFalse() {
+        Role role = new RoleBuilder().withName("Role_NotInCompany_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void hasCompanyRole_roleInCompany_returnsTrue() {
+        Role role = new RoleBuilder().withName("Role_InCompany_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), role);
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void addCompanyRole_nullCompanyName_throwsNullPointerException() {
+        Role role = new RoleBuilder().withName("Role_AddNullCompany").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.addCompanyRole(null, role));
+    }
+
+    @Test
+    public void addCompanyRole_nullRole_throwsNullPointerException() {
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.addCompanyRole(GOOGLE.getName(), null));
+    }
+
+    @Test
+    public void addCompanyRole_validRole_success() {
+        Role role = new RoleBuilder().withName("Role_AddValid_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), role);
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void addCompanyRole_duplicateRole_throwsDuplicateRoleException() {
+        Role role = new RoleBuilder().withName("Role_AddDuplicate_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), role);
+
+        assertThrows(hitlist.model.company.role.exceptions.DuplicateRoleException.class, ()
+                -> hitList.addCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void getCompanyRole_nullCompanyName_throwsNullPointerException() {
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.getCompanyRole(null, "Any"));
+    }
+
+    @Test
+    public void getCompanyRole_nullRoleName_throwsNullPointerException() {
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.getCompanyRole(GOOGLE.getName(), null));
+    }
+
+    @Test
+    public void getCompanyRole_roleExists_returnsRole() {
+        Role role = new RoleBuilder().withName("Role_GetExists_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), role);
+
+        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getName(), "Role_GetExists_Unique");
+
+        assertTrue(result.isPresent());
+        assertEquals(role, result.get());
+    }
+
+    @Test
+    public void getCompanyRole_roleDoesNotExist_returnsEmptyOptional() {
+        Role existingRole = new RoleBuilder().withName("Role_GetMissing_Base").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), existingRole);
+
+        Optional<Role> result = hitList.getCompanyRole(GOOGLE.getName(), "Role_Not_There");
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void setCompanyRole_nullCompanyName_throwsNullPointerException() {
+        Role target = new RoleBuilder().withName("Role_SetNullCompany_Target").withDescription("desc").build();
+        Role edited = new RoleBuilder().withName("Role_SetNullCompany_Edited").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(null, target, edited));
+    }
+
+    @Test
+    public void setCompanyRole_nullTargetRole_throwsNullPointerException() {
+        Role edited = new RoleBuilder().withName("Role_SetNullTarget_Edited").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getName(), null, edited));
+    }
+
+    @Test
+    public void setCompanyRole_nullEditedRole_throwsNullPointerException() {
+        Role target = new RoleBuilder().withName("Role_SetNullEdited_Target").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.setCompanyRole(GOOGLE.getName(), target, null));
+    }
+
+    @Test
+    public void setCompanyRole_validParameters_success() {
+        Role target = new RoleBuilder().withName("Role_SetValid_Target").withDescription("desc").build();
+        Role edited = new RoleBuilder().withName("Role_SetValid_Edited").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), target);
+
+        hitList.setCompanyRole(GOOGLE.getName(), target, edited);
+
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), target));
+        assertTrue(hitList.hasCompanyRole(GOOGLE.getName(), edited));
+    }
+
+    @Test
+    public void setCompanyRole_targetRoleNotFound_throwsRoleNotFoundException() {
+        Role target = new RoleBuilder().withName("Role_SetMissing_Target").withDescription("desc").build();
+        Role edited = new RoleBuilder().withName("Role_SetMissing_Edited").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+
+        assertThrows(hitlist.model.company.role.exceptions.RoleNotFoundException.class, ()
+                -> hitList.setCompanyRole(GOOGLE.getName(), target, edited));
+    }
+
+    @Test
+    public void setCompanyRole_duplicateEditedRole_throwsDuplicateRoleException() {
+        Role target = new RoleBuilder().withName("Role_SetDup_Target").withDescription("desc").build();
+        Role alreadyExists = new RoleBuilder().withName("Role_SetDup_Exists").withDescription("desc").build();
+        Role editedSameIdentityAsExisting =
+                new RoleBuilder().withName("Role_SetDup_Exists").withDescription("another desc").build();
+
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), target);
+        hitList.addCompanyRole(GOOGLE.getName(), alreadyExists);
+
+        assertThrows(hitlist.model.company.role.exceptions.DuplicateRoleException.class, ()
+                -> hitList.setCompanyRole(GOOGLE.getName(), target, editedSameIdentityAsExisting));
+    }
+
+    @Test
+    public void removeCompanyRole_nullCompanyName_throwsNullPointerException() {
+        Role role = new RoleBuilder().withName("Role_RemoveNullCompany").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.removeCompanyRole(null, role));
+    }
+
+    @Test
+    public void removeCompanyRole_nullRole_throwsNullPointerException() {
+        hitList.addCompany(GOOGLE);
+        assertThrows(NullPointerException.class, () -> hitList.removeCompanyRole(GOOGLE.getName(), null));
+    }
+
+    @Test
+    public void removeCompanyRole_validParameters_success() {
+        Role role = new RoleBuilder().withName("Role_RemoveValid_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+        hitList.addCompanyRole(GOOGLE.getName(), role);
+
+        hitList.removeCompanyRole(GOOGLE.getName(), role);
+
+        assertFalse(hitList.hasCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void removeCompanyRole_roleNotFound_throwsRoleNotFoundException() {
+        Role role = new RoleBuilder().withName("Role_RemoveMissing_Unique").withDescription("desc").build();
+        hitList.addCompany(GOOGLE);
+
+        assertThrows(hitlist.model.company.role.exceptions.RoleNotFoundException.class, ()
+                -> hitList.removeCompanyRole(GOOGLE.getName(), role));
+    }
+
+    @Test
+    public void roleOperations_companyNotFound_throwsCompanyNotFoundException() {
+        CompanyName missing = new CompanyName("Missing Co");
+        Role role = new RoleBuilder().withName("Role_MissingCompany_Unique").withDescription("desc").build();
+
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
+                -> hitList.hasCompanyRole(missing, role));
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
+                -> hitList.addCompanyRole(missing, role));
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
+                -> hitList.getCompanyRole(missing, "Role_MissingCompany_Unique"));
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
+                -> hitList.setCompanyRole(missing, role, role));
+        assertThrows(hitlist.model.company.exceptions.CompanyNotFoundException.class, ()
+                -> hitList.removeCompanyRole(missing, role));
+    }
+
     /**
      * A stub ReadOnlyHitList whose persons list can violate interface constraints.
      */
@@ -200,11 +411,6 @@ public class HitListTest {
         @Override
         public ObservableList<Company> getCompanyList() {
             return companies;
-        }
-
-        @Override
-        public ObservableList<Role> getRoleList() {
-            return roles;
         }
 
         @Override

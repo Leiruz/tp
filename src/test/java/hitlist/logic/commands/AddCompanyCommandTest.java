@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import hitlist.logic.Messages;
@@ -25,6 +27,18 @@ import hitlist.model.company.Company;
 import hitlist.testutil.CompanyBuilder;
 
 public class AddCompanyCommandTest {
+
+    private HitList hitList;
+
+    @BeforeEach
+    public void setUp() {
+        hitList = new HitList();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        hitList = null;
+    }
 
     @Test
     public void constructor_nullCompany_throwsNullPointerException() {

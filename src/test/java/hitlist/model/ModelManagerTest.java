@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import hitlist.commons.core.GuiSettings;
@@ -28,7 +29,12 @@ import hitlist.testutil.HitListBuilder;
 
 public class ModelManagerTest {
 
-    private ModelManager modelManager = new ModelManager();
+    private ModelManager modelManager;
+
+    @BeforeEach
+    public void setUp() {
+        modelManager = new ModelManager();
+    }
 
     @Test
     public void constructor() {
