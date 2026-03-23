@@ -73,7 +73,14 @@ public class UniqueRoleList implements Iterable<Role> {
     public void setRole(Role target, Role editedRole) {
         requireAllNonNull(target, editedRole);
 
-        int index = internalList.indexOf(target);
+        int index = -1;
+        for (int i = 0; i < internalList.size(); i++) {
+            if (internalList.get(i).isSameRole(target)) {
+                index = i;
+                break;
+            }
+        }
+
         if (index == -1) {
             throw new RoleNotFoundException(ROLE_NOT_FOUND_MESSAGE);
         }
