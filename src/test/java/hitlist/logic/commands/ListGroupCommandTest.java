@@ -26,6 +26,11 @@ public class ListGroupCommandTest {
     }
 
     @Test
+    public void constructor_noArguments_success() {
+        new ListGroupCommand();
+    }
+
+    @Test
     public void execute_validGroupName_successful() throws Exception {
         Group validGroup = new Group(new GroupName("My group"));
 
@@ -34,6 +39,19 @@ public class ListGroupCommandTest {
 
         String expectedMessage =
             String.format(ListGroupCommand.MESSAGE_SUCCESS_1, validGroup.getName());
+
+        assertEquals(expectedMessage,
+                     commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_listAll_successful() throws Exception {
+        Group validGroup = new Group(new GroupName("My group"));
+
+        ModelStub modelStub = new ModelStubWithGroup(validGroup);
+        CommandResult commandResult = new ListGroupCommand().execute(modelStub);
+
+        String expectedMessage = ListGroupCommand.MESSAGE_SUCCESS_2;
 
         assertEquals(expectedMessage,
                      commandResult.getFeedbackToUser());
