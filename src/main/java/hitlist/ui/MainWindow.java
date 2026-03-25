@@ -33,6 +33,7 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
     private CompanyListPanel companyListPanel;
+    private RoleListPanel roleListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -53,6 +54,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private javafx.scene.layout.VBox companyListPane;
+
+    @FXML
+    private javafx.scene.layout.VBox roleListPane;
+
+    @FXML
+    private StackPane roleListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -126,6 +133,9 @@ public class MainWindow extends UiPart<Stage> {
         companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
         companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
 
+        roleListPanel = new RoleListPanel(logic.getRoleList());
+        roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -191,6 +201,13 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Returns the role list panel.
+     */
+    public RoleListPanel getRoleListPanel() {
+        return roleListPanel;
+    }
+
+    /**
      * Executes the command and returns the result.
      *
      * @see hitlist.logic.Logic#execute(String)
@@ -208,14 +225,25 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isShowCompanyList()) {
                 hidePersonListPane();
                 showCompanyListPane();
+                hideRoleListPane();
 
                 // Force refresh the company list
                 companyListPanel = new CompanyListPanel(logic.getFilteredCompanyList());
                 companyListPanelPlaceholder.getChildren().clear();
                 companyListPanelPlaceholder.getChildren().add(companyListPanel.getRoot());
+            } else if (commandResult.isShowRoleList()) {
+                hideCompanyListPane();
+                hidePersonListPane();
+                showRoleListPane();
+
+                // Force refresh the role list
+                roleListPanel = new RoleListPanel(logic.getRoleList());
+                roleListPanelPlaceholder.getChildren().clear();
+                roleListPanelPlaceholder.getChildren().add(roleListPanel.getRoot());
             } else {
                 showPersonListPane();
                 hideCompanyListPane();
+                hideRoleListPane();
 
                 // Force refresh the person list
                 personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.getGroupList());
@@ -236,6 +264,22 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Shows the person list pane.
+     */
+    public void showPersonListPane() {
+        personList.setVisible(true);
+        personList.setManaged(true);
+    }
+
+    /**
+     * Hides the person list pane.
+     */
+    public void hidePersonListPane() {
+        personList.setVisible(false);
+        personList.setManaged(false);
+    }
+
+    /**
      * Shows the company list pane.
      */
     public void showCompanyListPane() {
@@ -252,18 +296,18 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Shows the person list pane.
+     * Shows the role list pane.
      */
-    public void showPersonListPane() {
-        personList.setVisible(true);
-        personList.setManaged(true);
+    private void showRoleListPane() {
+        roleListPane.setVisible(true);
+        roleListPane.setManaged(true);
     }
 
     /**
-     * Hides the person list pane.
+     * Hides the role list pane.
      */
-    public void hidePersonListPane() {
-        personList.setVisible(false);
-        personList.setManaged(false);
+    private void hideRoleListPane() {
+        roleListPane.setVisible(false);
+        roleListPane.setManaged(false);
     }
 }

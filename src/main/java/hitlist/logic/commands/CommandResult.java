@@ -22,21 +22,37 @@ public class CommandResult {
     /** The company list pane should be shown to the user. */
     private final boolean showCompanyList;
 
+    /** The role list pane should be shown to the user. */
+    private final boolean showRoleList;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showCompanyList,
+                         boolean showRoleList) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.showCompanyList = showCompanyList;
+        this.showRoleList = showRoleList;
+    }
+
+    /**
+    * Constructs a {@code CommandResult} with the specified fields.
+    */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showCompanyList) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
         this.showCompanyList = showCompanyList;
+        this.showRoleList = false;
     }
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, false);
+        this(feedbackToUser, showHelp, exit, false, false);
     }
 
     /**
@@ -44,7 +60,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false);
+        this(feedbackToUser, false, false, false, false);
     }
 
     public String getFeedbackToUser() {
@@ -61,6 +77,10 @@ public class CommandResult {
 
     public boolean isShowCompanyList() {
         return showCompanyList;
+    }
+
+    public boolean isShowRoleList() {
+        return showRoleList;
     }
 
     @Override

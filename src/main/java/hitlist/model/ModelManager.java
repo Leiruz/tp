@@ -13,6 +13,7 @@ import hitlist.commons.core.GuiSettings;
 import hitlist.commons.core.LogsCenter;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Name;
@@ -191,6 +192,11 @@ public class ModelManager implements Model {
     @Override
     public void deleteCompany(Company company) {
         hitList.removeCompany(company);
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return hitList.getRoleList();
     }
 
     //=========== Filtered Person List Accessors =============================================================

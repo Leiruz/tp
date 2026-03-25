@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import hitlist.commons.core.GuiSettings;
 import hitlist.model.company.Company;
 import hitlist.model.company.CompanyName;
+import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.group.GroupName;
 import hitlist.model.person.Name;
@@ -18,10 +19,14 @@ import javafx.collections.ObservableList;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
     /**
@@ -59,7 +64,9 @@ public interface Model {
      */
     void setHitList(ReadOnlyHitList hitList);
 
-    /** Returns the HitList */
+    /**
+     * Returns the HitList
+     */
     ReadOnlyHitList getHitList();
 
     /**
@@ -86,23 +93,31 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<Person> getFilteredPersonList();
 
-    /** Returns an unmodifiable view of the group list */
+    /**
+     * Returns an unmodifiable view of the group list
+     */
     ObservableList<Group> getGroupList();
 
-    /** Returns an unmodifiable view of the filtered company list */
+    /**
+     * Returns an unmodifiable view of the filtered company list
+     */
     ObservableList<Company> getFilteredCompanyList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
      * Updates the filter of the filtered company list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCompanyList(Predicate<Company> predicate);
@@ -129,6 +144,7 @@ public interface Model {
      * {@code group} must already exist.
      */
     void deleteGroup(Group group);
+
     /**
      * Returns all persons whose names exactly match {@code name}.
      */
@@ -140,9 +156,9 @@ public interface Model {
     boolean hasCompany(Company company);
 
     /**
-    * Adds the given company.
-    * {@code company} must not already exist.
-    */
+     * Adds the given company.
+     * {@code company} must not already exist.
+     */
     void addCompany(Company company);
 
     /**
@@ -156,4 +172,10 @@ public interface Model {
      * {@code company} must already exist.
      */
     void deleteCompany(Company company);
+
+    /**
+     * Returns an unmodifiable view of the role list
+     * @return
+     */
+    ObservableList<Role> getRoleList();
 }

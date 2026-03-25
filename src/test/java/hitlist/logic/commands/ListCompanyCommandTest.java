@@ -29,6 +29,6 @@ public class ListCompanyCommandTest {
     public void execute_listIsNotFiltered_showsSameList() {
         expectedModel.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
         assertCommandSuccess(new ListCompanyCommand(), model,
-                new CommandResult(ListCompanyCommand.MESSAGE_SUCCESS, false, false, true), expectedModel);
+                new CommandResult(ListCompanyCommand.DEFAULT_MESSAGE_SUCCESS, false, false, true), expectedModel);
     }
 }

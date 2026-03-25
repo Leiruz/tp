@@ -64,6 +64,7 @@ public class MainWindowTest {
         assertNotNull(ref.get());
         assertNotNull(ref.get().getPersonListPanel()); // covers getPersonListPanel
         assertNotNull(ref.get().getCompanyListPanel()); // covers getCompanyListPanel
+        assertNotNull(ref.get().getRoleListPanel()); // covers getRoleListPanel
     }
 
     @Test
