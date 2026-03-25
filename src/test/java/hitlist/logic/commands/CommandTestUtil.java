@@ -7,6 +7,8 @@ import static hitlist.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static hitlist.logic.parser.CliSyntax.PREFIX_GROUP;
 import static hitlist.logic.parser.CliSyntax.PREFIX_NAME;
 import static hitlist.logic.parser.CliSyntax.PREFIX_PHONE;
+import static hitlist.logic.parser.CliSyntax.PREFIX_ROLE;
+import static hitlist.logic.parser.CliSyntax.PREFIX_ROLE_DESC;
 import static hitlist.logic.parser.CliSyntax.PREFIX_TAG;
 import static hitlist.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -98,16 +100,16 @@ public class CommandTestUtil {
     public static final String INVALID_ROLE_DESCRIPTION =
             "We specialize in B2B/B2C marketing."; // '/' not allowed in role descriptions
 
-    public static final String ROLE_NAME_DESC_PRODUCT_MANAGER = " " + PREFIX_NAME
+    public static final String ROLE_NAME_DESC_PRODUCT_MANAGER = " " + PREFIX_ROLE
             + VALID_ROLE_NAME_PRODUCT_MANAGER;
-    public static final String ROLE_NAME_DESC_SOFTWARE_ENGINEER = " " + PREFIX_NAME
+    public static final String ROLE_NAME_DESC_SOFTWARE_ENGINEER = " " + PREFIX_ROLE
             + VALID_ROLE_NAME_SOFTWARE_ENGINEER;
-    public static final String ROLE_DESC_PRODUCT_MANAGER = " " + PREFIX_COMPANY_DESC
+    public static final String ROLE_DESC_PRODUCT_MANAGER = " " + PREFIX_ROLE_DESC
             + VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER;
-    public static final String ROLE_DESC_SOFTWARE_ENGINEER = " " + PREFIX_COMPANY_DESC
+    public static final String ROLE_DESC_SOFTWARE_ENGINEER = " " + PREFIX_ROLE_DESC
             + VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER;
-    public static final String INVALID_ROLE_NAME_DESC = " " + PREFIX_NAME + INVALID_ROLE_NAME;
-    public static final String INVALID_ROLE_DESC = " " + PREFIX_COMPANY_DESC + INVALID_ROLE_DESCRIPTION;
+    public static final String INVALID_ROLE_NAME_DESC = " " + PREFIX_ROLE + INVALID_ROLE_NAME;
+    public static final String INVALID_ROLE_DESC = " " + PREFIX_ROLE_DESC + INVALID_ROLE_DESCRIPTION;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -130,7 +132,7 @@ public class CommandTestUtil {
      * - the {@code actualModel} matches {@code expectedModel}
      */
     public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
-            Model expectedModel) {
+                                            Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
             assertEquals(expectedCommandResult, result);
@@ -145,7 +147,7 @@ public class CommandTestUtil {
      * that takes a string {@code expectedMessage}.
      */
     public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
-            Model expectedModel) {
+                                            Model expectedModel) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
         assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
