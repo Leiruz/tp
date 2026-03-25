@@ -163,6 +163,20 @@ Examples:
 * `grpassign /n Alex Yeoh /g Students`
 * `grpassign /n Test User /g TestGroup`
 
+### Unassigning a contact from a contact group : `grpunassign`
+
+Removes an existing contact from an existing contact group.
+
+Format: `grpunassign /n NAME /g GROUP_NAME`
+
+* The contact name must exactly match an existing contact in HitList.
+* The group name must exactly match an existing contact group in HitList.
+* The contact must already belong to the specified group.
+
+Examples:
+* `grpunassign /n Alex Yeoh /g Experienced`
+* `grpunassign /n Betsy Crowe /g Students`
+
 ### Adding a company : `cmpadd`
 
 Adds a company to the HitList.
@@ -256,6 +270,7 @@ _Details coming soon ..._
 | **List contacts in group** | `grplist /g GROUP_NAME`                                     | `grplist /g Students`                                                          |
 | **Assign contact to group** | `grpassign /n NAME /g GROUP_NAME`                          | `grpassign /n Alex Yeoh /g Students`                                           |
 | **Add Company**       | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                               |
+| **Unassign contact from group** | `grpunassign /n NAME /g GROUP_NAME`                    | `grpunassign /n Alex Yeoh /g Students`                                         |
 | **Delete Company**    | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                             |
 | **List Companies**    | `cmplist`                                                        | `cmplist`                                                                      |
 | **Clear**             | `clear`                                                          | `clear`                                                                        |

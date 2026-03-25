@@ -24,6 +24,7 @@ import hitlist.logic.commands.HelpCommand;
 import hitlist.logic.commands.ListCommand;
 import hitlist.logic.commands.ListCompanyCommand;
 import hitlist.logic.commands.ListGroupCommand;
+import hitlist.logic.commands.UnassignGroupCommand;
 import hitlist.logic.parser.exceptions.ParseException;
 
 /**
@@ -91,6 +92,9 @@ public class HitListParser {
 
         case AssignGroupCommand.COMMAND_WORD:
             return new AssignGroupCommandParser().parse(arguments);
+
+        case UnassignGroupCommand.COMMAND_WORD:
+            return new UnassignGroupCommandParser().parse(arguments);
 
         case DeleteGroupCommand.COMMAND_WORD:
             return new DeleteGroupCommandParser().parse(arguments);
