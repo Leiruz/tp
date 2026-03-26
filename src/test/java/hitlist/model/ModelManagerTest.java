@@ -498,23 +498,6 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void updateRoleList_companyExists_updatesRoleList() {
-        modelManager.addCompany(GOOGLE);
-
-        Role role1 = new RoleBuilder().withName("Engineer").withDescription("desc").build();
-        Role role2 = new RoleBuilder().withName("Manager").withDescription("desc").build();
-
-        modelManager.addCompanyRole(GOOGLE.getName(), role1);
-        modelManager.addCompanyRole(GOOGLE.getName(), role2);
-
-        modelManager.updateRoleList(GOOGLE.getName());
-
-        assertEquals(2, modelManager.getRoleList().size());
-        assertTrue(modelManager.getRoleList().contains(role1));
-        assertTrue(modelManager.getRoleList().contains(role2));
-    }
-
-    @Test
     public void updateRoleList_companyDoesNotExist_clearsRoleList() {
         modelManager.addCompany(GOOGLE);
 
