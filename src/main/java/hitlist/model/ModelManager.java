@@ -33,7 +33,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Company> filteredCompanies;
-    private final ObservableList<Role> updatedRoles;
+    private final ObservableList<Role> roleList;
 
     /**
      * Initializes a ModelManager with the given HitList and userPrefs.
@@ -47,7 +47,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.hitList.getPersonList());
         filteredCompanies = new FilteredList<>(this.hitList.getCompanyList());
-        updatedRoles = this.hitList.getRoleList();
+        roleList = this.hitList.getRoleList();
     }
 
     /**
@@ -270,9 +270,9 @@ public class ModelManager implements Model {
         if (companyOptional.isPresent()) {
             Company company = companyOptional.get();
             UniqueRoleList roleList = company.getUniqueRoleList();
-            updatedRoles.setAll(roleList.asUnmodifiableObservableList());
+            this.roleList.setAll(roleList.asUnmodifiableObservableList());
         } else {
-            updatedRoles.clear();
+            roleList.clear();
         }
     }
 

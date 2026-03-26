@@ -293,6 +293,14 @@ public class HitList implements ReadOnlyHitList {
     }
 
     @Override
+    public ObservableList<Role> getRoleList() {
+        return companies.asUnmodifiableObservableList().stream()
+                .flatMap(company -> company.getUniqueRoleList().asUnmodifiableObservableList().stream())
+                .collect(java.util.stream.Collectors
+                        .toCollection(javafx.collections.FXCollections::observableArrayList));
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
