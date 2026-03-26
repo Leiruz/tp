@@ -1,7 +1,6 @@
 package hitlist.model;
 
 import hitlist.model.company.Company;
-import hitlist.model.company.role.Role;
 import hitlist.model.group.Group;
 import hitlist.model.person.Person;
 import javafx.collections.ObservableList;
