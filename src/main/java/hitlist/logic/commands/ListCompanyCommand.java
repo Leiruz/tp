@@ -8,7 +8,7 @@ import hitlist.model.Model;
 import hitlist.model.company.CompanyName;
 
 /**
- * Lists all companies in the hit list to the user.
+ * Lists all companies in the HitList to the user.
  */
 public class ListCompanyCommand extends Command {
 

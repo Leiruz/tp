@@ -230,16 +230,11 @@ public class ModelManager implements Model {
         updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 
-    @Override
-    public ObservableList<Role> getRoleList() {
-        return FXCollections.emptyObservableList();
-    }
-
     //=========== Filtered Person List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * {@code versionedHitList}
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
@@ -249,6 +244,11 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<Company> getFilteredCompanyList() {
         return filteredCompanies;
+    }
+
+    @Override
+    public ObservableList<Role> getRoleList() {
+        return this.roleList;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class RoleListPanel extends UiPart<Region> {
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code Role} using a {@code RoleCard}.
      */
     class RoleListViewCell extends ListCell<Role> {
         @Override

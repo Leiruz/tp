@@ -144,6 +144,39 @@ public class MainWindowTest {
     }
 
     @Test
+    public void executeCommand_showRoleListBranch_covered() throws Exception {
+        AtomicReference<Throwable> thrown = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                // CommandResult(feedback, showHelp, exit, showCompanyList, showGroupList, showRoleList)
+                CommandResult result = new CommandResult("role", false, false, false, false, true);
+
+                MainWindow window = new MainWindow(new Stage(), new FixedResultLogicStub(result));
+                window.fillInnerParts();
+
+                Method executeCommand = MainWindow.class.getDeclaredMethod("executeCommand", String.class);
+                executeCommand.setAccessible(true);
+                executeCommand.invoke(window, "role");
+
+                // Assertions to ensure branch effects happened
+                assertTrue(window.getRoleListPanel() != null);
+
+            } catch (Throwable t) {
+                thrown.set(t);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        if (thrown.get() != null) {
+            throw new AssertionError(thrown.get());
+        }
+    }
+
+    @Test
     public void executeCommand_catchAndRethrow_commandException() throws Exception {
         AtomicReference<Throwable> thrown = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);

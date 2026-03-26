@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
 /**
- * A UI component that displays information of a {@code Person}.
+ * A UI component that displays information of a {@code Role}.
  */
 public class RoleCard extends UiPart<Region> {
 
@@ -33,7 +33,7 @@ public class RoleCard extends UiPart<Region> {
     private Label description;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code RoleCard} with the given {@code Role} and index to display.
      */
     public RoleCard(Role role, int displayedIndex) {
         super(FXML);
