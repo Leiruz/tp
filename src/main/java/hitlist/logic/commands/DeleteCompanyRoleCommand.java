@@ -82,7 +82,7 @@ public class DeleteCompanyRoleCommand extends Command {
         company.getUniqueRoleList().remove(roleToDelete);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,
-                roleToDelete.getRoleName(), company.getName()));
+                roleToDelete.getRoleName(), company.getName()), false, false, false, false, true);
     }
 
     private Role deleteByIndex(Company company) throws CommandException {
