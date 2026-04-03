@@ -52,10 +52,13 @@ public class FindCommandParser implements Parser<FindCommand> {
             */
         }
 
+        // Since Line 23 already checks for empty arguments, the nameKeywords list would have at least one entry.
+        /*
         if (nameKeywords.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+        */
 
         return new FindCommand(new PersonMatchesFindPredicate(nameKeywords));
     }
