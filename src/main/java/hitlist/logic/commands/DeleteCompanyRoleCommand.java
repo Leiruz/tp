@@ -81,6 +81,7 @@ public class DeleteCompanyRoleCommand extends Command {
         }
 
         company.getUniqueRoleList().remove(roleToDelete);
+        model.updateRoleList(companyName);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 roleToDelete.getRoleName(), company.getName()), SHOW_ROLE_LIST);
