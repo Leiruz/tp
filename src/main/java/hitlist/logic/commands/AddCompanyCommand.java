@@ -46,7 +46,7 @@ public class AddCompanyCommand extends Command {
         requireNonNull(model);
 
         if (model.hasCompany(company)) {
-            throw new CommandException(String.format(MESSAGE_DUPLICATE_COMPANY, company.getName()));
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_COMPANY, company.getCompanyName()));
         }
 
         model.addCompany(company);

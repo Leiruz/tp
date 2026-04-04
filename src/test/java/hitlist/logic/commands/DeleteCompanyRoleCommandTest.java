@@ -51,7 +51,7 @@ public class DeleteCompanyRoleCommandTest {
                 .build();
 
         model.addCompany(companyToModify);
-        Company modelCompany = model.getCompany(companyToModify.getName()).get();
+        Company modelCompany = model.getCompany(companyToModify.getCompanyName()).get();
 
         // Use existing TypicalRoles which are already validated
         Role testRole1 = TypicalRoles.SOFTWARE_ENGINEER;
@@ -62,15 +62,15 @@ public class DeleteCompanyRoleCommandTest {
 
         DeleteCompanyRoleCommand deleteRoleCommand = new DeleteCompanyRoleCommand(
                 testRole1.getRoleName(),
-                modelCompany.getName());
+                modelCompany.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyRoleCommand.MESSAGE_SUCCESS,
-                testRole1.getRoleName(), modelCompany.getName());
+                testRole1.getRoleName(), modelCompany.getCompanyName());
 
         CommandResult result = deleteRoleCommand.execute(model);
         assertEquals(expectedMessage, result.getFeedbackToUser());
 
-        Company actualCompany = model.getCompany(modelCompany.getName()).get();
+        Company actualCompany = model.getCompany(modelCompany.getCompanyName()).get();
         assertFalse(actualCompany.getUniqueRoleList().contains(testRole1));
         assertTrue(actualCompany.getUniqueRoleList().contains(testRole2));
     }
@@ -89,7 +89,7 @@ public class DeleteCompanyRoleCommandTest {
                 .build();
 
         model.addCompany(companyToModify);
-        Company modelCompany = model.getCompany(companyToModify.getName()).get();
+        Company modelCompany = model.getCompany(companyToModify.getCompanyName()).get();
 
         // Use existing TypicalRoles which are already validated
         Role testRole1 = TypicalRoles.SOFTWARE_ENGINEER;
@@ -99,15 +99,15 @@ public class DeleteCompanyRoleCommandTest {
         modelCompany.getUniqueRoleList().add(testRole2);
 
         DeleteCompanyRoleCommand deleteRoleCommand = new DeleteCompanyRoleCommand(Index.fromOneBased(1),
-                modelCompany.getName());
+                modelCompany.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyRoleCommand.MESSAGE_SUCCESS,
-                testRole1.getRoleName(), modelCompany.getName());
+                testRole1.getRoleName(), modelCompany.getCompanyName());
 
         CommandResult result = deleteRoleCommand.execute(model);
         assertEquals(expectedMessage, result.getFeedbackToUser());
 
-        Company actualCompany = model.getCompany(modelCompany.getName()).get();
+        Company actualCompany = model.getCompany(modelCompany.getCompanyName()).get();
         assertFalse(actualCompany.getUniqueRoleList().contains(testRole1));
         assertTrue(actualCompany.getUniqueRoleList().contains(testRole2));
     }
@@ -128,10 +128,10 @@ public class DeleteCompanyRoleCommandTest {
         model.addCompany(company);
 
         DeleteCompanyRoleCommand deleteRoleCommand = new DeleteCompanyRoleCommand(Index.fromOneBased(1),
-                company.getName());
+                company.getCompanyName());
 
         String expectedMessage = String.format(DeleteCompanyRoleCommand.MESSAGE_ROLE_INDEX_OUT_OF_BOUNDS,
-                1, company.getName(), 0);
+                1, company.getCompanyName(), 0);
 
         assertThrows(CommandException.class, expectedMessage, () ->
                 deleteRoleCommand.execute(model));

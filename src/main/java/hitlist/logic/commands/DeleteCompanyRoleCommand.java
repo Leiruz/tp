@@ -83,7 +83,7 @@ public class DeleteCompanyRoleCommand extends Command {
         company.getUniqueRoleList().remove(roleToDelete);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,
-                roleToDelete.getRoleName(), company.getName()), SHOW_ROLE_LIST);
+                roleToDelete.getRoleName(), company.getCompanyName()), SHOW_ROLE_LIST);
     }
 
     private Role deleteByIndex(Company company) throws CommandException {
@@ -92,7 +92,7 @@ public class DeleteCompanyRoleCommand extends Command {
 
         if (zeroBasedIndex >= roles.size()) {
             throw new CommandException(String.format(MESSAGE_ROLE_INDEX_OUT_OF_BOUNDS,
-                    roleIndex.getOneBased(), company.getName(), roles.size()));
+                    roleIndex.getOneBased(), company.getCompanyName(), roles.size()));
         }
 
         return roles.get(zeroBasedIndex);
@@ -104,7 +104,7 @@ public class DeleteCompanyRoleCommand extends Command {
                 .filter(role -> role.getRoleName().equals(roleName))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(
-                        String.format(MESSAGE_ROLE_NAME_NOT_FOUND, roleName, company.getName())
+                        String.format(MESSAGE_ROLE_NAME_NOT_FOUND, roleName, company.getCompanyName())
                 ));
     }
 

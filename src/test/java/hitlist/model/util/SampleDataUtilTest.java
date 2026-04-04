@@ -47,8 +47,8 @@ public class SampleDataUtilTest {
         assertEquals(5, companies.length);
 
         for (Company company : companies) {
-            assertTrue(company.getName().toString().length() > 0);
-            assertTrue(company.getDescription().toString().length() > 0);
+            assertTrue(company.getCompanyName().toString().length() > 0);
+            assertTrue(company.getCompanyDescription().toString().length() > 0);
         }
     }
 
