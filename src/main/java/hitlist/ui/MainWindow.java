@@ -10,11 +10,13 @@ import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.logic.parser.exceptions.ParseException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -162,10 +164,47 @@ public class MainWindow extends UiPart<Stage> {
     private void setWindowDefaultSize(GuiSettings guiSettings) {
         primaryStage.setHeight(guiSettings.getWindowHeight());
         primaryStage.setWidth(guiSettings.getWindowWidth());
+
         if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+            double x = guiSettings.getWindowCoordinates().getX();
+            double y = guiSettings.getWindowCoordinates().getY();
+            if (isWindowOnAnyVisibleScreen(x, y, primaryStage.getWidth(), primaryStage.getHeight())) {
+                primaryStage.setX(x);
+                primaryStage.setY(y);
+            } else {
+                // Saved coordinates can become invalid after monitor layout changes.
+                centerWindowOnPrimaryScreen();
+            }
         }
+    }
+
+    /**
+     * Returns true if any visible part of the window intersects a currently available screen.
+     */
+    private boolean isWindowOnAnyVisibleScreen(double x, double y, double width, double height) {
+        return Screen.getScreens().stream()
+                .map(Screen::getVisualBounds)
+                .anyMatch(bounds -> intersects(bounds, x, y, width, height));
+    }
+
+    /**
+     * Move the window to the center of the primary screen as a safe fallback.
+     */
+    private void centerWindowOnPrimaryScreen() {
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        double centeredX = bounds.getMinX() + Math.max(0, (bounds.getWidth() - primaryStage.getWidth()) / 2);
+        double centeredY = bounds.getMinY() + Math.max(0, (bounds.getHeight() - primaryStage.getHeight()) / 2);
+        primaryStage.setX(centeredX);
+        primaryStage.setY(centeredY);
+    }
+
+    private boolean intersects(Rectangle2D bounds, double x, double y, double width, double height) {
+        double right = x + width;
+        double bottom = y + height;
+        double boundsRight = bounds.getMaxX();
+        double boundsBottom = bounds.getMaxY();
+        return x < boundsRight && right > bounds.getMinX()
+                && y < boundsBottom && bottom > bounds.getMinY();
     }
 
     /**
