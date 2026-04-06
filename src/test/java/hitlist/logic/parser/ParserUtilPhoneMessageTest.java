@@ -11,13 +11,13 @@ public class ParserUtilPhoneMessageTest {
 
     @Test
     public void parsePhone_blankValue_throwsParseExceptionWithConstraintMessage() {
-        assertThrows(ParseException.class, Phone.MESSAGE_CONSTRAINTS,
-                () -> ParserUtil.parsePhone(""));
+        assertThrows(ParseException.class,
+            Phone.MESSAGE_CONSTRAINTS, () -> ParserUtil.parsePhone(""));
     }
 
     @Test
     public void parsePhone_whitespaceValue_throwsParseExceptionWithConstraintMessage() {
-        assertThrows(ParseException.class, Phone.MESSAGE_CONSTRAINTS,
-                () -> ParserUtil.parsePhone("   "));
+        assertThrows(ParseException.class,
+            Phone.MESSAGE_CONSTRAINTS, () -> ParserUtil.parsePhone("   "));
     }
 }
