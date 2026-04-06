@@ -186,7 +186,7 @@ Format: `grpdel /g GROUP_NAME`
 </box>
 
 <box type="info">
-    Group Names are currently case-insensitive, so "Students" and "students" are considered different groups. Hence, deleting "students" will delete the "Students" group.
+    Group Names are currently case-insensitive, so "Students" and "students" are considered as equal groups. Hence, deleting "students" will delete the "Students" group.
 </box>
 
 Examples:
