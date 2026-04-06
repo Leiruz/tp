@@ -27,7 +27,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
     private static final double MIN_VISIBLE_WIDTH = 100;
-    private static final double MIN_VISIBLE_HEIGHT = 100;
+    private static final double TITLE_BAR_HEIGHT = 50;
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -201,16 +201,18 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private boolean intersects(Rectangle2D bounds, double x, double y, double width, double height) {
-        // Calculate the coordinates of the window's bottom-right corner
+        // The title bar is at the very top of the window (y)
+        double titleBarBottom = y + TITLE_BAR_HEIGHT;
         double windowRight = x + width;
-        double windowBottom = y + height;
 
-        // Calculate the overlapping width and height
+        // Check if the title bar's Y-coordinates are within the screen's vertical bounds
+        boolean isYOnScreen = y >= bounds.getMinY() && titleBarBottom <= bounds.getMaxY();
+
+        // Calculate how much of the width is actually on screen
         double overlapWidth = Math.min(windowRight, bounds.getMaxX()) - Math.max(x, bounds.getMinX());
-        double overlapHeight = Math.min(windowBottom, bounds.getMaxY()) - Math.max(y, bounds.getMinY());
+        boolean isXOnScreen = overlapWidth >= MIN_VISIBLE_WIDTH;
 
-        // Check if the overlap meets or exceeds our minimum requirements
-        return overlapWidth >= MIN_VISIBLE_WIDTH && overlapHeight >= MIN_VISIBLE_HEIGHT;
+        return isYOnScreen && isXOnScreen;
     }
 
     /**
