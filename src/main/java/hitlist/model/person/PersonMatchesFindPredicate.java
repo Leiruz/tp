@@ -3,7 +3,6 @@ package hitlist.model.person;
 import java.util.List;
 import java.util.function.Predicate;
 
-import hitlist.commons.util.StringUtil;
 import hitlist.commons.util.ToStringBuilder;
 
 /**
@@ -25,7 +24,7 @@ public class PersonMatchesFindPredicate implements Predicate<Person> {
         boolean matchesName = nameKeywords.isEmpty()
                 || nameKeywords.stream()
                 .anyMatch(keyword ->
-                        StringUtil.containsPrefixIgnoreCase(person.getName().fullName, keyword));
+                        containsIgnoreCase(person.getName().fullName, keyword));
 
         return matchesName;
     }
@@ -47,5 +46,15 @@ public class PersonMatchesFindPredicate implements Predicate<Person> {
         return new ToStringBuilder(this)
                 .add("nameKeywords", nameKeywords)
                 .toString();
+    }
+
+    /**
+     * Returns true if the given string contains the search string, ignoring case.
+     */
+    public static boolean containsIgnoreCase(String str, String searchStr) {
+        if (str == null || searchStr == null) {
+            return false;
+        }
+        return str.toLowerCase().contains(searchStr.toLowerCase());
     }
 }
