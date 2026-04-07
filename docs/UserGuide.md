@@ -61,7 +61,7 @@ Shows a message explaining how to access the help page.
 
 <div class="row justify-content-center">
   <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Help message" src="images/helpMessage.png" />
+    <img class="img-fluid" alt="Help message" src="images/ug/helpMessage.png" />
   </div>
 </div>
 
@@ -81,8 +81,11 @@ Format: `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`
 Examples:
 * `add /n John Doe /p 98765432`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before Adding John Doe to HitList" src="images/ug/BeforeAddContact_Optional.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Add John Doe to HitList" src="images/ug/AddContact_Optional.png" />
   </div>
 </div>
@@ -91,8 +94,11 @@ Examples:
 
 * `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before Adding Betsy Crowe to HitList" src="images/ug/BeforeAddContact_Full.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Add Betsy Crowe to HitList" src="images/ug/AddContact_Full.png" />
   </div>
 </div>
@@ -130,10 +136,10 @@ Examples:
 
 <div class="row">
   <div class="col">
-    <img class="img-fluid" alt="Edit 1st Contact number in HitList" src="images/ug/AfterEdit_Contact.png" />
+    <img class="img-fluid" alt="Before Editing 2nd Contact" src="images/ug/BeforeEdit_Contact2.png" />
   </div>
   <div class="col">
-    <img class="img-fluid" alt="Edit 2nd Contact Name to Betsy Crowe in HitList" src="images/ug/AfterEdit_Name.png" />
+    <img class="img-fluid" alt="Edit 2nd Contact Name to Betsy Crowe in HitList" src="images/ug/AfterEdit_Contact2.png" />
   </div>
 </div>
 
@@ -163,7 +169,7 @@ Examples:
 
 <br>
 
-* `find Irfan` followed by `delete 1` deletes the first contact in the results of the `find` command
+* `find irfan` followed by `delete 1` deletes the first contact in the results of the `find` command
 
 <div class="row">
   <div class="col">
@@ -216,13 +222,13 @@ Format: `list`
 
 ### Locating contacts : `find`
 
-Finds contacts whose names match any given prefix.
+Finds contacts whose names match the given substring.
 
 Format: `find [KEYWORD]...`
 
 * Name search is case-insensitive.
   e.g. `han` matches `Hans`
-* Name search uses prefix matching.
+* Name search uses substring matching.
   e.g. `Ha` matches `Hans`
   e.g. `an` does not match `Hans`
 * If multiple name keywords are given, a contact matching any one of them is returned.
@@ -238,11 +244,11 @@ Examples:
 
 <br>
 
-* `find alex david` returns `Alex Yeoh`, `David Li`
+* `find alex krishnan` returns `Alex Yeoh`, `Roy Balakrishnan`
 
 <div class="row justify-content-center">
   <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Find Alex and David in HitList" src="images/ug/Find_Alex_David.png" />
+    <img class="img-fluid" alt="Find Alex and krishnan in HitList" src="images/ug/Find_Alex_krishnan.png" />
   </div>
 </div>
 
@@ -250,26 +256,32 @@ Examples:
 
 ### Adding a contact group : `grpadd`
 
-Adds a contact group to the HitList.
+Adds a contact group to the HitList. Optionally, existing contacts can be added to the group at the time of group creation.
 
-Format: `grpadd /g GROUP_NAME`
+Format: `grpadd /g GROUP_NAME [/n CONTACT_NAME]...`
 
 Examples:
-* `grpadd /g Admins`
+* `grpadd /g Experienced`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Creation of group Admins in HitList" src="images/ug/Grpadd_Admins.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before creation of group Experienced in HitList" src="images/ug/Before_Grpadd_Experienced.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Creation of group Experienced in HitList" src="images/ug/Grpadd_Experienced.png" />
   </div>
 </div>
 
 <br>
 
-* `grpadd /g Experienced`
+* `grpadd /g Admins /n Betsy Crowe`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Creation of group Experienced in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before creation of group Admins in HitList" src="images/ug/Before_Grpadd_Admins.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Creation of group Admins in HitList" src="images/ug/Grpadd_Admins.png" />
   </div>
 </div>
 
@@ -284,9 +296,12 @@ Format: `grpdel /g GROUP_NAME`
 Examples:
 * `grpdel /g Admins`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Deletion of group Admins in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Listing of groups" src="images/ug/Before_Grpdel_Admins.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deletion of group Admins in HitList" src="images/ug/Grpdel_Admins.png" />
   </div>
 </div>
 
@@ -294,9 +309,12 @@ Examples:
 
 * `grpdel /g Unemployed`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Deletion of group Unemployed in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Listing of groups" src="images/ug/Before_Grpdel_Unemployed.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deletion of group Unemployed in HitList" src="images/ug/Grpdel_Unemployed.png" />
   </div>
 </div>
 
@@ -328,7 +346,7 @@ Examples:
 
 <div class="row justify-content-center">
   <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="List group members of Experienced group" src="images/ug/Grplist_Students.png" />
+    <img class="img-fluid" alt="List group members of Experienced group" src="images/ug/Grplist_Experienced.png" />
   </div>
 </div>
 
@@ -388,7 +406,7 @@ Examples:
     <img class="img-fluid" alt="Before unassigning of Alex Yeoh from Experienced group" src="images/ug/BeforeGrpunassign_Experienced.png" />
   </div>
   <div class="col">
-    <img class="img-fluid" alt="After unassigning of Alex Yeoh from Experienced group" src="images/ug/BeforeGrpunassign_Experienced.png" />
+    <img class="img-fluid" alt="After unassigning of Alex Yeoh from Experienced group" src="images/ug/AfterGrpunassign_Experienced.png" />
   </div>
 </div>
 
@@ -398,10 +416,10 @@ Examples:
 
 <div class="row">
   <div class="col">
-    <img class="img-fluid" alt="Before unassigning of Betty Crowe from Students group" src="images/ug/BeforeGrpunassign_Students.png" />
+    <img class="img-fluid" alt="Before unassigning of Betsy Crowe from Students group" src="images/ug/BeforeGrpunassign_Students.png" />
   </div>
   <div class="col">
-    <img class="img-fluid" alt="After unassigning of Betty Crowe from Students group" src="images/ug/AfterGrpunassign_Students.png" />
+    <img class="img-fluid" alt="After unassigning of Betsy Crowe from Students group" src="images/ug/AfterGrpunassign_Students.png" />
   </div>
 </div>
 
@@ -419,8 +437,11 @@ Format: `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`
 Examples:
 * `cmpadd /c Google /d Tech giant`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before creation of company Google with description Tech giant" src="images/ug/Before_Cmpadd_Google.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Creation of company Google with description Tech giant" src="images/ug/Cmpadd_Google.png" />
   </div>
 </div>
@@ -429,8 +450,11 @@ Examples:
 
 * `cmpadd /c Meta /d Social media giant`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before creation of company Meta with description Social media giant" src="images/ug/Before_Cmpadd_Meta.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Creation of company Meta with description Social media giant" src="images/ug/Cmpadd_Meta.png" />
   </div>
 </div>
@@ -447,21 +471,27 @@ Format: `cmpdel /c COMPANY_NAME`
 * The company name typed must be the exact company name registered in HitList.
 
 Example:
-* `cmpdel /c Google` deletes a company named `Google` from hitList.
+* `cmpdel /c Google` deletes a company named `Google` from HitList.
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Google" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before deletion of company Meta" src="images/ug/Before_Cmpdel_Google.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Google.png" />
   </div>
 </div>
 
 <br>
 
-* `cmpdel /c Meta` deletes a company named `Meta` from hitList.
+* `cmpdel /c Meta` deletes a company named `Meta` from HitList.
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
-    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before deletion of company Meta" src="images/ug/Before_Cmpdel_Meta.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta.png" />
   </div>
 </div>
 
@@ -474,7 +504,7 @@ Example:
 
 ### Listing all Companies : `cmplist`
 
-Shows a list of all companies in the hitList.
+Shows a list of all companies in the HitList.
 
 Format: `cmplist`
 
@@ -533,8 +563,11 @@ Format: `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`
 Examples:
 * `roleadd /r Quality Assurance Engineer /d Ensures software products meet quality standards by developing test plans /c Google Inc.` adds a role named `Quality Assurance Engineer` to the company `Google`.
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before addition of Quality Assurance Engineer role to company Google Inc." src="images/ug/Before_Roleadd_QualityAssurance.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Addition of Quality Assurance Engineer role to company Google Inc." src="images/ug/Roleadd_QualityAssurance.png" />
   </div>
 </div>
@@ -543,8 +576,11 @@ Examples:
 
 * `roleadd /r DevOps Engineers /d Manages infrastructure and automates deployment processes, bridging the gap between development and IT operations /c Meta Platforms, Inc.` adds a role named `DevOps Engineers` to the company `Meta`.
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before addition of DevOps Engineers role to company Meta Platforms, Inc." src="images/ug/Before_Roleadd_Devops.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Addition of DevOps Engineers role to company Meta Platforms, Inc." src="images/ug/Roleadd_Devops.png" />
   </div>
 </div>
@@ -566,8 +602,11 @@ Format: `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME
 Examples:
 * `roledel /r Quality Assurance Engineer /c Google Inc.` deletes the role named `Quality Assurance Engineer` from the company `Google Inc.`
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Before_Roledel_QualityAssurance.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Roledel_QualityAssurance.png" />
   </div>
 </div>
@@ -576,8 +615,11 @@ Examples:
 
 * `roledel 1 /c Meta Platforms, Inc.` deletes the first role listed in the company `Meta Platforms, Inc.`'s role list.
 
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8">
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before deletion of first role from company Meta Platforms, Inc." src="images/ug/Before_Roledel_Index.png" />
+  </div>
+  <div class="col">
     <img class="img-fluid" alt="Deletion of first role from company Meta Platforms, Inc." src="images/ug/Roledel_Index.png" />
   </div>
 </div>
