@@ -207,7 +207,7 @@ public class AddCompanyRoleCommandTest {
 
         @Override
         public void addCompany(Company company) {
-            companyNamesAdded.add(company.getName());
+            companyNamesAdded.add(company.getCompanyName());
         }
 
         @Override
