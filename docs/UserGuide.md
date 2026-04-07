@@ -21,7 +21,13 @@ HitList is targeted at headhunters who need to manage a large number of contacts
 5. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar hitlist.jar` command to run the application.
 6. A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
 
-![Ui](images/Ui.png)
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <pic src="/images/Ui.png" alt="Ui"></pic>
+  </div>
+</div>
+
+<br>
 
 7. Type the command in the command box and press Enter to execute it.
    e.g. typing **`help`** and pressing Enter will open the help window.
@@ -53,7 +59,13 @@ HitList is targeted at headhunters who need to manage a large number of contacts
 
 Shows a message explaining how to access the help page.
 
-![help message](images/helpMessage.png)
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Help message" src="images/helpMessage.png" />
+  </div>
+</div>
+
+<br>
 
 Format: `help`
 
@@ -69,11 +81,23 @@ Format: `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`
 Examples:
 * `add /n John Doe /p 98765432`
 
-<img width="738" height="601" alt="Add John Doe to HitList" src="images/ug/AddContact_Optional.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Add John Doe to HitList" src="images/ug/AddContact_Optional.png" />
+  </div>
+</div>
+
+<br>
 
 * `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465`
 
-<img width="738" height="601" alt="Add Betsy Crowe to HitList" src="images/ug/AddContact_Full.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Add Betsy Crowe to HitList" src="images/ug/AddContact_Full.png" />
+  </div>
+</div>
+
+<br>
 
 ### Editing a contact : `edit`
 
@@ -89,15 +113,31 @@ Format: `edit INDEX [/n NAME] [/p PHONE] [/e EMAIL] [/a ADDRESS]`
 
 Examples:
 
-<img width="738" height="601" alt="Before Edit of HitList" src="images/ug/BeforeEdit.png" />
-
 * `edit 1 /p 91234567` edits the phone number of the first contact to `91234567`
 
-<img width="738" height="601" alt="Edit 1st Contact number in HitList" src="images/ug/AfterEdit_Contact.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before Edit of HitList" src="images/ug/BeforeEdit.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Edit 1st Contact number in HitList" src="images/ug/AfterEdit_Contact.png" />
+  </div>
+</div>
+
+<br>
 
 * `edit 2 /n Betsy Crower` edits the name of the second contact to `Betsy Crower`
 
-<img width="738" height="601" alt="Edit 2nd Contact Name to Betsy Crowe in HitList" src="images/ug/AfterEdit_Name.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Edit 1st Contact number in HitList" src="images/ug/AfterEdit_Contact.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Edit 2nd Contact Name to Betsy Crowe in HitList" src="images/ug/AfterEdit_Name.png" />
+  </div>
+</div>
+
+<br>
 
 ### Deleting a contact : `delete`
 
@@ -112,13 +152,29 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the second contact in HitList
 
-<img width="738" height="601" alt="Listing of HitList" src="images/ug/BeforeDelete.png" />
-<img width="738" height="601" alt="Deleting of Contact in HitList" src="images/ug/AfterDelete_Index.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Listing of HitList" src="images/ug/BeforeDelete.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deleting of Contact in HitList" src="images/ug/AfterDelete_Index.png" />
+  </div>
+</div>
+
+<br>
 
 * `find Irfan` followed by `delete 1` deletes the first contact in the results of the `find` command
 
-<img width="738" height="601" alt="Find Irfan in HitList" src="images/ug/Find_Irfan.png" />
-<img width="738" height="601" alt="Deleting Irfan in HitList" src="images/ug/AfterDelete.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Find Irfan in HitList" src="images/ug/Find_Irfan.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deleting Irfan in HitList" src="images/ug/AfterDelete.png" />
+  </div>
+</div>
+
+<br>
 
 Format `delete /n CONTACT_NAME`
 
@@ -128,8 +184,21 @@ Format `delete /n CONTACT_NAME`
 Example:
 * `list` followed by `delete /n David Li` deletes the contact named `David Li` from HitList
 
-<img width="738" height="601" alt="Listing of HitList" src="images/ug/BeforeDelete_ByName.png" />
-<img width="738" height="601" alt="Deleting David Li in HitList" src="images/ug/AfterDelete_ByName.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Listing of HitList" src="images/ug/BeforeDelete_ByName.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="Deleting David Li in HitList" src="images/ug/AfterDelete_ByName.png" />
+  </div>
+</div>
+
+<br>
+
+<box theme="danger" header="**CAUTION**">
+    This command deletes the selected contact in HitList. Use with caution.
+    The action is irreversible and there is no confirmation prompt before the action is executed.
+</box>
 
 ### Listing all contacts : `list`
 
@@ -137,7 +206,13 @@ Shows a list of all contacts in the HitList.
 
 Format: `list`
 
-<img width="738" height="601" alt="Before Edit of HitList" src="images/ug/List.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Before Edit of HitList" src="images/ug/List.png" />
+  </div>
+</div>
+
+<br>
 
 ### Locating contacts : `find`
 
@@ -154,11 +229,23 @@ Format: `find [KEYWORD]...`
 Examples:
 * `find John` returns `john` and `John Doe`
 
-<img width="738" height="601" alt="Finding john" src="images/ug/Find_John.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Finding john" src="images/ug/Find_John.png" />
+  </div>
+</div>
+
+<br>
 
 * `find alex david` returns `Alex Yeoh`, `David Li`
 
-<img width="738" height="601" alt="Find Alex and David in HitList" src="images/ug/Find_Alex_David.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Find Alex and David in HitList" src="images/ug/Find_Alex_David.png" />
+  </div>
+</div>
+
+<br>
 
 ### Adding a contact group : `grpadd`
 
@@ -169,11 +256,23 @@ Format: `grpadd /g GROUP_NAME`
 Examples:
 * `grpadd /g Admins`
 
-<img width="738" height="601" alt="Creation of group Admins in HitList" src="images/ug/Grpadd_Admins.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Creation of group Admins in HitList" src="images/ug/Grpadd_Admins.png" />
+  </div>
+</div>
+
+<br>
 
 * `grpadd /g Experienced`
 
-<img width="738" height="601" alt="Creation of group Experienced in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Creation of group Experienced in HitList" src="images/ug/Grpadd_Experienced.png" />
+  </div>
+</div>
+
+<br>
 
 ### Deleting a contact group : `grpdel`
 
@@ -184,17 +283,28 @@ Format: `grpdel /g GROUP_NAME`
 Examples:
 * `grpdel /g Admins`
 
-<img width="738" height="601" alt="Deletion of group Admins in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of group Admins in HitList" src="images/ug/Grpadd_Experienced.png" />
+  </div>
+</div>
+
+<br>
 
 * `grpdel /g Unemployed`
 
-<img width="738" height="601" alt="Deletion of group Unemployed in HitList" src="images/ug/Grpadd_Experienced.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of group Unemployed in HitList" src="images/ug/Grpadd_Experienced.png" />
+  </div>
+</div>
 
-> !NOTE
-> Deleting a contact group does not delete the contacts in that group from HitList. It only deletes the group itself and the association of the contacts to that group.
-> e.g. if `John Doe` is in the `Students` group, and the `Students` group is deleted, `John Doe` will still be in HitList but will no longer be associated with any contact group.
->
-> Group Names are currently case-sensitive, so `Students` and `students` are considered different groups. Hence, deleting `students` will not delete the `Students` group.
+<br>
+
+<box type="warning" header="**WARNING: Irreversible Action**">
+    This command instantly deletes the selected contact group. **There is no confirmation prompt.**
+    Please note that this *only* deletes the group itself and the association of contacts to that group. The actual contacts (e.g., `John Doe`) are not deleted from HitList.
+</box>
 
 ### Listing contacts in a contact group : `grplist`
 
@@ -205,11 +315,23 @@ Format: `grplist /g GROUP_NAME`
 Examples:
 * `grplist /g Students`
 
-<img width="738" height="601" alt="List group members of Students group" src="images/ug/Grplist_Students.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="List group members of Students group" src="images/ug/Grplist_Students.png" />
+  </div>
+</div>
+
+<br>
 
 * `grplist /g Experienced`
 
-<img width="738" height="601" alt="List group members of Experienced group" src="images/ug/Grplist_Students.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="List group members of Experienced group" src="images/ug/Grplist_Students.png" />
+  </div>
+</div>
+
+<br>
 
 ### Assigning a contact to a contact group : `grpassign`
 
@@ -223,13 +345,29 @@ Format: `grpassign /n NAME /g GROUP_NAME`
 Examples:
 * `grpassign /n Alex Yeoh /g Experienced`
 
-<img width="738" height="601" alt="Before Assigning Alex Yeoh to Experienced Group" src="images/ug/BeforeGrpassign_Experienced.png" />
-<img width="738" height="601" alt="After Assigning Alex Yeoh to Experienced Group" src="images/ug/AfterGrpassign_Experienced.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before Assigning Alex Yeoh to Experienced Group" src="images/ug/BeforeGrpassign_Experienced.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="After Assigning Alex Yeoh to Experienced Group" src="images/ug/AfterGrpassign_Experienced.png" />
+  </div>
+</div>
+
+<br>
 
 * `grpassign /n Betsy Crowe /g Students`
 
-<img width="738" height="601" alt="Before Assigning Betsy Crowe to Students Group" src="images/ug/BeforeGrpassign_Students.png" />
-<img width="738" height="601" alt="After Assigning Betsy Crowe to Students Group" src="images/ug/AfterGrpassign_Students.png" />
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before Assigning Betsy Crowe to Students Group" src="images/ug/BeforeGrpassign_Students.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="After Assigning Betsy Crowe to Students Group" src="images/ug/AfterGrpassign_Students.png" />
+  </div>
+</div>
+
+<br>
 
 ### Unassigning a contact from a contact group : `grpunassign`
 
@@ -243,7 +381,30 @@ Format: `grpunassign /n NAME /g GROUP_NAME`
 
 Examples:
 * `grpunassign /n Alex Yeoh /g Experienced`
+
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before unassigning of Alex Yeoh from Experienced group" src="images/ug/BeforeGrpunassign_Experienced.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="After unassigning of Alex Yeoh from Experienced group" src="images/ug/BeforeGrpunassign_Experienced.png" />
+  </div>
+</div>
+
+<br>
+
 * `grpunassign /n Betsy Crowe /g Students`
+
+<div class="row">
+  <div class="col">
+    <img class="img-fluid" alt="Before unassigning of Betty Crowe from Students group" src="images/ug/BeforeGrpunassign_Students.png" />
+  </div>
+  <div class="col">
+    <img class="img-fluid" alt="After unassigning of Betty Crowe from Students group" src="images/ug/AfterGrpunassign_Students.png" />
+  </div>
+</div>
+
+<br>
 
 ### Adding a company : `cmpadd`
 
@@ -257,11 +418,23 @@ Format: `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`
 Examples:
 * `cmpadd /c Google /d Tech giant`
 
-<img width="738" height="601" alt="Creation of company Google with description Tech giant" src="images/ug/Cmpadd_Google.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Creation of company Google with description Tech giant" src="images/ug/Cmpadd_Google.png" />
+  </div>
+</div>
+
+<br>
 
 * `cmpadd /c Meta /d Social media giant`
 
-<img width="738" height="601" alt="Creation of company Meta with description Social media giant" src="images/ug/Cmpadd_Meta.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Creation of company Meta with description Social media giant" src="images/ug/Cmpadd_Meta.png" />
+  </div>
+</div>
+
+<br>
 
 ### Deleting a company : `cmpdel`
 
@@ -275,11 +448,28 @@ Format: `cmpdel /c COMPANY_NAME`
 Example:
 * `cmpdel /c Google` deletes a company named `Google` from hitList.
 
-<img width="738" height="601" alt="Deletion of company Meta" src="images/ug/Cmpdel_Google" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Google" />
+  </div>
+</div>
+
+<br>
 
 * `cmpdel /c Meta` deletes a company named `Meta` from hitList.
 
-<img width="738" height="601" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of company Meta" src="images/ug/Cmpdel_Meta" />
+  </div>
+</div>
+
+<br>
+
+<box theme="danger" header="**CAUTION: Cascading Deletion**">
+    This command instantly deletes the specified company. **There is no confirmation prompt.**
+    Please note that **all roles associated with this company will also be permanently deleted** from HitList. Use with extreme caution.
+</box>
 
 ### Listing all Companies : `cmplist`
 
@@ -287,7 +477,13 @@ Shows a list of all companies in the hitList.
 
 Format: `cmplist`
 
-<img width="738" height="601" alt="List all companies in HitList" src="images/ug/Cmplist.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="List all companies in HitList" src="images/ug/Cmplist.png" />
+  </div>
+</div>
+
+<br>
 
 ### Adding a role to a company : `roleadd`
 
@@ -303,11 +499,23 @@ Format: `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`
 Examples:
 * `roleadd /r Quality Assurance Engineer /d Ensures software products meet quality standards by developing test plans /c Google Inc.` adds a role named `Quality Assurance Engineer` to the company `Google`.
 
-<img width="738" height="601" alt="Addition of Quality Assurance Engineer role to company Google Inc." src="images/ug/Roleadd_QualityAssurance.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Addition of Quality Assurance Engineer role to company Google Inc." src="images/ug/Roleadd_QualityAssurance.png" />
+  </div>
+</div>
+
+<br>
 
 * `roleadd /r DevOps Engineers /d Manages infrastructure and automates deployment processes, bridging the gap between development and IT operations /c Meta Platforms, Inc.` adds a role named `DevOps Engineers` to the company `Meta`.
 
-<img width="738" height="601" alt="Addition of DevOps Engineers role to company Meta Platforms, Inc." src="images/ug/Roleadd_Devops.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Addition of DevOps Engineers role to company Meta Platforms, Inc." src="images/ug/Roleadd_Devops.png" />
+  </div>
+</div>
+
+<br>
 
 ### Deleting a role from a company : `roledel`
 
@@ -324,11 +532,28 @@ Format: `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME
 Examples:
 * `roledel /r "Quality Assurance Engineer" /c Google Inc.` deletes the role named `Quality Assurance Engineer` from the company `Google Inc.`
 
-<img width="738" height="601" alt="Deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Roledel_QualityAssurance.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of Quality Assurance Engineer role from company Google Inc." src="images/ug/Roledel_QualityAssurance.png" />
+  </div>
+</div>
+
+<br>
 
 * `roledel 1 /c Meta Platforms, Inc.` deletes the first role listed in the company `Meta Platforms, Inc.`'s role list.
 
-<img width="738" height="601" alt="Deletion of first role from company Meta Platforms, Inc." src="images/ug/Roledel_Index.png" />
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <img class="img-fluid" alt="Deletion of first role from company Meta Platforms, Inc." src="images/ug/Roledel_Index.png" />
+  </div>
+</div>
+
+<br>
+
+<box theme="danger" header="**CAUTION**">
+    This command deletes the specified role from the company in HitList. Use with caution.
+    The action is irreversible and there is no confirmation prompt before the action is executed.
+</box>
 
 ### Clearing all entries : `clear`
 
@@ -336,9 +561,10 @@ Clears all entries from the HitList.
 
 Format: `clear`
 
-> [!CAUTION]
-> This command deletes all contacts, contact groups, companies, and roles from the HitList. Use with caution.
-> The action is irreversible and there is no confirmation prompt before the action is executed.
+<box type="warning" header="**CAUTION**">
+    This command deletes all contacts, contact groups, companies, and roles from the HitList. Use with caution.
+    The action is irreversible and there is no confirmation prompt before the action is executed.
+</box>
 
 ### Exiting the program : `exit`
 
@@ -366,40 +592,74 @@ _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Glossary
+
+1. `CLI (Command Line Interface)`: A text based interface where you interact with the application by typing commands.
+
+1. `GUI (Graphical User Interface)`: A visual interface allowing users to interact with the software through graphical icons and visual indicators.
+
+1. `JAR (Java ARchive)`: The file format used to distribute the HitList application.
+
+1. `JDK (Java Development Kit)`: The software development environment required to run the Java application.
+
+1. `JSON (JavaScript Object Notation)`: The lightweight data format used by HitList to save your contacts and preferences automatically.
+
+1. `Parameter`: Specific data provided alongside a command to tell the application exactly what to do (for example, supplying a name or phone number).
+
+1. `Index`: The positive integer corresponding to an item in the currently displayed list, used to target specific records for editing or deletion.
+
+1. `Prefix Matching`: A search behavior where typing the beginning of a word matches full words that start with those same letters.
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## FAQ
+
+**Q**: Who is the intended user for HitList?
+
+**A**: HitList is optimized for headhunters managing extensive lists of contacts, roles, and companies, but it remains fully usable by anyone needing efficient contact management.
+
+**Q**: How do I save my progress?
+
+**A**: There is no need to save manually. HitList automatically saves all changes to a JSON file on your hard drive immediately after any command alters the data.
+
+**Q**: Can I undo a deletion?
+
+**A**: No. Commands that remove data, such as deleting contacts, groups, companies, or clearing the entire list, are irreversible and execute immediately without a confirmation prompt. Exercise caution.
 
 **Q**: How do I transfer my data to another Computer?
 
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous HitList home folder.
 
---------------------------------------------------------------------------------------------------------------------
+**Q**: What should I do if the application opens offscreen after I disconnect a second monitor?
 
-## Known issues
+**A**: Locate and delete the preferences.json file in your application folder. This will force HitList to regenerate its display settings and open visibly on your primary screen the next time you launch it.
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+**Q**: Can I edit the data file directly?
+
+**A**: Yes, advanced users can directly edit the hitlist.json file. However, if the formatting becomes invalid, the application will wipe the file and start fresh. It is highly recommended to back up your data before making direct edits.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 
-| Action                      | Format                                                           | Examples                                                                              |
-|-----------------------------|------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| **Getting Help**            | `help`                                                           | `help`                                                                                |
-| **Add contact**             | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`            | `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465` |
-| **Delete contact**          | `delete INDEX`\n`delete /n NAME`                                 | `delete 3`\n`delete /n David Li`                                                      |
-| **Edit contact**            | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]` | `edit 2 /n James Lee /e jameslee@example.com`                                         |
-| **List contacts**           | `list`                                                           | `list`                                                                                |
-| **Find contact(s)**         | `find [KEYWORD]...`                                              | `find John`                                                                           |
-| **Add contact group**       | `grpadd /g GROUP_NAME`                                           | `grpadd /g Students`                                                                  |
-| **Delete contact group**    | `grpdel /g GROUP_NAME`                                           | `grpdel /g Students`                                                                  |
-| **List contact groups**     | `grplist`                                                        | `grplist`                                                                             |
-| **List contacts in group**  | `grplist /g GROUP_NAME`                                          | `grplist /g Students`                                                                 |
-| **Assign contact to group** | `grpassign /n NAME /g GROUP_NAME`                                | `grpassign /n Alex Yeoh /g Students`                                                  |
-| **Unassign contact from group** | `grpunassign /n NAME /g GROUP_NAME`                          | `grpunassign /n Alex Yeoh /g Students`                                                |
-| **Add Company**             | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                  | `cmpadd /c Google /d Tech giant`                                                      |
-| **Delete Company**          | `cmpdel /c COMPANY_NAME`                                         | `cmpdel /c Google`                                                                    |
-| **List Companies**          | `cmplist`                                                        | `cmplist`                                                                             |
-| **Add Role to Company**     | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`       | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
-| **Delete Role from Company** | `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME` | `roledel /r "Software Engineer" /c Google Inc.`<br>`roledel 1 /c Google Inc.` |
-| **Clear**                   | `clear`                                                          | `clear`                                                                               |
-| **Exit**                    | `exit`                                                           | `exit`                                                                                |
+| Action                          | Format                                                                          | Examples                                                                              |
+|---------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| **Getting Help**                | `help`                                                                          | `help`                                                                                |
+| **Add contact**                 | `add /n NAME /p PHONE_NUMBER [/e EMAIL] [/a ADDRESS]`                           | `add /n Betsy Crowe /p 87654321 /e betsy.crowe@gmail.com /a 321, Clementi Rd, 123465` |
+| **Delete contact**              | `delete INDEX`<br>or<br>`delete /n NAME`                                        | `delete 3`<br>or<br>`delete /n David Li`                                              |
+| **Edit contact**                | `edit INDEX [/n NAME] [/p PHONE_NUMBER] [/e EMAIL] [/a ADDRESS]`                | `edit 2 /n James Lee /e jameslee@example.com`                                         |
+| **List contacts**               | `list`                                                                          | `list`                                                                                |
+| **Find contact(s)**             | `find [KEYWORD]...`                                                             | `find John`                                                                           |
+| **Add contact group**           | `grpadd /g GROUP_NAME`                                                          | `grpadd /g Students`                                                                  |
+| **Delete contact group**        | `grpdel /g GROUP_NAME`                                                          | `grpdel /g Students`                                                                  |
+| **List contact groups**         | `grplist`                                                                       | `grplist`                                                                             |
+| **List contacts in group**      | `grplist /g GROUP_NAME`                                                         | `grplist /g Students`                                                                 |
+| **Assign contact to group**     | `grpassign /n NAME /g GROUP_NAME`                                               | `grpassign /n Alex Yeoh /g Students`                                                  |
+| **Unassign contact from group** | `grpunassign /n NAME /g GROUP_NAME`                                             | `grpunassign /n Alex Yeoh /g Students`                                                |
+| **Add Company**                 | `cmpadd /c COMPANY_NAME /d COMPANY_DESCRIPTION`                                 | `cmpadd /c Google /d Tech giant`                                                      |
+| **Delete Company**              | `cmpdel /c COMPANY_NAME`                                                        | `cmpdel /c Google`                                                                    |
+| **List Companies**              | `cmplist`                                                                       | `cmplist`                                                                             |
+| **Add Role to Company**         | `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`                      | `roleadd /r Software Tester /d Tests provided software /c Google Inc.`                |
+| **Delete Role from Company**    | `roledel /r ROLE_NAME /c COMPANY_NAME`<br>or<br>`roledel INDEX /c COMPANY_NAME` | `roledel /r "Software Engineer" /c Google Inc.`<br>or<br>`roledel 1 /c Google Inc.`   |
+| **Clear**                       | `clear`                                                                         | `clear`                                                                               |
+| **Exit**                        | `exit`                                                                          | `exit`                                                                                |
