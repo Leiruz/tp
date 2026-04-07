@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import hitlist.logic.Messages;
 import hitlist.logic.commands.exceptions.CommandException;
 import hitlist.model.ModelStub;
 import hitlist.model.company.Company;
@@ -30,7 +31,7 @@ public class AddCompanyRoleCommandTest {
 
     @Test
     public void constructor_nullRole_throwsNullPointerException() {
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
         assertThrows(NullPointerException.class, () -> new AddCompanyRoleCommand(null, companyName));
     }
 
@@ -56,7 +57,8 @@ public class AddCompanyRoleCommandTest {
 
         CommandResult commandResult = new AddCompanyRoleCommand(validCompanyRole, companyName).execute(modelStub);
 
-        assertEquals(String.format(AddCompanyRoleCommand.MESSAGE_SUCCESS, validCompanyRole.getRoleName()),
+        assertEquals(
+                String.format(AddCompanyRoleCommand.MESSAGE_SUCCESS, Messages.formatCompanyRole(validCompanyRole)),
                 commandResult.getFeedbackToUser());
         assertEquals(List.of(validCompanyRole), modelStub.companyRolesAdded);
         assertEquals(List.of(companyName), modelStub.companyNamesAdded);
@@ -106,8 +108,9 @@ public class AddCompanyRoleCommandTest {
                 .withName(VALID_ROLE_NAME_PRODUCT_MANAGER)
                 .withDescription(VALID_ROLE_DESCRIPTION_PRODUCT_MANAGER)
                 .build();
-        CompanyName companyA = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
-        CompanyName companyB = new CompanyBuilder().withName(VALID_COMPANY_NAME_META).build().getName();
+
+        CompanyName companyA = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
+        CompanyName companyB = new CompanyBuilder().withName(VALID_COMPANY_NAME_META).build().getCompanyName();
 
         AddCompanyRoleCommand addRoleACommand = new AddCompanyRoleCommand(roleA, companyA);
         AddCompanyRoleCommand addRoleBCommand = new AddCompanyRoleCommand(roleB, companyA);
@@ -131,7 +134,8 @@ public class AddCompanyRoleCommandTest {
                 .withName(VALID_ROLE_NAME_SOFTWARE_ENGINEER)
                 .withDescription(VALID_ROLE_DESCRIPTION_SOFTWARE_ENGINEER)
                 .build();
-        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getName();
+        CompanyName companyName = new CompanyBuilder().withName(VALID_COMPANY_NAME_GOOGLE).build().getCompanyName();
+
         AddCompanyRoleCommand addCompanyRoleCommand = new AddCompanyRoleCommand(role, companyName);
 
         String expectedString = AddCompanyRoleCommand.class.getCanonicalName()
@@ -139,14 +143,14 @@ public class AddCompanyRoleCommandTest {
         assertEquals(expectedString, addCompanyRoleCommand.toString());
     }
 
-
     @Test
     public void toString_containsRoleAndCompanyName() {
         Role role = new Role(new RoleName("Software Engineer"), new RoleDescription("Builds"));
         CompanyName company = new CompanyName("Google Inc.");
-        AddCompanyRoleCommand command = new AddCompanyRoleCommand(role, company);
 
+        AddCompanyRoleCommand command = new AddCompanyRoleCommand(role, company);
         String value = command.toString();
+
         assertTrue(value.contains("Software Engineer"));
         assertTrue(value.contains("Google Inc."));
     }
@@ -217,6 +221,7 @@ public class AddCompanyRoleCommandTest {
 
         @Override
         public void updateRoleList(CompanyName companyName) {
+            // no-op for test
         }
     }
 }
