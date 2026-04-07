@@ -506,7 +506,12 @@ Example:
 
 Shows a list of all companies in the HitList.
 
-Format: `cmplist`
+Format: `cmplist [/c COMPANY_NAME]`
+* If the company name is specified, shows the details of that company and its roles.
+* If the company name is not specified, shows a list of all companies in HitList.
+
+Example:
+* `cmplist`
 
 <div class="row justify-content-center">
   <div class="col-12 col-md-8">
@@ -515,6 +520,10 @@ Format: `cmplist`
 </div>
 
 <br>
+
+* `cmplist /c Google Inc.`
+
+* <img width="738" height="601" alt="List details of company Google in HitList" src="images/ug/Cmplist_Google.png" />
 
 ### Locating companies : `cmpfind`
 
