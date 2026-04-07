@@ -173,20 +173,20 @@ A `Role` object represents a role that the headhunter is recruiting for within a
     * Cons: May lead to incomplete company profiles that lack important information, making it harder for the headhunter to manage their client base effectively.
 
 **Aspect: Validation of Company Names:**
-* **Alternative 1:** Use strict regex ^[\p{Alnum}][\p{Alnum} ]*$ to only allow alphanumeric characters and spaces. 
+* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces. 
     * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting. 
     * Cons: Prevents users from adding companies with valid symbols in their names (e.g., 'LEAK X'PRESS' PLUMBING & CONSTRUCTION).
 
-* **Alternative 2 (current choice):** Use a custom regex [^[^\s/][^/\v]{1,29}$] (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 30 characters).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,29}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 30 characters).
     * Pros: Highly flexible for the user. 
     * Cons: Could allow completely nonsensical company names like !!! or ???.
 
 **Aspect: Validation of Company Description:**
-* **Alternative 1:** Use strict regex ^[\p{Alnum}][\p{Alnum} ]*$ to only allow alphanumeric characters and spaces.
+* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
     * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
     * Cons: Prevents users from adding companies with valid symbols in their names (e.g., 'LEAK X'PRESS' PLUMBING & CONSTRUCTION).
 
-* **Alternative 2 (current choice):** Use a custom regex [^[^\s/][^/\v]{1,999}$] (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
     * Pros: Highly flexible for the user.
     * Cons: Could allow completely nonsensical company names like !!! or ???.
 
@@ -235,7 +235,7 @@ Step 4. The `HitListParser` calls the `parse(" /c Google /d Tech Company")` meth
 
 Step 5. The `AddCompanyCommand` is returned to the `LogicManager`, and the `AddCompanyCommandParser` is subsequently destroyed.
 
-<puml src="diagrams/add-company/CompanAddExecution.puml" alt="CompanyAddObjectDiagram" />
+<puml src="diagrams/add-company/CompanyAddExecution.puml" alt="CompanyAddObjectDiagram" />
 
 Step 6. `LogicManager` calls `AddCompanyCommand#execute()`. This command calls `Model#addCompany(companyToAdd)`, passing the parsed company object to update the internal `HitList` state.
 
@@ -255,7 +255,7 @@ The following sequence diagram shows how an AddCompany operation goes through th
 
 The following activity diagram summarizes what happens when a user executes the `cmpadd` command:
 
-<puml src="diagrams/add-company/CompanyAddActivityDiagram.puml" width="250" />
+<puml src="diagrams/add-company/CompanyAddActivityDiagram.puml" />
 
 #### Deleting a company
 
@@ -300,7 +300,7 @@ The following sequence diagram shows how an AddCompany operation goes through th
 
 The following activity diagram summarizes what happens when a user executes the `cmpdel` command:
 
-<puml src="diagrams/delete-company/CompanyDeleteActivityDiagram.puml" width="250" />
+<puml src="diagrams/delete-company/CompanyDeleteActivityDiagram.puml" />
 
 #### Design considerations for Roles Parameters:
 
@@ -314,20 +314,20 @@ The following activity diagram summarizes what happens when a user executes the 
     * Cons: May lead to incomplete company profiles that lack important information, making it harder for the headhunter to manage their client base effectively.
 
 **Aspect: Validation of Role Names:**
-* **Alternative 1:** Use strict regex ^[\p{Alnum}][\p{Alnum} ]*$ to only allow alphanumeric characters and spaces.
+* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
     * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
     * Cons: Prevents users from adding companies with valid symbols in their names (e.g., Front-end Developer).
 
-* **Alternative 2 (current choice):** Use a custom regex [^[^\s/][^/\v]{1,49}$] (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 50 characters).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 50 characters).
     * Pros: Highly flexible for the user.
     * Cons: Could allow completely nonsensical company names like !!! or ???.
 
 **Aspect: Validation of Role Description:**
-* **Alternative 1:** Use strict regex ^[\p{Alnum}][\p{Alnum} ]*$ to only allow alphanumeric characters and spaces.
+* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
     * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
     * Cons: Prevents users from adding companies with valid symbols in their names (e.g., Art Direction + Brand Identity).
 
-* **Alternative 2 (current choice):** Use a custom regex [^[^\s/][^/\v]{1,999}$] (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
     * Pros: Highly flexible for the user.
     * Cons: Could allow completely nonsensical company names like !!! or ???.
 
@@ -396,7 +396,7 @@ The following sequence diagram shows how an AddRole operation goes through the L
 
 The following activity diagram summarizes what happens when a user executes the `roleadd` command:
 
-<puml src="diagrams/add-role/RoleAddActivityDiagram.puml" width="250" />
+<puml src="diagrams/add-role/RoleAddActivityDiagram.puml" />
 
 #### Deleting a role from a specified company
 
@@ -441,7 +441,7 @@ The following sequence diagram shows how a DeleteRole operation goes through the
 
 The following activity diagram summarizes what happens when a user executes the `roledel` command:
 
-<puml src="diagrams/delete-role/RoleDeleteActivityDiagram.puml" width="250" />
+<puml src="diagrams/delete-role/RoleDeleteActivityDiagram.puml" />
 
 ### \[Proposed\] Undo/redo feature
 
@@ -572,25 +572,35 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​    | I want to …​                              | So that I can…​                                                                                  |
-|----------|------------|-------------------------------------------|--------------------------------------------------------------------------------------------------|
-| `* * *`  | Headhunter | add new candidate contacts                | build a database of potential hires for future placements                                        |
-| `* * *`  | Headhunter | delete contacts                           | keep my database uncluttered by removing irrelevant candidates contacts                          |
-| `* * *`  | Headhunter | list contacts                             | easily browse my talent pool to locate specific individuals                                      |
-| `* * *`  | Headhunter | add contact groups                        | keep track of which candidates are headhunted for the companies                                  |
-| `* * *`  | Headhunter | delete contact groups                     | remove the group for a role when it is already filled                                            |
-| `* * *`  | Headhunter | list contact groups                       | view a complete overview of all the job groups I have added to the system                        |
-| `* * *`  | Headhunter | add contacts to contact groups            | build a targeted shortlist of candidates for a specific job opening                              |
-| `* * *`  | Headhunter | delete contacts from contact groups       | keep my shortlist accurate by removing candidates who are no longer in the running for that role |
-| `* * *`  | Headhunter | list contact group members                | easily evaluate and compare all shortlisted candidates for a specific open position              |
-| `* * *`  | Headhunter | add company profile                       | keep track of the companies I am headhunting for                                                 |
-| `* * *`  | Headhunter | delete company profile                    | remove the companies that have stopped using my headhunting services                             |
-| `* * *`  | Headhunter | list all company profile                  | view all companies I am headhunting for to get a high-level overview of my client base           |
-| `* *`    | Headhunter | add company roles to company profile      | maintain comprehensive records of my clients' requirements and contact information               |
-| `* *`    | Headhunter | delete company roles from company profile | keep my client records accurate by removing outdated or incorrect information                    |
-| `* *`    | Headhunter | list specific company profile             | review all the active job placements that particular client has hired me to fill                 |
-
-*{More to be added}*
+| Priority | As a …​    | I want to …​                              | So that I can…​                                                                                           |
+|----------|------------|-------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `* * *`  | Headhunter | add new candidate contacts                | build a database of potential hires for future placements                                                 |
+| `* * *`  | Headhunter | delete candidate contacts                 | keep my database uncluttered and remove candidates who are no longer active in the job market             |
+| `* *`    | Headhunter | edit a candidate's basic contact details  | keep my database updated with their most current phone numbers and emails                                 |
+| `* * *`  | Headhunter | list candidate contacts                   | browse my talent pool to locate specific individuals                                                      |
+| `* *`    | Headhunter | find candidate contacts                   | pull up a specific individual's profile instantly during an unscheduled phone call                        |
+| `* * *`  | Headhunter | add contact groups                        | keep track of which candidates are headhunted for the companies                                           |
+| `* * *`  | Headhunter | delete contact groups                     | remove the group for a role when it is already filled                                                     |
+| `* *`    | Headhunter | edit contact group details                | rename talent segments to stay aligned with evolving job market titles                                    |
+| `* * *`  | Headhunter | list contact groups                       | get a high-level overview of all the active talent niches I am currently managing.                        |
+| `* *`    | Headhunter | find contact groups                       | jump directly to the specific talent pool needed for a new client request                                 |
+| `* * *`  | Headhunter | add contacts to contact groups            | build a targeted shortlist of candidates for a specific job opening                                       |
+| `* * *`  | Headhunter | delete contacts from contact groups       | keep my shortlist accurate by removing candidates who are no longer in the running for that role          |
+| `* *`    | Headhunter | edit contacts in contact groups           | adjust which pipeline a candidate belongs to as their skills evolve                                       |
+| `* * *`  | Headhunter | list contact group members                | easily evaluate and compare all shortlisted candidates for a specific open position                       |
+| `* *`    | Headhunter | find group members                        | identify a subset of candidates within a large shortlist who best match a specific company's requirements |
+| `* * *`  | Headhunter | add company profile                       | keep track of the companies I am headhunting for                                                          |
+| `* * *`  | Headhunter | delete company profile                    | remove the companies that have stopped using my headhunting services                                      |
+| `* *`    | Headhunter | edit company profile                      | ensure the database reflects accurate details if a client rebrands                                        |
+| `* * *`  | Headhunter | list all company profile                  | assess the diversity and volume of my current client portfolio                                            |
+| `* * *`  | Headhunter | list specific company profile             | review the details of a particular client to understand their requirements and preferences                |
+| `* *`    | Headhunter | find specific company profile             | access the history of a client while preparing a contract                                                 |
+| `* * *`  | Headhunter | add company roles to company profile      | maintain comprehensive records of my clients' requirements and contact information                        |
+| `* * *`  | Headhunter | delete company roles from company profile | keep my client records accurate by removing outdated or incorrect information                             |
+| `* *`    | Headhunter | edit company roles                        | update job descriptions as requirements shift                                                             |
+| `* * *`  | Headhunter | list roles for a specific company profile | review all the active job placements that particular client has hired me to fill                          |
+| `* *`    | Headhunter | find roles for a specific company         | match a candidate's unique skillset to a specific opening within a client's firm                          |
+| `* *`    | Headhunter | undo a deletion command                   | restore accidentally removed records without manually re-entering the data.                               |
 
 ### Use cases
 
@@ -630,7 +640,17 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
     Use case ends.
 
-**Use case 3: List contacts**
+**Use case 3: Edit a contact's details**
+
+**MSS**
+
+Similar to Use case 1 (Add a contact), except the user requests to edit an existing contact rather than add a new one, and HitList updates the contact in place.
+
+**Extensions**
+
+Same as Use case 1 (Add a contact).
+
+**Use case 4: List contacts**
 
 **MSS**
 
@@ -646,32 +666,24 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
     Use case ends.
 
-**Use case 4: Add a contact group**
+**Use case 5: Add a contact group**
 
 **MSS**
 
-1. User requests to add a contact group
-2. System creates the contact group
-3. System informs user that the contact group has been created
-
-    Use case ends.
+Similar to Use case 1 (Add a contact), except the user requests to add a contact group, and HitList creates the contact group.
 
 **Extensions**
 
-* 2a. System detects that a company profile with the same name already exists
-    * 2a1. System shows company profile already exists message
+* 1a. System detects that a contact group with the same name already exists
+    * 1a1. System shows contact group already exists message
 
     Use case ends.
 
-**Use case 5: Delete a contact group**
+**Use case 6: Delete a contact group**
 
 **MSS**
 
-1. User requests to delete a contact group
-2. System deletes the contact group
-3. System informs user that the contact group has been deleted
-
-    Use case ends.
+Similar to Use case 2 (Delete a contact), except the user requests to delete a contact group, and HitList deletes the contact group.
 
 **Extensions**
 
@@ -680,14 +692,11 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
     Use case ends.
 
-**Use case 6: List contact groups**
+**Use case 7: List contact groups**
 
 **MSS**
 
-1.  User requests to list all contact groups
-2.  System displays all contacts
-
-    Use case ends.
+Similar to Use case 4 (List contacts), except the user requests to list all contact groups, and HitList displays all contact groups.
 
 **Extensions**
 
@@ -696,50 +705,51 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
     Use case ends.
 
-**Use case 7: Add a contact to a contact group**
+**Use case 8: Add a contact to a contact group**
 
 **MSS**
 
 1. User <u>creates a contact (UC1)</u>
-2. User <u>creates a contact group (UC4)</u>
+2. User <u>creates a contact group (UC5)</u>
 3. User requests to add the contact to the contact group
-4. System creates the contact group
-5. System informs user that the contact group has been created
+4. System adds the contact to the contact group
+5. System informs user that the contact has been added to the contact group
 
     Use case ends.
 
 **Extensions**
 
-* 4a. System detects that the contact is already in the contact group
-    * 4a1. System shows contact is already in the contact group message
-* 4b. System detects that contact group does not exist
-    * 4b1. System shows contact group does not exist message
-* 4c. System detects that contact does not exist
-    * 4c1. System shows contact does not exist message
+* 3a. System detects that the contact is already in the contact group
+    * 3a1. System shows contact is already in the contact group message
+* 3b. System detects that contact group does not exist
+    * 3b1. System shows contact group does not exist message
+* 3c. System detects that contact does not exist
+    * 3c1. System shows contact does not exist message
 
     Use case ends.
 
-**Use case 7: Remove contacts from contact group**
+**Use case 9: Remove contacts from contact group**
 
 **MSS**
 
-1. User requests remove a contact from a contact group
-2. System informs user that the contact has been removed from the contact group
+1. User requests to remove a contact from a contact group
+2. System removes the contact from the contact group
+3. System informs user that the contact has been removed from the contact group
 
     Use case ends.
 
 **Extensions**
 
-* 2a. System detects there is no such contact in the contact group
-    * 2a1. System shows contact is not in the contact group message
-* 2b. System detects that contact group does not exist
-    * 2b1. System shows contact group does not exist message
-* 2c. System detects that contact does not exist
-    * 2c1. System shows contact does not exist message
+* 1a. System detects there is no such contact in the contact group
+    * 1a1. System shows contact is not in the contact group message
+* 1b. System detects that contact group does not exist
+    * 1b1. System shows contact group does not exist message
+* 1c. System detects that contact does not exist
+    * 1c1. System shows contact does not exist message
 
     Use case ends.
 
-**Use case 8: List contact group members**
+**Use case 10: List contact group members**
 
 **MSS**
 
@@ -750,20 +760,18 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
 **Extensions**
 
-* 2a. System detects that the specified contact group does not exist
-    * 2a1. System shows contact group does not exist message
+* 1a. System detects that the specified contact group does not exist
+    * 1a1. System shows contact group does not exist message
+* 2a. System detects that the specified contact group has no members
+    * 2a1. System shows contact group has no members message
 
-    Use case ends.
+  Use case ends.
 
-**Use case 9: Add a company profile**
+**Use case 11: Add a company profile**
 
 **MSS**
 
-1.  User requests to add a company profile
-2.  System creates the company profile
-3.  System confirms that the company profile has been created
-
-    Use case ends.
+Similar to Use case 1 (Add a contact), except the user requests to add a company profile, and HitList creates the company profile.
 
 **Extensions**
 
@@ -772,46 +780,40 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
     Use case ends.
 
-**Use case 10: Delete a company profile**
+**Use case 12: Delete a company profile**
 
 **MSS**
 
-1.  User requests to delete a company profile
-2.  System removes the company profile
-3.  System confirms that the company profile has been deleted
-
-    Use case ends.
+Similar to Use case 2 (Delete a contact), except the user requests to delete a company profile, and HitList removes the company profile.
 
 **Extensions**
 
-* 2a. System detects that the specified company does not exist
-    * 2a1. System shows company profile does not exist message
+* 1a. System detects that the specified company does not exist
+    * 1a1. System shows company profile does not exist message
 
     Use case ends.
 
-**Use case 11: List company profile**
+**Use case 13: List company profiles**
 
 **MSS**
 
-1.  User requests to list company profiles
-2.  System displays all contact group members of the specified contact group
-
-    Use case ends.
+Similar to Use case 4 (List contacts), except the user requests to list all company profiles, and HitList displays all company profiles.
 
 **Extensions**
 
-* 2a. System detects that specified contact group does not exist
-    * 2a1. System shows contact group does not exist message
+* 2a. System detects that there are no company profiles
+    * 2a1. System shows no company profiles message
 
     Use case ends.
 
-**Use case 12: Add company details to company profile**
+**Use case 14: Add role to company profile**
 
 **MSS**
 
-1.  User <u>adds a company profile (UC9)</u>
-2.  User requests to add company details to the company profile
-3.  System confirms that the company details has been updated
+1.  User <u>adds a company profile (UC11)</u>
+2.  User requests to add a company role to the company profile
+3.  System updates the company profile with the new role
+4.  System confirms that the company role has been added
 
     Use case ends.
 
@@ -819,44 +821,46 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 
 * 2a. System detects that the specified company profile does not exist
     * 2a1. System shows company profile does not exist message
-* 2b. System detects that the company details already exist in the company profile
-    *  2b1. System shows company details already exist message
+* 2b. System detects that the company role already exists in the company profile
+    *  2b1. System shows company role already exists message
 
     Use case ends.
 
-**Use case 13: Delete company details from company profile**
+**Use case 15: Delete company role from company profile**
 
 **MSS**
 
-1.  User requests to delete a company detail from a company profile
-2.  System removes the company detail from the company profile
-3.  System confirms that the company detail has been deleted
+1.  User requests to delete a company role from a company profile
+2.  System removes the company role from the company profile
+3.  System confirms that the company role has been deleted
 
     Use case ends.
 
 **Extensions**
 
-* 2a. System detects that the specified company does not exist
-    * 2a1. System shows company profile does not exist message
-* 2b. System detects that the company detail does not exist in the company profile
-    * 2b1. System shows company detail does not exist message
+* 1a. System detects that the specified company profile does not exist
+    * 1a1. System shows company profile does not exist message
+* 1b. System detects that the company role does not exist in the company profile
+    * 1b1. System shows company role does not exist message
 
     Use case ends.
 
-**Use case 14: List a specific company profile**
+**Use case 16: List a specific company profile**
 
 **MSS**
 
 1.  User requests to view a company profile by name
 2.  System retrieves the company profile
-3.  System displays the company name and all stored details
+3.  System displays the company name and all its associated company roles
 
     Use case ends.
 
 **Extensions**
 
-* 1a. System detects that the specified company does not exist
+* 1a. System detects that the specified company profile does not exist
     * 1a1. System shows company profile does not exist message
+* 3a. System detects that the company profile has no associated roles
+    * 3a1. System shows company has no active roles message
 
     Use case ends.
 
@@ -875,6 +879,7 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 ### Contact Non-Functional Requirements
 
 1. The system should be able to support up to 1000 contacts without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contacts.
+2. The system should be able to support at least 10 contact groups for a contact without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact groups for a contact.
 
 ### Contact Group Non-Functional Requirements
 
@@ -884,23 +889,31 @@ For all use cases below, the **System** is the `HitList`, **Actor** is the `user
 ### Company Profile Non-Functional Requirements
 
 1. The system should support at least 100 company profiles without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company profiles.
-
-*{More to be added}*
+2. The system should support at least 50 roles in a company profile without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company roles.
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Above average typing speed**: 40 words per minute (wpm) or more for regular English text (i.e. not code, not system admin commands)
-* **Valid user command**: A user command that is correctly formatted and does not violate any constraints of the system.
-* **Invalid user command**: A user command that is incorrectly formatted or violates constraints of the system.
-* **Contact**: A stored record representing a potential candidate that the headhunter is recruiting for.
-* **Contact Group**: A tag used to identify different contacts and group similar contacts. A contact group can have none to many contacts.
-* **Company Profile**: A stored record representing a client company that the headhunter is recruiting for.
+* **Above average typing speed**: 40 words per minute (wpm) or more for regular English text (i.e. not code, not system admin commands).
+* **API (Application Programming Interface)**: A set of defined rules that allow different software components to communicate with each other.
+* **CLI (Command Line Interface)**: A text-based interface where users interact with the system by typing specific commands.
 * **Company Description**: A detail of a company profile that describes the company. A company profile must have a company description.
+* **Company Profile**: A stored record representing a client company that the headhunter is recruiting for.
 * **Company Role**: A detail of a company profile that describes the role that the headhunter is recruiting for. A company profile may or may not have company roles.
 * **Company Role Description**: A detail describing the role that the headhunter is recruiting for within the company. A company role must have a company role description.
-
-*{More to be added}*
+* **Contact**: A stored record representing a potential candidate that the headhunter is recruiting for.
+* **Contact Group**: A label used to identify different contacts and group similar contacts. A contact group can have none to many contacts.
+* **Data Integrity**: The assurance of the accuracy and consistency of data over its entire life-cycle.
+* **FXML**: An XML-based language used by JavaFX to define the user interface layout.
+* **Invalid user command**: A user command that is incorrectly formatted or violates constraints of the system.
+* **JSON (JavaScript Object Notation)**: A lightweight data-interchange format used by the Storage component to save data to the hard disk.
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
+* **ObservableList**: A specialized list that allows listeners to track changes to its contents. In JavaFX, visual components attach listeners to this list so they can automatically redraw themselves whenever the underlying data is modified.
+* **Parser**: A class responsible for breaking down raw user input into parameters that the system can execute as a Command.
+* **Prefix**: A short identifier (e.g., `/c`, `/d`, `/r`) used in a command to indicate specific data fields.
+* **Regex (Regular Expression)**: A sequence of characters forming a search pattern, used to validate user inputs against specific formatting rules.
+* **Sequence Diagram**: A UML diagram that shows how objects interact in a specific order over time.
+* **Talent Pipeline**: A strategic categorization of candidates organized by their specific skills or progress in the recruitment process.
+* **Valid user command**: A user command that is correctly formatted and does not violate any constraints of the system.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -929,8 +942,6 @@ testers are expected to do more *exploratory* testing.
 
    2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
-
-3. _{ more test cases …​ }_
 
 ### Deleting a person
 
