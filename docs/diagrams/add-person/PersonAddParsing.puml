@@ -1,16 +1,23 @@
-@startuml
+@startuml person-add-parsing
 !include ../style.puml
 skinparam ArrowFontStyle plain
-show objects
 
-object "<u>:HitListParser</u>" as HitListParser LOGIC_COLOR
-object "<u>:AddCommandParser</u>" as AddCommandParser LOGIC_COLOR
-object "<u>c:AddCommand</u>" as AddCommand LOGIC_COLOR
-object "<u>toAdd:Person</u>" as Person MODEL_COLOR
+skinparam shadowing false
+skinparam ObjectFontColor #FFFFFF
+skinparam ObjectAttributeFontColor #FFFFFF
+skinparam ObjectBorderColor #FFFFFF
+
+show objects
+show members
+
+object ":HitListParser" as HitListParser LOGIC_COLOR
+object ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+object "c:AddCommand" as AddCommand LOGIC_COLOR
+object "toAdd:Person" as Person MODEL_COLOR
 
 HitListParser ..> AddCommandParser : creates >
 AddCommandParser ..> AddCommand : creates >
-AddCommand --> "1" Person : contains >
+AddCommand --> Person : contains >
 
 Person : name = "John Doe"
 Person : phone = "98765432"

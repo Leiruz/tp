@@ -1,15 +1,23 @@
-@startuml
+@startuml person-delete-execution
 !include ../style.puml
 skinparam ArrowFontStyle plain
+
+skinparam shadowing false
+skinparam ObjectFontColor #FFFFFF
+skinparam ObjectAttributeFontColor #FFFFFF
+skinparam ObjectBorderColor #FFFFFF
+
 show objects
+show members
 
-object "<u>:LogicManager</u>" as LogicManager LOGIC_COLOR
-object "<u>c:DeleteCommand</u>" as DeleteCommand LOGIC_COLOR
-object "<u>targetName:Name</u>" as Name MODEL_COLOR
-object "<u>:ModelManager</u>" as ModelManager MODEL_COLOR
+object ":LogicManager" as LogicManager LOGIC_COLOR
+object "c:DeleteCommand" as DeleteCommand LOGIC_COLOR
+object "targetName:Name" as Name MODEL_COLOR
+object ":ModelManager" as ModelManager MODEL_COLOR
 
-LogicManager --> "1" DeleteCommand : executes >
-DeleteCommand --> "1" Name : contains >
+LogicManager --> DeleteCommand : executes >
+DeleteCommand --> Name : contains >
 DeleteCommand ..> ModelManager : passes target to >
+
 Name : fullName = "John Doe"
 @enduml

@@ -1,18 +1,26 @@
-@startuml
+@startuml group-add-execution
 !include ../style.puml
 skinparam ArrowFontStyle plain
+
+skinparam shadowing false
+skinparam ObjectFontColor #FFFFFF
+skinparam ObjectAttributeFontColor #FFFFFF
+skinparam ObjectBorderColor #FFFFFF
+
 show objects
+show members
 
-object "<u>:LogicManager</u>" as LogicManager LOGIC_COLOR
-object "<u>c:AddGroupCommand</u>" as AddGroupCommand LOGIC_COLOR
-object "<u>toAdd:Group</u>" as Group MODEL_COLOR
-object "<u>memberNames:Set&lt;Name&gt;</u>" as MemberNames MODEL_COLOR
-object "<u>:ModelManager</u>" as ModelManager MODEL_COLOR
+object ":LogicManager" as LogicManager LOGIC_COLOR
+object "c:AddGroupCommand" as AddGroupCommand LOGIC_COLOR
+object "toAdd:Group" as Group MODEL_COLOR
+object "memberNames:Set<Name>" as MemberNames MODEL_COLOR
+object ":ModelManager" as ModelManager MODEL_COLOR
 
-LogicManager --> "1" AddGroupCommand : executes >
-AddGroupCommand --> "1" Group : contains >
-AddGroupCommand --> "1" MemberNames : contains >
+LogicManager --> AddGroupCommand : executes >
+AddGroupCommand --> Group : contains >
+AddGroupCommand --> MemberNames : contains >
 AddGroupCommand ..> ModelManager : passes group to >
+
 Group : groupName = "Students"
 MemberNames : {"Alex Yeoh", "Bernice Yu"}
 @enduml
