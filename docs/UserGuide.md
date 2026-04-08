@@ -192,7 +192,7 @@ Format: `delete INDEX` or `delete /n NAME` or `del INDEX` or `del /n NAME`
 * Deletes the contact at the specified `INDEX` or the contact with the specified `NAME` from HitList.
 * The index refers to the index number shown in the displayed HitList.
 * The index **must be a positive integer** `1, 2, 3, …`
-* The contact name must exactly match an existing contact in HitList.
+* The contact name (case-insensitive) must exactly match an existing contact in HitList.
 * Either the index or the name can be used to delete a contact, but not both at the same time.
 
 Examples:
@@ -322,6 +322,9 @@ Deletes the specified contact group from HitList.
 
 <box type="warning" header="**WARNING: Irreversible Action**">
     This command instantly deletes the selected contact group. <b>There is no confirmation prompt.</b>
+</box>
+
+<box type="info" seamless>
     Please note that this <b>only</b> deletes the group itself and the association of contacts to that group. The actual contacts (e.g., `John Doe`) are not deleted from HitList.
 </box>
 
