@@ -18,7 +18,7 @@ public class FindCompanyCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all companies whose names contain "
         + "the provided substring (case-insensitive).\n"
-        + "Parameters: [KEYWORD]...\n"
+        + "Parameters: KEYWORD...\n"
         + "Example: " + COMMAND_WORD + " Google";
 
     private final CompanyMatchesFindPredicate predicate;

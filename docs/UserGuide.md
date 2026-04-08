@@ -253,7 +253,7 @@ Format: `list`
 
 Finds contacts whose names match the given substring.
 
-Format: `find [KEYWORD]...`
+Format: `find KEYWORD...`
 
 * Name search is case-insensitive.
   e.g. `han` matches `Hans`

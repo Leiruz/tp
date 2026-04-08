@@ -17,7 +17,7 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names match "
             + "any given prefix (case-insensitive).\n"
-            + "Parameters: [KEYWORD]... \n"
+            + "Parameters: KEYWORD... \n"
             + "Example: " + COMMAND_WORD + " Han";
 
     private final PersonMatchesFindPredicate predicate;
