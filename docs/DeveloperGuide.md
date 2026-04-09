@@ -401,11 +401,15 @@ The following object diagram shows the important objects created during parsing:
   <puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEditParsing" />
 </div>
 
+<br>
+
 The following object diagram shows the important objects involved during execution:
 
 <div class="text-center">
   <puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEditExecution" />
 </div>
+
+<br>
 
 The following object diagram shows the model state after successful execution:
 
@@ -413,17 +417,23 @@ The following object diagram shows the model state after successful execution:
   <puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEditPostExecution" />
 </div>
 
+<br>
+
 The following sequence diagram shows how an EditPerson operation goes through the Logic component:
 
 <div class="text-center">
   <puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagramLogic" />
 </div>
 
+<br>
+
 The following activity diagram summarizes what happens when a user executes the `edit` command:
 
 <div class="text-center">
   <puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
 </div>
+
+<br>
 
 #### Finding a person
 
@@ -466,11 +476,15 @@ The following object diagram shows the important objects created during parsing:
   <puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFindParsing" />
 </div>
 
+<br>
+
 The following object diagram shows the important objects involved during execution:
 
 <div class="text-center">
   <puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFindExecution" />
 </div>
+
+<br>
 
 The following object diagram shows the model state after successful execution:
 
@@ -478,17 +492,23 @@ The following object diagram shows the model state after successful execution:
   <puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFindPostExecution" />
 </div>
 
+<br>
+
 The following sequence diagram shows how a FindPerson operation goes through the Logic component:
 
 <div class="text-center">
   <puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagramLogic" />
 </div>
 
+<br>
+
 The following activity diagram summarizes what happens when a user executes the `find` command:
 
 <div class="text-center">
   <puml src="diagrams/find-person/PersonFindActivityDiagram.puml" alt="PersonFindActivityDiagram" />
 </div>
+
+<br>
 
 ### Group
 
