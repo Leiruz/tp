@@ -568,19 +568,6 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <br>
 
-#### Finding groups
-
-
-
-#### Assigning a contact to a group
-
-
-
-#### Removing a contact from a group
-
-
-
-
 ### Company Profile
 
 A `Company` object represents a company profile. It has the following details:
