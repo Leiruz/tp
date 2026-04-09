@@ -1,4 +1,4 @@
-@startuml role-delete-parsing /' Renames the file to kebab-case when exported as an image.'/
+@startuml company-find-parsing /' Renames the file to kebab-case when exported as an image.'/
 !include ../style.puml
 skinparam ArrowFontStyle plain
 
@@ -11,12 +11,13 @@ show objects
 show members
 
 object "<u>:HitListParser</u>" as HitListParser LOGIC_COLOR
-object "<u>:DeleteCompanyRoleCommandParser</u>" as Parser LOGIC_COLOR
-object "<u>d:DeleteCompanyRoleCommand</u>" as Command LOGIC_COLOR
+object "<u>:FindCompanyCommandParser</u>" as Parser LOGIC_COLOR
+object "<u>f:FindCompanyCommand</u>" as Command LOGIC_COLOR
+object "<u>:CompanyMatchesFindPredicate</u>" as Predicate LOGIC_COLOR
 
 HitListParser ..> Parser : creates >
 Parser ..> Command : creates >
+Command *--> Predicate : contains >
 
-Command : companyName = "Google"
-Command : roleName = "Software Engineer"
+Predicate : keywords = ["Google"]
 @enduml

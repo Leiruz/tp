@@ -1,4 +1,4 @@
-@startuml company-delete-post-execution /' Renames the file to kebab-case when exported as an image.'/
+@startuml company-find-post-execution /' Renames the file to kebab-case when exported as an image.'/'
 !include ../style.puml
 skinparam ArrowFontStyle plain
 
@@ -12,14 +12,14 @@ show members
 
 object "<u>:ModelManager</u>" as ModelManager MODEL_COLOR
 object "<u>:HitList</u>" as HitList MODEL_COLOR
-object "<u>:UniqueCompanyList</u>" as UniqueCompanyList MODEL_COLOR
+object "<u>:FilteredList<Company></u>" as FilteredList MODEL_COLOR
 
 ModelManager --> HitList
-HitList --> UniqueCompanyList
+ModelManager --> FilteredList
 
-note right of UniqueCompanyList
-  The Company object representing
-  "Google" has been removed from
-  the list and deleted from memory.
+note right of FilteredList
+  The FilteredList has been updated
+  with the CompanyMatchesFindPredicate
+  to display only matching Company objects.
 end note
 @enduml

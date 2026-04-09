@@ -26,6 +26,8 @@ pageNav: 3
             * [Design considerations for Company Commands:](#design-considerations-for-company-commands)
             * [Adding a company](#adding-a-company)
             * [Deleting a company](#deleting-a-company)
+            * [Listing company profiles](#listing-company-profiles)
+            * [Finding company profiles](#finding-company-profiles)
             * [Design considerations for Roles Parameters:](#design-considerations-for-roles-parameters)
             * [Design considerations for Roles Commands:](#design-considerations-for-roles-commands)
             * [Adding a role to a specified company](#adding-a-role-to-a-specified-company)
@@ -40,9 +42,9 @@ pageNav: 3
         * [User stories](#user-stories)
         * [Use cases](#use-cases)
         * [Non-Functional Requirements](#non-functional-requirements)
-        * [Contact Non-Functional Requirements](#contact-non-functional-requirements)
-        * [Contact Group Non-Functional Requirements](#contact-group-non-functional-requirements)
-        * [Company Profile Non-Functional Requirements](#company-profile-non-functional-requirements)
+          * [Contact Non-Functional Requirements](#contact-non-functional-requirements)
+          * [Contact Group Non-Functional Requirements](#contact-group-non-functional-requirements)
+          * [Company Profile Non-Functional Requirements](#company-profile-non-functional-requirements)
         * [Glossary](#glossary)
     * [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
         * [Launch and shutdown](#launch-and-shutdown)
@@ -90,12 +92,24 @@ The bulk of the app's work is done by the following four components:
 
 The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
 
+<div class="text-center">
+  <puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
+</div>
+
+<br>
+
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
 * implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point. For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface.
 
-Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
+For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
+
+<div class="text-center">
+  <puml src="diagrams/ComponentManagers.puml" width="300" />
+</div>
+
+<br>
 
 The sections below give more details of each component.
 
@@ -104,6 +118,11 @@ The sections below give more details of each component.
 The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/ui/Ui.java)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `CompanyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+<div class="text-center">
+  <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
+</div>
+
+<br>
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 
@@ -122,7 +141,21 @@ The `UI` component,
 
 Here's a (partial) class diagram of the `Logic` component:
 
+<div class="text-center">
+  <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
+</div>
+
+<br>
+
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
+
+<div class="text-center">
+  <puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
@@ -136,6 +169,12 @@ How the `Logic` component works:
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
+<div class="text-center">
+  <puml src="diagrams/ParserClasses.puml" width="600"/>
+</div>
+
+<br>
+
 How the parsing works:
 
 * When called upon to parse a user command, the `HitListParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `HitListParser` returns back as a `Command` object.
@@ -144,9 +183,11 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+<div class="text-center">
+  <puml src="diagrams/ModelClassDiagram.puml" width="450" />
+</div>
 
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+<br>
 
 The `Model` component,
 
@@ -158,6 +199,12 @@ The `Model` component,
 ### Storage component
 
 **API** : [`Storage.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/storage/Storage.java)
+
+<div class="text-center">
+  <puml src="diagrams/StorageClassDiagram.puml" width="550" />
+</div>
+
+<br>
 
 The `Storage` component,
 
@@ -531,21 +578,49 @@ Step 3. Recognizing the `cmpadd` command word, the `HitListParser` instantiates 
 
 Step 4. The `HitListParser` calls the `parse(" /c Google /d Tech Company")` method of the newly created `AddCompanyCommandParser`. The parser extracts the company details, creates a new Company object (representing Google), and passes it into the constructor of a new `AddCompanyCommand`.
 
+<div class="text-center">
+  <puml src="diagrams/add-company/CompanyAddParsing.puml" alt="CompanyAddObjectDiagram-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `AddCompanyCommand` is returned to the `LogicManager`, and the `AddCompanyCommandParser` is subsequently destroyed.
 
-<puml src="diagrams/add-company/CompanyAddExecution.puml" alt="CompanyAddObjectDiagram" />
+<div class="text-center">
+  <puml src="diagrams/add-company/CompanyAddExecution.puml" alt="CompanyAddObjectDiagram-Execution" />
+</div>
+
+<br>
 
 Step 6. `LogicManager` calls `AddCompanyCommand#execute()`. This command calls `Model#addCompany(companyToAdd)`, passing the parsed company object to update the internal `HitList` state.
 
 Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
+<div class="text-center">
+  <puml src="diagrams/add-company/CompanyAddPostExecution.puml" alt="CompanyAddObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
 The following sequence diagram shows how an AddCompany operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/add-company/CompanyAddSequenceDiagram-Logic.puml" alt="CompanyAddSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** The lifeline for `AddCompanyCommand` and `AddCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 The following activity diagram summarizes what happens when a user executes the `cmpadd` command:
 
-<puml src="diagrams/add-company/CompanyAddActivityDiagram.puml" />
+<div class="text-center">
+  <puml src="diagrams/add-company/CompanyAddActivityDiagram.puml" alt="CompanyAddActivityDiagram" />
+</div>
+
+<br>
 
 #### Deleting a company
 
@@ -567,19 +642,181 @@ Step 3. Recognizing the `cmpdel` command word, the `HitListParser` instantiates 
 
 Step 4. The `HitListParser` calls the `parse(" /c Google")` method of the newly created `DeleteCompanyCommandParser`. The parser extracts the target company name, creates a new `DeleteCompanyCommand` targeting "Google", and returns it. (Note: If the user had typed `cmpdel 1`, the parser would extract the index instead).
 
+<div class="text-center">
+  <puml src="diagrams/delete-company/CompanyDeleteParsing.puml" alt="CompanyDeleteObjectDiagram-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `DeleteCompanyCommand` is returned to the `LogicManager`, and the `DeleteCompanyCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+  <puml src="diagrams/delete-company/CompanyDeleteExecution.puml" alt="CompanyDeleteObjectDiagram-Execution" />
+</div>
+
+<br>
 
 Step 6. `LogicManager` calls `DeleteCompanyCommand#execute()`. The command retrieves the target company and calls `Model#deleteCompany(target)` to remove it from the internal HitList state.
 
 Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
+<div class="text-center">
+  <puml src="diagrams/delete-company/CompanyDeletePostExecution.puml" alt="CompanyDeleteObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
 The following sequence diagram shows how an AddCompany operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/delete-company/CompanyDeleteSequenceDiagram-Logic.puml" alt="CompanyDeleteSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** The lifeline for `DeleteCompanyCommand` and `DeleteCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 The following activity diagram summarizes what happens when a user executes the `cmpdel` command:
 
-<puml src="diagrams/delete-company/CompanyDeleteActivityDiagram.puml" />
+<div class="text-center">
+  <puml src="diagrams/delete-company/CompanyDeleteActivityDiagram.puml" alt="CompanyDeleteActivityDiagram" />
+</div>
+
+<br>
+
+#### Listing company profiles
+
+The ListCompany mechanism is facilitated by `ListCompanyCommand` and its associated parser `ListCompanyCommandParser`. It allows users to list all company profiles or a specified company profile in the HitList. The feature implements the following key operations: 
+
+* `ListCompanyCommandParser#parse()` — Parses the user input to check for an optional target company name (indicated by the `/c` prefix). If a name is provided, it creates a command to filter for that company; otherwise, it creates a command to show all companies.
+* `ListCompanyCommand#execute()` — Executes the logic to apply the parsed filtering condition to the list of companies in the model.
+* `Model#updateFilteredCompanyList()` — Updates the HitList's filtered list within the Model state to display only the companies that match the applied condition.
+
+Given below is an example usage scenario and how the ListCompany mechanism behaves at each step.
+
+Step 1. The user launches the application and types `cmplist` (to see all) or `cmplist /c Google` (to find a specific company) into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand()`.
+
+Step 3. Recognizing the `cmplist` command word, the `HitListParser` instantiates a `ListCompanyCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse()` method of the newly created `ListCompanyCommandParser`. The parser checks the arguments:
+
+If no argument is provided: It creates a `ListCompanyCommand` containing the `PREDICATE_SHOW_ALL_COMPANIES`.
+
+If an argument is provided: It extracts the company name and creates a `ListCompanyCommand` containing a predicate specific to that target company.
+
+<div class="text-center">
+  <puml src="diagrams/list-company/CompanyListParsing.puml" alt="CompanyListObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 5. The `ListCompanyCommand` is returned to the `LogicManager`, and the `ListCompanyCommandParser` is subsequently destroyed.
+
+Step 6. `LogicManager` calls `ListCompanyCommand#execute()`. This command calls `Model#updateFilteredCompanyList(predicate)`, passing the specific predicate determined in Step 4 to filter the internal `HitList` state.
+
+<div class="text-center">
+  <puml src="diagrams/list-company/CompanyListExecution.puml" alt="CompanyListObjectDiagram-Execution" />
+</div>
+
+<br>
+
+Step 7. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` simply returns the `CommandResult` to the UI to display the updated list and a success message to the user.
+
+<div class="text-center">
+  <puml src="diagrams/list-company/CompanyListPostExecution.puml" alt="CompanyListObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how a ListCompany operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/list-company/CompanyListSequenceDiagram-Logic.puml" alt="CompanyListSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `ListCompanyCommand` and `ListCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `cmplist` command, highlighting the branching logic based on user input:
+
+<div class="text-center">
+  <puml src="diagrams/list-company/CompanyListActivityDiagram.puml" alt="CompanyListActivityDiagram" />
+</div>
+
+<br>
+
+#### Finding company profiles
+
+The FindCompany mechanism is facilitated by `FindCompanyCommand` and its associated parser `FindCompanyCommandParser`. It allows users to find company profiles in the HitList based on a search keyword. The feature implements the following key operations:
+
+* `FindCompanyCommandParser#parse()` — Parses the user input to extract the search keywords.
+* `FindCompanyCommand#execute()` — Executes the logic to apply the parsed search condition to the list of companies in the model.
+* `Model#updateFilteredCompanyList()` — Updates the HitList's filtered list within the Model state to display only the companies that match the applied search condition.
+
+Given below is an example usage scenario and how the FindCompany mechanism behaves at each step.
+
+Step 1. The user launches the application and types `cmpfind Google` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("cmpfind Google")`.
+
+Step 3. Recognizing the `cmpfind` command word, the `HitListParser` instantiates a `FindCompanyCommandParser`.
+
+Step 4. The `HitListParser` calls the `parse("Google")` method of the newly created `FindCompanyCommandParser`. The parser extracts the search keyword, creates a new `FindCompanyCommand` containing a predicate specific to that keyword, and returns it.
+
+<div class="text-center">
+  <puml src="diagrams/find-company/CompanyFindParsing.puml" alt="CompanyFindObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 5. The `FindCompanyCommand` is returned to the `LogicManager`, and the `FindCompanyCommandParser` is subsequently destroyed.
+
+Step 6. `LogicManager` calls `FindCompanyCommand#execute()`. This command calls `Model#updateFilteredCompanyList(predicate)`, passing the specific predicate determined in Step 4 to filter the internal `HitList` state.
+
+<div class="text-center">
+  <puml src="diagrams/find-company/CompanyFindExecution.puml" alt="CompanyFindObjectDiagram-Execution" />
+</div>
+
+<br>
+
+Step 7. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` simply returns the `CommandResult` to the UI to display the updated list and a success message to the user.
+
+<div class="text-center">
+  <puml src="diagrams/find-company/CompanyFindPostExecution.puml" alt="CompanyFindObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how a FindCompany operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/find-company/CompanyFindSequenceDiagram-Logic.puml" alt="CompanyFindSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `FindCompanyCommand` and `FindCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `cmpfind` command:
+
+<div class="text-center">
+  <puml src="diagrams/find-company/CompanyFindActivityDiagram.puml" alt="CompanyFindActivityDiagram" />
+</div>
+
+<br>
 
 #### Design considerations for Roles Parameters:
 
@@ -650,17 +887,51 @@ Step 4. The `HitListParser` calls the `parse(" /c Google /r Software Engineer /d
 
 Step 5. The `AddCompanyRoleCommand` is returned to the `LogicManager`, and the `AddCompanyRoleCommandParser` is subsequently destroyed.
 
+<div class="text-center">
+  <puml src="diagrams/add-role/RoleAddParsing.puml" alt="RoleAddObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 5. The `AddCompanyRoleCommand` is returned to the `LogicManager`, and the `AddCompanyRoleCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+  <puml src="diagrams/add-role/RoleAddExecution.puml" alt="RoleAddObjectDiagram-Execution" />
+</div>
+
+<br>
+
 Step 6. `LogicManager` calls `AddCompanyRoleCommand#execute()`. This command calls `Model#addCompanyRole(targetCompany, roleToAdd)`, passing the target company and the parsed role object to update the internal `HitList` state.
 
 Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
 The following sequence diagram shows how an AddRole operation goes through the Logic component:
 
+<div class="text-center">
+  <puml src="diagrams/add-role/RoleAddPostExecution.puml" alt="RoleAddObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how an AddRole operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/add-role/RoleAddSequenceDiagram-Logic.puml" alt="RoleAddSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
 **Note:** The lifeline for `AddCompanyRoleCommand` and `AddCompanyRoleCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 The following activity diagram summarizes what happens when a user executes the `roleadd` command:
 
-<puml src="diagrams/add-role/RoleAddActivityDiagram.puml" />
+<div class="text-center">
+  <puml src="diagrams/add-role/RoleAddActivityDiagram.puml" alt="RoleAddActivityDiagram" />
+</div>
+
+<br>
 
 #### Deleting a role from a specified company
 
@@ -682,27 +953,68 @@ Step 3. Recognizing the `roledel` command word, the `HitListParser` instantiates
 
 Step 4. The `HitListParser` calls the `parse(" /c Google /r Software Engineer")` method of the newly created `DeleteCompanyRoleCommandParser`. The parser extracts the target company name, role name, creates a new `DeleteCompanyRoleCommand` targeting the "Software Engineer" role in "Google", and returns it.
 
-(Note: If the user had typed `roledel /c Google 1`, the parser would extract the role index instead).
+<div class="text-center">
+  <puml src="diagrams/delete-role/RoleDeleteParsing.puml" alt="RoleDeleteObjectDiagram-Parsing" />
+</div>
+
+<br>
 
 Step 5. The `DeleteCompanyRoleCommand` is returned to the `LogicManager`, and the `DeleteCompanyRoleCommandParser` is subsequently destroyed.
+
+<div class="text-center">
+  <puml src="diagrams/delete-role/RoleDeleteExecution.puml" alt="RoleDeleteObjectDiagram-Execution" />
+</div>
+
+<br>
 
 Step 6. `LogicManager` calls `DeleteCompanyRoleCommand#execute()`. The command retrieves the target company and role, and calls `Model#deleteCompanyRole(targetCompany, targetRole)` to remove the role from the target company in the internal HitList state.
 
 Step 7. Finally, `Storage` saves the updated `HitList` to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
+<div class="text-center">
+  <puml src="diagrams/delete-role/RoleDeletePostExecution.puml" alt="RoleDeleteObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
 The following sequence diagram shows how a DeleteRole operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/delete-role/RoleDeleteSequenceDiagram-Logic.puml" alt="RoleDeleteSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** The lifeline for `DeleteCompanyRoleCommand` and `DeleteCompanyRoleCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 The following activity diagram summarizes what happens when a user executes the `roledel` command:
 
-<puml src="diagrams/delete-role/RoleDeleteActivityDiagram.puml" />
+<div class="text-center">
+  <puml src="diagrams/delete-role/RoleDeleteActivityDiagram.puml" alt="RoleDeleteActivityDiagram" />
+</div>
+
+<br>
 
 ### [Proposed] Undo/redo feature
 
+#### Design considerations:
+
+**Aspect: How undo & redo executes:**
+
+* **Alternative 1 (current choice):** Saves the entire HitList.
+    * Pros: Easy to implement.
+    * Cons: May have performance issues in terms of memory usage.
+
+* **Alternative 2:** Individual command knows how to undo/redo by
+  itself.
+    * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+    * Cons: We must ensure that the implementation of each individual command are correct.
+
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedHitList`. It extends `HitList` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedHitList`. It extends `HitList` with an undo/redo history, stored internally as an `hitListStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
 * `VersionedHitList#commit()` — Saves the current HitList state in its history.
 * `VersionedHitList#undo()` — Restores the previous HitList state from its history.
@@ -714,44 +1026,96 @@ Given below is an example usage scenario and how the undo/redo mechanism behaves
 
 Step 1. The user launches the application for the first time. The `VersionedHitList` will be initialized with the initial HitList state, and the `currentStatePointer` pointing to that single HitList state.
 
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+</div>
+
+<br>
+
 Step 2. The user executes `delete 5` command to delete the 5th person in HitList. The `delete` command calls `Model#commitHitList()`, causing the modified state of HitList after the `delete 5` command executes to be saved in the `hitListStateList`, and the `currentStatePointer` is shifted to the newly inserted HitList state.
 
-Step 3. The user executes `add n/David …` to add a new person. The `add` command also calls `Model#commitHitList()`, causing another modified HitList state to be saved into the `hitListStateList`.
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+</div>
+
+<br>
+
+Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitHitList()`, causing another modified HitList state to be saved into the `hitListStateList`.
+
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** If a command fails its execution, it will not call `Model#commitHitList()`, so HitList state will not be saved into the `hitListStateList`.
 
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoHitList()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous HitList state, and restores HitList to that state.
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial HitList state, then there are no previous HitList states to restore. The `undo` command uses `Model#canUndoHitList()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** If the `currentStatePointer` is at index 0, pointing to the initial HitList state, then there are no previous HitList states to restore. The `undo` command uses `Model#canUndoHitList()` to check if this is the case. If so, it will return an error to the user rather
+than attempting to perform the undo.
+
+</box>
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
+
+<div class="text-center">
+  <puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
 
 **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
 
-The `redo` command does the opposite — it calls `Model#redoHitList()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores HitList to that state.
+<div class="text-center">
+  <puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+</div>
+
+<br>
+
+The `redo` command does the opposite — it calls `Model#redoHitList()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores HitList to that state.
+
+<box type="info" seamless>
 
 **Note:** If the `currentStatePointer` is at index `hitListStateList.size() - 1`, pointing to the latest HitList state, then there are no undone HitList states to restore. The `redo` command uses `Model#canRedoHitList()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify HitList, such as `list`, will usually not call `Model#commitHitList()`, `Model#undoHitList()` or `Model#redoHitList()`. Thus, the `hitListStateList` remains unchanged.
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `hitListStateList`, all HitList states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …` command. This is the behavior that most modern desktop applications follow.
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+</div>
+
+<br>
+
+Step 6. The user executes `clear`, which calls `Model#commitHitList()`. Since the `currentStatePointer` is not pointing at the end of the `hitListStateList`, all HitList states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+
+<div class="text-center">
+  <puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+</div>
+
+<br>
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
-#### Design considerations:
+<div class="text-center">
+  <puml src="diagrams/CommitActivityDiagram.puml" width="250" alt="CommitActivityDiagram" />
+</div>
 
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire HitList.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-* **Alternative 2:** Individual command knows how to undo/redo by itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
+<br>
 
 ### [Proposed] Data archiving
 
@@ -821,7 +1185,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 For all use cases below, the **System** is the `HitList`, **Actor** is the `user` and **Precondition** is the `app actively runs and runs on Java 17`, unless specified otherwise
 
-**Use case 1: Add a contact**
+<box header="#### Use case 1: Add a contact">
 
 **MSS**
 
@@ -836,9 +1200,10 @@ Use case ends.
 * 1a. System detects that a contact with the same phone number already exists.
   * 1a1. System shows previously added contact with the same phone number message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 2: Delete a contact**
+<box header="#### Use case 2: Delete a contact">
 
 **MSS**
 
@@ -853,9 +1218,10 @@ Use case ends.
 * 1a. System detects that the requested contact does not exist.
   * 1a1. System shows requested contact does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 3: Edit a contact's details**
+<box header="#### Use case 3: Edit a contact's details">
 
 **MSS**
 
@@ -864,8 +1230,9 @@ Similar to Use case 1 (Add a contact), except the user requests to edit an exist
 **Extensions**
 
 Same as Use case 1 (Add a contact).
+</box>
 
-**Use case 4: List contacts**
+<box header="#### Use case 4: List contacts">
 
 **MSS**
 
@@ -879,9 +1246,10 @@ Use case ends.
 * 2a. System detects that the contact list is empty
   * 2a1. System shows contact list is empty message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 5: Add a contact group**
+<box header="#### Use case 5: Add a contact group">
 
 **MSS**
 
@@ -892,9 +1260,10 @@ Similar to Use case 1 (Add a contact), except the user requests to add a contact
 * 1a. System detects that a contact group with the same name already exists
     * 1a1. System shows contact group already exists message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 6: Delete a contact group**
+<box header="#### Use case 6: Delete a contact group">
 
 **MSS**
 
@@ -905,9 +1274,10 @@ Similar to Use case 2 (Delete a contact), except the user requests to delete a c
 * 1a. System detects that the contact group does not exist.
   * 1a1. System shows contact group does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 7: List contact groups**
+<box header="#### Use case 7: List contact groups">
 
 **MSS**
 
@@ -918,9 +1288,10 @@ Similar to Use case 4 (List contacts), except the user requests to list all cont
 * 2a. System detects that there are no contact groups
   * 2a1. System shows no contact groups message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 8: Add a contact to a contact group**
+<box header="#### Use case 8: Add a contact to a contact group">
 
 **MSS**
 
@@ -941,9 +1312,10 @@ Use case ends.
 * 3c. System detects that contact does not exist
     * 3c1. System shows contact does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 9: Remove contacts from contact group**
+<box header="#### Use case 9: Remove contacts from contact group">
 
 **MSS**
 
@@ -962,9 +1334,10 @@ Use case ends.
 * 1c. System detects that contact does not exist
     * 1c1. System shows contact does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 10: List contact group members**
+<box header="#### Use case 10: List contact group members">
 
 **MSS**
 
@@ -980,9 +1353,10 @@ Use case ends.
 * 2a. System detects that the specified contact group has no members
     * 2a1. System shows contact group has no members message
 
-Use case ends.
+  Use case ends.
+</box>
 
-**Use case 11: Add a company profile**
+<box header="#### Use case 11: Add a company profile">
 
 **MSS**
 
@@ -993,9 +1367,10 @@ Similar to Use case 1 (Add a contact), except the user requests to add a company
 * 1a. System detects that a company profile with the same name already exists
   * 1a1. System shows company profile already exists message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 12: Delete a company profile**
+<box header="#### Use case 12: Delete a company profile">
 
 **MSS**
 
@@ -1006,9 +1381,10 @@ Similar to Use case 2 (Delete a contact), except the user requests to delete a c
 * 1a. System detects that the specified company does not exist
     * 1a1. System shows company profile does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 13: List company profiles**
+<box header="#### Use case 13: List company profiles">
 
 **MSS**
 
@@ -1019,9 +1395,10 @@ Similar to Use case 4 (List contacts), except the user requests to list all comp
 * 2a. System detects that there are no company profiles
     * 2a1. System shows no company profiles message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 14: Add role to company profile**
+<box header="#### Use case 14: Add role to company profile">
 
 **MSS**
 
@@ -1039,9 +1416,10 @@ Use case ends.
 * 2b. System detects that the company role already exists in the company profile
     *  2b1. System shows company role already exists message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 15: Delete company role from company profile**
+<box header="#### Use case 15: Delete company role from company profile">
 
 **MSS**
 
@@ -1058,9 +1436,10 @@ Use case ends.
 * 1b. System detects that the company role does not exist in the company profile
     * 1b1. System shows company role does not exist message
 
-Use case ends.
+    Use case ends.
+</box>
 
-**Use case 16: List a specific company profile**
+<box header="#### Use case 16: List a specific company profile">
 
 **MSS**
 
@@ -1077,9 +1456,10 @@ Use case ends.
 * 3a. System detects that the company profile has no associated roles
     * 3a1. System shows company has no active roles message
 
-Use case ends.
+    Use case ends.
+</box>
 
-*{More to be added}*
+---
 
 ### Non-Functional Requirements
 
@@ -1091,17 +1471,17 @@ Use case ends.
 6. The system should remain responsive while processing invalid user commands and should return an appropriate error message.
 7. The system should be able to support case-insensitive unique identifiers for contacts, contact groups and company profiles.
 
-### Contact Non-Functional Requirements
+#### Contact Non-Functional Requirements
 
 1. The system should be able to support up to 1000 contacts without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contacts.
 2. The system should be able to support at least 10 contact groups for a contact without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact groups for a contact.
 
-### Contact Group Non-Functional Requirements
+#### Contact Group Non-Functional Requirements
 
 1. The system should be able to support at least 500 contact groups without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact groups.
 2. The system should be able to support at least 100 contacts in a contact group without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of contact group members.
 
-### Company Profile Non-Functional Requirements
+#### Company Profile Non-Functional Requirements
 
 1. The system should support at least 100 company profiles without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company profiles.
 2. The system should support at least 50 roles in a company profile without exceeding the 2 seconds response time limit for operations such as adding, deleting, listing of company roles.
@@ -1125,6 +1505,7 @@ Use case ends.
 * **ObservableList**: A specialized list that allows listeners to track changes to its contents. In JavaFX, visual components attach listeners to this list so they can automatically redraw themselves whenever the underlying data is modified.
 * **Parser**: A class responsible for breaking down raw user input into parameters that the system can execute as a Command.
 * **Prefix**: A short identifier (e.g., `/c`, `/d`, `/r`) used in a command to indicate specific data fields.
+* **Predicate**: A condition or filtering rule that evaluates to a true or false result. It acts as a test against an item to determine if it matches specific search criteria and should be currently displayed in the user interface.
 * **Regex (Regular Expression)**: A sequence of characters forming a search pattern, used to validate user inputs against specific formatting rules.
 * **Sequence Diagram**: A UML diagram that shows how objects interact in a specific order over time.
 * **Talent Pipeline**: A strategic categorization of candidates organized by their specific skills or progress in the recruitment process.
@@ -1151,18 +1532,41 @@ Given below are instructions to test the app manually.
 
 ### Deleting a person
 
-1. Deleting a person while all persons are being shown
+1. Deleting a person while a filtered list of persons is being shown (Index Deletion)
+
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-   2. Test case: `delete 1`
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-   3. Test case: `delete 0`
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)
-      Expected: Similar to previous.
-2. _{ more test cases … }_
+
+   2. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+
+   3. Test case: `delete 0`<br>
+      Expected: No person is deleted. Error details shown in the status message.
+
+   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the filtered list size)<br>
+      Expected: Invalid command format error details shown in the status message.
+
+3. Deleting a person while a filtered list of persons is being shown (Name Deletion)
+
+    1. Test case: `delete /n Alice`<br>
+        Expected: Contact with name "Alice" is deleted from the HitList. Details of the deleted contact shown in the status message.
+    
+    2. Test case: `delete /n NonExistentName`<br>
+        Expected: No person is deleted. Error details shown in the status message.
+    
+    3. Other incorrect delete commands to try: `delete`, `delete /n`, `...`<br>
+        Expected: Invalid command format error details shown in the status message.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-2. _{ more test cases … }_
+1. Dealing with missing data files
+
+   1. Navigate to the folder where the jar file is located. Delete the `data` folder.
+
+   2. Launch the app by double-clicking the jar file. Expected: The app should create a new `data` folder and a new `hitlist.json` file within it, and the app should run without any errors.
+
+2. Dealing with corrupted data files
+
+   1. Navigate to the folder where the jar file is located. Open the `data` folder and open `hitlist.json` in a text editor. Replace the contents of `hitlist.json` with random text that does not conform to the expected JSON format.
+
+   2. Save the file and launch the app by double-clicking the jar file.<br>
+       Expected: The app should parse the corrupted `hitlist.json` file, fail to load the data, and start with an empty HitList. The app should run without any errors.
