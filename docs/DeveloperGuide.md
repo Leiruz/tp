@@ -1,7 +1,7 @@
 ---
 layout: default.md
 title: "Developer Guide"
-pageNav: 3
+pageNav: 4
 ---
 
 # HitList Developer Guide
@@ -37,7 +37,7 @@ pageNav: 3
           * [Listing groups](#listing-groups)
           * [Finding groups](#finding-groups)
           * [Assigning a contact to a group](#assigning-a-contact-to-a-group)
-          * [Removing a contact from a group](#removing-a-contact-from-a-group)
+          * [Unassigning a contact from a group](#unassigning-a-contact-from-a-group)
       * [Company Profile](#company-profile)
           * [Design considerations for Company Parameters:](#design-considerations-for-company-parameters)
           * [Design considerations for Company Commands:](#design-considerations-for-company-commands)
