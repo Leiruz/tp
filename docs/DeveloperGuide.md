@@ -25,7 +25,9 @@ pageNav: 4
           * [Design considerations for Person Parameters:](#design-considerations-for-person-parameters)
           * [Design considerations for Person Commands:](#design-considerations-for-person-commands)
           * [Adding a person](#adding-a-person)
+          * [Deleting a person](#deleting-a-person)
           * [Editing a person](#editing-a-person)
+          * [Listing a person](#listing-a-person)
           * [Finding a person](#finding-a-person)
       * [Group](#group)
           * [Design considerations for Group Parameters:](#design-considerations-for-group-parameters)
@@ -33,7 +35,6 @@ pageNav: 4
           * [Adding a group](#adding-a-group)
           * [Deleting a group](#deleting-a-group)
           * [Listing groups](#listing-groups)
-          * [Finding groups](#finding-groups)
           * [Assigning a contact to a group](#assigning-a-contact-to-a-group)
           * [Unassigning a contact from a group](#unassigning-a-contact-from-a-group)
       * [Company Profile](#company-profile)
@@ -50,7 +51,6 @@ pageNav: 4
         * [\[Proposed\] Undo/redo feature](#proposed-undoredo-feature)
             * [Proposed Implementation](#proposed-implementation)
             * [Design considerations:](#design-considerations)
-        * [\[Proposed\] Data archiving](#proposed-data-archiving)
     * [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
     * [Appendix: Requirements](#appendix-requirements)
         * [Product scope](#product-scope)
@@ -84,7 +84,11 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ### Architecture
 
-<puml src="diagrams/ArchitectureDiagram.puml" width="280" />
+<div class="text-center">
+  <puml src="diagrams/ArchitectureDiagram.puml" width="280" />
+</div>
+
+<br>
 
 The ***Architecture Diagram*** given above explains the high-level design of the App.
 
@@ -102,8 +106,7 @@ The bulk of the app's work is done by the following four components:
 * [**`Logic`**](#logic-component): The command executor.
 * [**`Model`**](#model-component): Holds the data of the App in memory.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
-
-[**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
+* [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
 **How the architecture components interact with each other**
 
@@ -132,9 +135,10 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/ui/Ui.java)
+**API** : [`Ui.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/ui/Ui.java)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `CompanyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+
 <div class="text-center">
   <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 </div>
@@ -173,8 +177,8 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+</box>
 
 How the `Logic` component works:
 
@@ -198,6 +202,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
+
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-W11-2/tp/blob/master/src/main/java/hitlist/model/Model.java)
 
 <div class="text-center">
@@ -251,7 +256,6 @@ A `Person` object represents a contact in the HitList. It has the following deta
 #### Design considerations for Person Parameters:
 
 **Aspect: Person Field Requirements:**
-
 * **Alternative 1 (current choice):** Require both name and phone, while keeping email and address optional.
   * Pros: Ensures every contact has enough information for the headhunter to identify and reach out to the person.
   * Cons: Requires slightly more typing than a minimal single-field command.
@@ -259,25 +263,55 @@ A `Person` object represents a contact in the HitList. It has the following deta
   * Pros: Speeds up quick data entry when the user only wants to capture a lead.
   * Cons: Makes the contact list harder to read and distinguish during later follow-up.
 
-**Aspect: Handling Duplicate Persons:**
+**Aspect: Validation of Name**
+* **Alternative 1:** Use strict alphanumeric regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow letters, numbers, and spaces.
+    * **Pros:** Highly secure and prevents users from entering symbols, scripts, or malformed data that could break CLI formatting.
+    * **Cons:** Culturally exclusive and restrictive. It blocks completely valid names that contain punctuation (e.g., O'Connor, Mary-Jane).
+* **Alternative 2:** Use a custom regex `^[A-Za-z’-][A-Za-z\s'-]*$` to enforce starting with a letter, allowing only spaces, apostrophes, and hyphens thereafter.
+    * **Pros:** Accommodates common Western naming conventions and punctuation while still blocking nonsensical symbols like `???` or `!!!`.
+    * **Cons:** Excludes non-English characters (e.g., accents like `é` or Asian characters) and fails on valid names with periods (e.g., `St. John`).
 
-* **Alternative 1 (current choice):** Reject duplicates based on the contact's phone number.
-  * Pros: A phone number is a strong practical identifier for recruiter workflows and prevents obvious duplicates.
-  * Cons: It does not handle the edge case where the same person legitimately uses more than one number.
-* **Alternative 2:** Reject duplicates based on the full set of person fields.
-  * Pros: Allows multiple entries that share a phone number but differ in other details.
-  * Cons: Makes duplicate detection weaker and increases the chance of cluttering HitList with repeated contacts.
+**Aspect: Validation of Phone**
+* **Alternative 1:** Use strict regex `^[0-9]{8}$` to explicitly require exactly 8 digits.
+    * **Pros:** Enforces strict data consistency, ensuring all numbers match local (Singaporean) phone number formats perfectly.
+    * **Cons:** Completely breaks down if a user needs to input international numbers, country codes (e.g., `+65`), or extensions.
+* **Alternative 2:** Use a custom regex `^\d{3,}$` to allow any string of digits with a minimum length of 3.
+    * **Pros:** Highly flexible, easily accommodating international numbers of varying lengths.
+    * **Cons:** Too permissive; it allows users to enter obviously fake numbers (like `123`) and doesn't enforce standard spacing or formatting.
+
+**Aspect: Validation of Email**
+* **Alternative 1:** Use a standard, widely accepted email regex like `^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$`.
+    * **Pros:** Easier to read, maintain, and debug. It catches 99% of standard email formats without overcomplicating the codebase.
+    * **Cons:** May reject highly obscure but technically valid emails defined by edge cases in the RFC 5322 specification.
+* **Alternative 2:** Use the strict, custom regex `^[^\W_]+([+_.-][^\W_]+)*@([^\W_]+(-[^\W_]+)*\.)*([^\W_]+(-[^\W_]+)*){2,}$` to tightly control character placement.
+    * **Pros:** Extremely precise validation that enforces strict alphanumeric boundaries for local and domain parts, ensuring very clean data.
+    * **Cons:** The regex is highly complex, difficult to read, and hard to update if email validation rules need to be adjusted in the future.
+
+**Aspect: Validation of Address**
+* **Alternative 1:** Use a controlled regex `^[\p{Alnum}][\p{Alnum}\s,.-/#]*$` that allows alphanumeric characters and standard address punctuation (spaces, commas, periods, hyphens, slashes, and hashes).
+    * **Pros:** Prevents garbled input while comfortably allowing standard address formatting, including unit numbers (e.g., #12-34) and block/street divisions.
+    * **Cons:** Requires maintaining a list of allowed symbols. If an unexpected but valid symbol is used internationally, the address will be rejected.
+* **Alternative 2:** Use a custom regex `^[^\s].*` to simply enforce that the string cannot start with a whitespace character.
+    * **Pros:** Maximum flexibility; guarantees the user can enter any valid global address format without artificial restrictions.
+    * **Cons:** Extremely permissive; allows users to enter a single punctuation mark or complete gibberish as long as it doesn't start with a space.
 
 #### Design considerations for Person Commands:
 
 **Aspect: Command Format for Parameters:**
-
 * **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g. `/n` for name, `/p` for phone, `/e` for email and `/a` for address).
   * Pros: Clear and unambiguous parsing of parameters, especially when values contain spaces.
   * Cons: Requires the user to remember the prefixes.
 * **Alternative 2:** Use a fixed parameter order without prefixes.
   * Pros: Slightly shorter command format.
   * Cons: Parsing becomes more brittle when optional fields are involved.
+
+**Aspect: Handling Duplicate Persons:**
+* **Alternative 1 (current choice):** Reject duplicates based on the contact's name and phone number.
+    * Pros: A phone number is a strong practical identifier for recruiter workflows and prevents obvious duplicates.
+    * Cons: It does not handle the edge case where the users have more than one number or when users have the same name.
+* **Alternative 2:** Reject duplicates based on the full set of person fields.
+    * Pros: Allows multiple entries that share the same phone number and name.
+    * Cons: Makes duplicate detection harder and increases the chance of cluttering HitList with repeated contacts.
 
 #### Adding a person
 
@@ -297,35 +331,49 @@ Step 3. Recognizing the `add` command word, the `HitListParser` instantiates an 
 
 Step 4. The `HitListParser` calls the `parse(" /n John Doe /p 98765432 /e johnd@example.com /a 311, Clementi Ave 2, #02-25")` method of the newly created `AddCommandParser`. The parser extracts the person details, creates a new `Person` object (representing John Doe), and passes it into the constructor of a new `AddCommand`.
 
+<div class="text-center">
+  <puml src="diagrams/add-person/PersonAddParsing.puml" alt="PersonAdd-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `AddCommand` is returned to the `LogicManager`, and the `AddCommandParser` is subsequently destroyed.
 
 Step 6. `LogicManager` calls `AddCommand#execute()`. This command calls `Model#addPerson(toAdd)`, passing the parsed person object to update the internal HitList state.
 
+<div class="text-center">
+  <puml src="diagrams/add-person/PersonAddExecution.puml" alt="PersonAdd-Execution" />
+</div>
+
+<br>
+
 Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
-The following object diagram shows the important objects created during parsing:
+<div class="text-center">
+  <puml src="diagrams/add-person/PersonAddPostExecution.puml" alt="PersonAdd-PostExecution" />
+</div>
 
-<puml src="diagrams/add-person/PersonAddParsing.puml" alt="PersonAddParsing" />
-
-The following object diagram shows the important objects involved during execution:
-
-<puml src="diagrams/add-person/PersonAddExecution.puml" alt="PersonAddExecution" />
-
-The following object diagram shows the model state after successful execution:
-
-<puml src="diagrams/add-person/PersonAddPostExecution.puml" alt="PersonAddPostExecution" />
+<br>
 
 The following sequence diagram shows how an AddPerson operation goes through the Logic component:
 
-<puml src="diagrams/add-person/PersonAddSequenceDiagram-Logic.puml" alt="PersonAddSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/add-person/PersonAddSequenceDiagram-Logic.puml" alt="PersonAddSequenceDiagram-Logic" />
+</div>
+
+<br>
 
 <box type="info" seamless header="Note">
-**Note:** The lifeline for `AddCommand` and `AddCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>AddCommand</b> and <b>AddCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `add` command:
 
-<puml src="diagrams/add-person/PersonAddActivityDiagram.puml" alt="PersonAddActivityDiagram" />
+<div class="text-center">
+  <puml src="diagrams/add-person/PersonAddActivityDiagram.puml" alt="PersonAddActivityDiagram" />
+</div>
+
+<br>
 
 #### Deleting a person
 
@@ -347,35 +395,49 @@ Step 3. Recognizing the `delete` command word, the `HitListParser` instantiates 
 
 Step 4. The `HitListParser` calls the `parse(" /n John Doe")` method of the newly created `DeleteCommandParser`. The parser extracts the target name, creates a new `DeleteCommand` targeting `John Doe`, and returns it. (Note: If the user had typed `delete 1`, the parser would extract the index instead.)
 
+<div class="text-center">
+  <puml src="diagrams/delete-person/PersonDeleteParsing.puml" alt="PersonDelete-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `DeleteCommand` is returned to the `LogicManager`, and the `DeleteCommandParser` is subsequently destroyed.
 
 Step 6. `LogicManager` calls `DeleteCommand#execute()`. The command retrieves the target person and calls `Model#deletePerson(target)` to remove it from the internal HitList state.
 
+<div class="text-center">
+  <puml src="diagrams/delete-person/PersonDeleteExecution.puml" alt="PersonDelete-Execution" />
+</div>
+
+<br>
+
 Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
-The following object diagram shows the important objects created during parsing:
+<div class="text-center">
+  <puml src="diagrams/delete-person/PersonDeletePostExecution.puml" alt="PersonDelete-PostExecution" />
+</div>
 
-<puml src="diagrams/delete-person/PersonDeleteParsing.puml" alt="PersonDeleteParsing" />
-
-The following object diagram shows the important objects involved during execution:
-
-<puml src="diagrams/delete-person/PersonDeleteExecution.puml" alt="PersonDeleteExecution" />
-
-The following object diagram shows the model state after successful execution:
-
-<puml src="diagrams/delete-person/PersonDeletePostExecution.puml" alt="PersonDeletePostExecution" />
+<br>
 
 The following sequence diagram shows how a DeletePerson operation goes through the Logic component:
 
-<puml src="diagrams/delete-person/PersonDeleteSequenceDiagram-Logic.puml" alt="PersonDeleteSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/delete-person/PersonDeleteSequenceDiagram-Logic.puml" alt="PersonDeleteSequenceDiagram-Logic" />
+</div>
+
+<br>
 
 <box type="info" seamless header="Note">
-**Note:** The lifeline for `DeleteCommand` and `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>DeleteCommand</b> and <b>DeleteCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `delete` command:
 
-<puml src="diagrams/delete-person/PersonDeleteActivityDiagram.puml" alt="PersonDeleteActivityDiagram" />
+<div class="text-center">
+  <puml src="diagrams/delete-person/PersonDeleteActivityDiagram.puml" alt="PersonDeleteActivityDiagram" />
+</div>
+
+<br>
 
 #### Editing a person
 
@@ -404,32 +466,26 @@ Step 3. Recognizing the `edit` command word, the `HitListParser` instantiates an
 Step 4. The `HitListParser` calls the `parse(" 1 /n John Doe /p 98765432 ...")` method of the newly created `EditCommandParser`.  
 The parser extracts the target index and new field values, creates an `EditPersonDescriptor`, then constructs a new `EditCommand` targeting the person at index `1`.
 
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEdit-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `EditCommand` is returned to the `LogicManager`, and the `EditCommandParser` is subsequently destroyed.
 
 Step 6. `LogicManager` calls `EditCommand#execute()`. The command retrieves the target person, applies the edits using the `EditPersonDescriptor`, and calls `Model#setPerson(personToEdit, editedPerson)` to update the internal HitList state.
 
+<div class="text-center">
+  <puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEdit-Execution" />
+</div>
+
+<br>
+
 Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
-The following object diagram shows the important objects created during parsing:
-
 <div class="text-center">
-  <puml src="diagrams/edit-person/PersonEditParsing.puml" alt="PersonEditParsing" />
-</div>
-
-<br>
-
-The following object diagram shows the important objects involved during execution:
-
-<div class="text-center">
-  <puml src="diagrams/edit-person/PersonEditExecution.puml" alt="PersonEditExecution" />
-</div>
-
-<br>
-
-The following object diagram shows the model state after successful execution:
-
-<div class="text-center">
-  <puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEditPostExecution" />
+  <puml src="diagrams/edit-person/PersonEditPostExecution.puml" alt="PersonEdit-PostExecution" />
 </div>
 
 <br>
@@ -437,7 +493,7 @@ The following object diagram shows the model state after successful execution:
 The following sequence diagram shows how an EditPerson operation goes through the Logic component:
 
 <div class="text-center">
-  <puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagramLogic" />
+  <puml src="diagrams/edit-person/PersonEditSequenceDiagram-Logic.puml" alt="PersonEditSequenceDiagram-Logic" />
 </div>
 
 <br>
@@ -446,6 +502,67 @@ The following activity diagram summarizes what happens when a user executes the 
 
 <div class="text-center">
   <puml src="diagrams/edit-person/PersonEditActivityDiagram.puml" alt="PersonEditActivityDiagram" />
+</div>
+
+<br>
+
+#### Listing a person
+
+The List mechanism is facilitated by `ListCommand`. It allows users to list all person contacts in the HitList. The feature implements the following key operations:
+
+* `ListCommand#execute()` - Executes the logic to apply the `PREDICATE_SHOW_ALL_PERSONS` filter to the list of persons in the model.
+* `Model#updateFilteredPersonList()` - Updates the HitList's filtered list within the Model state to display all persons.
+
+Given below is an example usage scenario and how the List mechanism behaves at each step.
+
+Step 1. The user launches the application and types `list` into the command box.
+
+Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("list")`.
+
+Step 3. Recognizing the `list` command word, the `HitListParser` directly creates a `ListCommand` (since there are no arguments to parse).
+
+<div class="text-center">
+  <puml src="diagrams/list/ListParsing.puml" alt="ListObjectDiagram-Parsing" />
+</div>
+
+<br>
+
+Step 4. The `ListCommand` is returned to the `LogicManager`.
+
+<div class="text-center">
+  <puml src="diagrams/list/ListExecution.puml" alt="ListObjectDiagram-Execution" />
+</div>
+
+<br>
+
+Step 5. `LogicManager` calls `ListCommand#execute()`. This command calls `Model#updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` to reset the filtered list in the internal `HitList` state to show all persons.
+
+Step 6. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` simply returns the `CommandResult` to the UI to display the updated list and a success message to the user.
+
+<div class="text-center">
+  <puml src="diagrams/list/ListPostExecution.puml" alt="ListObjectDiagram-PostExecution" />
+</div>
+
+<br>
+
+The following sequence diagram shows how a List operation goes through the Logic component:
+
+<div class="text-center">
+  <puml src="diagrams/list/ListSequenceDiagram.puml" alt="ListSequenceDiagram-Logic" />
+</div>
+
+<br>
+
+<box type="info" seamless>
+
+**Note:** The lifeline for `ListCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+The following activity diagram summarizes what happens when a user executes the `list` command:
+
+<div class="text-center">
+  <puml src="diagrams/list/ListActivityDiagram.puml" alt="ListActivityDiagram" />
 </div>
 
 <br>
@@ -488,7 +605,7 @@ Step 7. Finally, the `LogicManager` returns the `CommandResult` to the UI to dis
 The following object diagram shows the important objects created during parsing:
 
 <div class="text-center">
-  <puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFindParsing" />
+  <puml src="diagrams/find-person/PersonFindParsing.puml" alt="PersonFind-Parsing" />
 </div>
 
 <br>
@@ -496,7 +613,7 @@ The following object diagram shows the important objects created during parsing:
 The following object diagram shows the important objects involved during execution:
 
 <div class="text-center">
-  <puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFindExecution" />
+  <puml src="diagrams/find-person/PersonFindExecution.puml" alt="PersonFind-Execution" />
 </div>
 
 <br>
@@ -504,7 +621,7 @@ The following object diagram shows the important objects involved during executi
 The following object diagram shows the model state after successful execution:
 
 <div class="text-center">
-  <puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFindPostExecution" />
+  <puml src="diagrams/find-person/PersonFindPostExecution.puml" alt="PersonFind-PostExecution" />
 </div>
 
 <br>
@@ -512,10 +629,14 @@ The following object diagram shows the model state after successful execution:
 The following sequence diagram shows how a FindPerson operation goes through the Logic component:
 
 <div class="text-center">
-  <puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagramLogic" />
+  <puml src="diagrams/find-person/PersonFindSequenceDiagram-Logic.puml" alt="PersonFindSequenceDiagram-Logic" />
 </div>
 
 <br>
+
+<box type="info" seamless header="Note">
+The lifeline for <b>FindCommand</b> and <b>FindCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `find` command:
 
@@ -535,24 +656,31 @@ A `Group` object represents a contact group in HitList. It has the following det
 #### Design considerations for Group Parameters:
 
 **Aspect: Group Field Requirements:**
-
-* **Alternative 1 (current choice):** Require a group name and make member names optional.
+* **Alternative 1 (current choice):** Require only a group name and allow groups to be created without members.
   * Pros: Allows users to create an empty group first and populate it later.
-  * Cons: The command may produce groups that are temporarily incomplete.
+  * Cons: Groups without members may be less meaningful and could clutter the HitList if users create many placeholder groups.
 * **Alternative 2:** Require at least one member when creating a group.
   * Pros: Ensures every group is meaningful immediately after creation.
   * Cons: Prevents users from creating placeholder groups for future shortlisting work.
+
+**Aspect: Validation of Group Names**
+* **Alternative 1 (current choice):** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
+  * Pros: Enforces clean, predictable group names, preventing users from accidentally entering malformed data or using symbols that might break the CLI formatting.
+  * Cons: Overly restrictive. It prevents users from creating perfectly valid group names that rely on standard punctuation (e.g., `C++ Developers`, `Front-end Techs`, or `R&D Team`).
+* **Alternative 2:** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, cannot contain '/' or newlines, and must be between 2 and 50 characters in length).
+  * Pros: Highly flexible, allowing users to naturally categorize contacts using helpful symbols like hyphens, ampersands, or brackets (e.g., "Interns (2025)").
+  * Cons: Too permissive; it could allow users to create completely nonsensical group names consisting entirely of random punctuation, like `!!!` or `???`.
 
 #### Design considerations for Group Commands:
 
 **Aspect: Command Format for Parameters:**
 
 * **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g. `/g` for group name and repeated `/n` prefixes for member names).
-  * Pros: Supports variable numbers of members while keeping parsing explicit.
-  * Cons: Slightly increases typing for the user.
-* **Alternative 2:** Accept the group name first and treat all remaining tokens as member names.
-  * Pros: Shorter command format.
-  * Cons: Harder to parse correctly when names contain spaces.
+  * Pros: Clear and unambiguous parsing of parameters, especially when there are multiple parameters.
+  * Cons: Requires users to remember and use specific prefixes.
+* **Alternative 2:** Use a fixed order of parameters without prefixes (e.g., `grpadd Students Alex`).
+  * Pros: Simpler command format, less typing for users.
+  * Cons: Parsing can be more error-prone, especially if parameters can contain spaces or if there are optional parameters.
 
 **Aspect: Handling Duplicate Groups:**
 
@@ -583,35 +711,49 @@ Step 3. Recognizing the `grpadd` command word, the `HitListParser` instantiates 
 
 Step 4. The `HitListParser` calls the `parse(" /g Students /n Alex Yeoh /n Bernice Yu")` method of the newly created `AddGroupCommandParser`. The parser extracts the group details, creates a new `Group` object (representing `Students`) together with the set of member names, and passes them into the constructor of a new `AddGroupCommand`.
 
+<div class="text-center">
+  <puml src="diagrams/add-group/GroupAddParsing.puml" alt="GroupAdd-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `AddGroupCommand` is returned to the `LogicManager`, and the `AddGroupCommandParser` is subsequently destroyed.
 
 Step 6. `LogicManager` calls `AddGroupCommand#execute()`. This command calls `Model#addGroup(toAdd)` to add the group to the internal HitList state, and then resolves each provided member name against existing contacts before adding the matched `Person` objects to the group.
 
+<div class="text-center">
+  <puml src="diagrams/add-group/GroupAddExecution.puml" alt="GroupAdd-Execution" />
+</div>
+
+<br>
+
 Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
-The following object diagram shows the important objects created during parsing:
+<div class="text-center">
+  <puml src="diagrams/add-group/GroupAddPostExecution.puml" alt="GroupAdd-PostExecution" />
+</div>
 
-<puml src="diagrams/add-group/GroupAddParsing.puml" alt="GroupAddParsing" />
-
-The following object diagram shows the important objects involved during execution:
-
-<puml src="diagrams/add-group/GroupAddExecution.puml" alt="GroupAddExecution" />
-
-The following object diagram shows the model state after successful execution:
-
-<puml src="diagrams/add-group/GroupAddPostExecution.puml" alt="GroupAddPostExecution" />
+<br>
 
 The following sequence diagram shows how an AddGroup operation goes through the Logic component:
 
-<puml src="diagrams/add-group/GroupAddSequenceDiagram-Logic.puml" alt="GroupAddSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/add-group/GroupAddSequenceDiagram-Logic.puml" alt="GroupAddSequenceDiagram-Logic" />
+</div>
+
+<br>
 
 <box type="info" seamless header="Note">
-**Note:** The lifeline for `AddGroupCommand` and `AddGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>AddGroupCommand</b> and <b>AddGroupCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `grpadd` command:
 
-<puml src="diagrams/add-group/GroupAddActivityDiagram.puml" alt="GroupAddActivityDiagram" />
+<div class="text-center">
+  <puml src="diagrams/add-group/GroupAddActivityDiagram.puml" alt="GroupAddActivityDiagram" />
+</div>
+
+<br>
 
 #### Deleting a group
 
@@ -633,35 +775,49 @@ Step 3. Recognizing the `grpdel` command word, the `HitListParser` instantiates 
 
 Step 4. The `HitListParser` calls the `parse(" /g Students")` method of the newly created `DeleteGroupCommandParser`. The parser extracts the target group name, creates a new `DeleteGroupCommand` targeting `Students`, and returns it.
 
+<div class="text-center">
+  <puml src="diagrams/delete-group/GroupDeleteParsing.puml" alt="GroupDelete-Parsing" />
+</div>
+
+<br>
+
 Step 5. The `DeleteGroupCommand` is returned to the `LogicManager`, and the `DeleteGroupCommandParser` is subsequently destroyed.
 
 Step 6. `LogicManager` calls `DeleteGroupCommand#execute()`. The command retrieves the target group and calls `Model#deleteGroup(toDelete)` to remove it from the internal HitList state.
 
+<div class="text-center">
+  <puml src="diagrams/delete-group/GroupDeleteExecution.puml" alt="GroupDelete-Execution" />
+</div>
+
+<br>
+
 Step 7. Finally, `Storage` saves the updated HitList to the hard disk, and the `LogicManager` returns the `CommandResult` to the UI to display a success message to the user.
 
-The following object diagram shows the important objects created during parsing:
+<div class="text-center">
+  <puml src="diagrams/delete-group/GroupDeletePostExecution.puml" alt="GroupDelete-PostExecution" />
+</div>
 
-<puml src="diagrams/delete-group/GroupDeleteParsing.puml" alt="GroupDeleteParsing" />
-
-The following object diagram shows the important objects involved during execution:
-
-<puml src="diagrams/delete-group/GroupDeleteExecution.puml" alt="GroupDeleteExecution" />
-
-The following object diagram shows the model state after successful execution:
-
-<puml src="diagrams/delete-group/GroupDeletePostExecution.puml" alt="GroupDeletePostExecution" />
+<br>
 
 The following sequence diagram shows how a DeleteGroup operation goes through the Logic component:
 
-<puml src="diagrams/delete-group/GroupDeleteSequenceDiagram-Logic.puml" alt="GroupDeleteSequenceDiagramLogic" />
+<div class="text-center">
+  <puml src="diagrams/delete-group/GroupDeleteSequenceDiagram-Logic.puml" alt="GroupDeleteSequenceDiagram-Logic" />
+</div>
+
+<br>
 
 <box type="info" seamless header="Note">
-**Note:** The lifeline for `DeleteGroupCommand` and `DeleteGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>DeleteGroupCommand</b> and <b>DeleteGroupCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `grpdel` command:
 
-<puml src="diagrams/delete-group/GroupDeleteActivityDiagram.puml" alt="GroupDeleteActivityDiagram" />
+<div class="text-center">
+  <puml src="diagrams/delete-group/GroupDeleteActivityDiagram.puml" alt="GroupDeleteActivityDiagram" />
+</div>
+
+<br>
 
 #### Listing groups
 
@@ -684,7 +840,7 @@ If no argument is provided: It creates a `ListGroupCommand` with the default beh
 If an argument is provided: It extracts the group name and creates a `ListGroupCommand` containing the group name of target group.
 
 <div class="text-center">
-    <puml src="diagrams/list-groups/GroupListParsing.puml" alt="GroupListParsing" />
+    <puml src="diagrams/list-groups/GroupListParsing.puml" alt="GroupList-Parsing" />
 </div>
 
 <br>
@@ -692,7 +848,7 @@ If an argument is provided: It extracts the group name and creates a `ListGroupC
 Step 5. The `ListGroupsCommand` is returned to the `LogicManager`, and the `ListGroupsCommandParser` is subsequently destroyed.
 
 <div class="text-center">
-    <puml src="diagrams/list-groups/GroupListExecution.puml" alt="GroupListExecution" />
+    <puml src="diagrams/list-groups/GroupListExecution.puml" alt="GroupList-Execution" />
 </div>
 
 <br>
@@ -702,13 +858,13 @@ Step 6. `LogicManager` calls `ListGroupsCommand#execute()`. The command calls `M
 Step 7. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` returns the `CommandResult` containing the list of groups to the UI to display to the user.
 
 <div class="text-center">
-    <puml src="diagrams/list-groups/GroupListSequenceDiagram-Logic.puml" alt="GroupListSequenceDiagramLogic" />
+    <puml src="diagrams/list-groups/GroupListSequenceDiagram-Logic.puml" alt="GroupListSequenceDiagram-Logic" />
 </div>
 
 <br>
 
 <info type="info" seamless header="Note">
-**Note:** The lifeline for `ListGroupsCommand` and `ListGroupsCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for `ListGroupsCommand` and `ListGroupsCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </info>
 
 The following activity diagram summarizes what happens when a user executes the `grplist` command:
@@ -770,10 +926,8 @@ The following sequence diagram shows how an AssignGroup operation goes through t
 
 <br>
 
-<box type="info" seamless>
-
+<box type="info" seamless header="Note">
 **Note:** The lifeline for `AssignGroupCommand` and `AssignGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `grpassign` command:
@@ -835,10 +989,8 @@ The following sequence diagram shows how an UnassignGroup operation goes through
 
 <br>
 
-<box type="info" seamless>
-
-**Note:** The lifeline for `UnassignGroupCommand` and `UnassignGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
+<box type="info" seamless header="Note">
+The lifeline for `UnassignGroupCommand` and `UnassignGroupCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `grpunassign` command:
@@ -873,23 +1025,21 @@ A `Role` object represents a role that the headhunter is recruiting for within a
   * Pros: Provides more flexibility for users to add company profiles with minimal information and update them later as needed.
   * Cons: May lead to incomplete company profiles that lack important information, making it harder for the headhunter to manage their client base effectively.
 
-**Aspect: Validation of Company Names:**
-* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces. 
-    * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting. 
-    * Cons: Prevents users from adding companies with valid symbols in their names (e.g., 'LEAK X'PRESS' PLUMBING & CONSTRUCTION).
-
-* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,29}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 30 characters).
-    * Pros: Highly flexible for the user. 
-    * Cons: Could allow completely nonsensical company names like !!! or ???.
-
-**Aspect: Validation of Company Description:**
+**Aspect: Validation of Company Names**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
-    * Cons: Prevents users from adding companies with valid symbols in their names (e.g., 'LEAK X'PRESS' PLUMBING & CONSTRUCTION).
+  * Pros: Enforces clean data entry and prevents users from accidentally entering malformed data or symbols that might break CLI formatting.
+  * Cons: Overly restrictive. It prevents users from adding companies with perfectly valid punctuation in their registered names (e.g., `Macy's`, `AT&T`, or `LEAK X'PRESS PLUMBING & CONSTRUCTION`).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,29}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 30 characters).
+  * Pros: Highly flexible, allowing users to accurately input diverse company names exactly as they are legally registered, including standard punctuation.
+  * Cons: Too permissive; it could allow users to create completely nonsensical company names consisting entirely of random punctuation marks like `!!!` or `???`.
 
-* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
-    * Pros: Highly flexible for the user.
-    * Cons: Could allow completely nonsensical company names like !!! or ???.
+**Aspect: Validation of Company Description**
+* **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
+  * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
+  * Cons: Extremely restrictive for a text-heavy field. It prevents users from using basic, necessary punctuation to write readable sentences (e.g., blocking commas, periods, and hyphens in a description like "A fast-growing B2B startup, founded in 2023.").
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 1000 characters).
+  * Pros: Highly flexible, allowing users to write detailed, naturally formatted descriptions using full sentences and helpful punctuation.
+  * Cons: Extremely permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
 
 #### Design considerations for Company Commands:
 
@@ -962,8 +1112,8 @@ The following sequence diagram shows how an AddCompany operation goes through th
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `AddCompanyCommand` and `AddCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>AddCompanyCommand</b> and <b>AddCompanyCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `cmpadd` command:
 
@@ -1026,74 +1176,13 @@ The following sequence diagram shows how an AddCompany operation goes through th
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `DeleteCompanyCommand` and `DeleteCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>DeleteCompanyCommand</b> and <b>DeleteCompanyCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `cmpdel` command:
 
 <div class="text-center">
   <puml src="diagrams/delete-company/CompanyDeleteActivityDiagram.puml" alt="CompanyDeleteActivityDiagram" />
-</div>
-
-<br>
-
-#### Listing all contacts
-
-The List mechanism is facilitated by `ListCommand`. It allows users to list all person contacts in the HitList. The feature implements the following key operations:
-
-* `ListCommand#execute()` - Executes the logic to apply the `PREDICATE_SHOW_ALL_PERSONS` filter to the list of persons in the model.
-* `Model#updateFilteredPersonList()` - Updates the HitList's filtered list within the Model state to display all persons.
-
-Given below is an example usage scenario and how the List mechanism behaves at each step.
-
-Step 1. The user launches the application and types `list` into the command box.
-
-Step 2. The `LogicManager` intercepts the user input and calls `HitListParser#parseCommand("list")`.
-
-Step 3. Recognizing the `list` command word, the `HitListParser` directly creates a `ListCommand` (since there are no arguments to parse).
-
-<div class="text-center">
-  <puml src="diagrams/list/ListParsing.puml" alt="ListObjectDiagram-Parsing" />
-</div>
-
-<br>
-
-Step 4. The `ListCommand` is returned to the `LogicManager`.
-
-<div class="text-center">
-  <puml src="diagrams/list/ListExecution.puml" alt="ListObjectDiagram-Execution" />
-</div>
-
-<br>
-
-Step 5. `LogicManager` calls `ListCommand#execute()`. This command calls `Model#updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` to reset the filtered list in the internal `HitList` state to show all persons.
-
-Step 6. Since the underlying data was not modified, `Storage` does not need to save anything to the hard disk. The `LogicManager` simply returns the `CommandResult` to the UI to display the updated list and a success message to the user.
-
-<div class="text-center">
-  <puml src="diagrams/list/ListPostExecution.puml" alt="ListObjectDiagram-PostExecution" />
-</div>
-
-<br>
-
-The following sequence diagram shows how a List operation goes through the Logic component:
-
-<div class="text-center">
-  <puml src="diagrams/list/ListSequenceDiagram.puml" alt="ListSequenceDiagram-Logic" />
-</div>
-
-<br>
-
-<box type="info" seamless>
-
-**Note:** The lifeline for `ListCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</box>
-
-The following activity diagram summarizes what happens when a user executes the `list` command:
-
-<div class="text-center">
-  <puml src="diagrams/list/ListActivityDiagram.puml" alt="ListActivityDiagram" />
 </div>
 
 <br>
@@ -1153,9 +1242,7 @@ The following sequence diagram shows how a ListCompany operation goes through th
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `ListCompanyCommand` and `ListCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
+The lifeline for <b>ListCompanyCommand</b> and <b>ListCompanyCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `cmplist` command, highlighting the branching logic based on user input:
@@ -1217,9 +1304,7 @@ The following sequence diagram shows how a FindCompany operation goes through th
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `FindCompanyCommand` and `FindCompanyCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
+The lifeline for <b>FindCompanyCommand</b> and <b>FindCompanyCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </box>
 
 The following activity diagram summarizes what happens when a user executes the `cmpfind` command:
@@ -1233,7 +1318,6 @@ The following activity diagram summarizes what happens when a user executes the 
 #### Design considerations for Roles Parameters:
 
 **Aspect: Company Field Requirements:**
-
 * **Alternative 1 (current choice):** Both role name and role description are required fields.
   * Pros: Ensures that all roles have a minimum level of information, which can be useful for the headhunter to quickly identify the requirements of clients request.
   * Cons: May be too restrictive for users who want to quickly add a role without the description first and fill in the details later.
@@ -1241,28 +1325,25 @@ The following activity diagram summarizes what happens when a user executes the 
   * Pros: Provides more flexibility for users to add company profiles with minimal information and update them later as needed.
   * Cons: May lead to incomplete company profiles that lack important information, making it harder for the headhunter to manage their client base effectively.
 
-**Aspect: Validation of Role Names:**
+**Aspect: Validation of Role Names**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
-    * Cons: Prevents users from adding companies with valid symbols in their names (e.g., Front-end Developer).
+  * Pros: Enforces clean data entry, preventing users from accidentally entering malformed data or symbols that might disrupt CLI parsing.
+  * Cons: Too restrictive. It prevents users from adding perfectly valid roles that rely on standard industry punctuation (e.g., "Front-end Developer", "C++ Engineer", or "UI/UX Designer").
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 50 characters).
+  * Pros: Highly flexible, allowing users to accurately input diverse job titles exactly as they appear in the market, including standard punctuation.
+  * Cons: Extremely permissive; it could allow users to create completely nonsensical role titles consisting entirely of random punctuation marks like `!!!` or `???`.
 
-* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,49}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 50 characters).
-    * Pros: Highly flexible for the user.
-    * Cons: Could allow completely nonsensical company names like !!! or ???.
-
-**Aspect: Validation of Role Description:**
+**Aspect: Validation of Role Description**
 * **Alternative 1:** Use strict regex `^[\p{Alnum}][\p{Alnum} ]*$` to only allow alphanumeric characters and spaces.
-    * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI formatting.
-    * Cons: Prevents users from adding companies with valid symbols in their names (e.g., Art Direction + Brand Identity).
-
-* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, contain / or have newlines and be within the length limit of 2 to 1000 characters).
-    * Pros: Highly flexible for the user.
-    * Cons: Could allow completely nonsensical company names like !!! or ???.
+  * Pros: Prevents users from accidentally entering malformed data or using symbols that might break the CLI or JSON storage formatting.
+    * Cons: Highly impractical for a descriptive field. It prevents users from writing natural sentences and using basic punctuation (e.g., blocking commas, periods, and symbols like `+` or `&` in a description such as `Requires 5+ years of experience in C++ & Python.`).
+* **Alternative 2 (current choice):** Use a custom regex `^[^\s/][^/\v]{1,999}$` (Must not start with a space, cannot contain `/` or newlines, and must be between 2 and 1000 characters).
+  * Pros: Maximum flexibility, allowing users to write detailed, naturally formatted role requirements and descriptions.
+  * Cons: Too permissive; it could allow users to enter unhelpful or completely nonsensical descriptions (like `!!!` or a string of random symbols) as long as it doesn't violate the basic exclusion rules.
 
 #### Design considerations for Roles Commands:
 
 **Aspect: Command Format for Parameters:**
-
 * **Alternative 1 (current choice):** Use prefixes to indicate parameters (e.g., `/c` for role name, `/d` for role description).
   * Pros: Clear and unambiguous parsing of parameters, especially when there are multiple parameters.
   * Cons: Requires users to remember and use specific prefixes.
@@ -1271,7 +1352,6 @@ The following activity diagram summarizes what happens when a user executes the 
   * Cons: Parsing can be more error-prone, especially if parameters can contain spaces or if there are optional parameters.
 
 **Aspect: Handling Duplicate Roles:**
-
 * **Alternative 1 (current choice):** Check for duplicates based on role name and reject the addition if a duplicate is found.
   * Pros: Prevents cluttering the HitList with duplicate entries, maintains data integrity.
   * Cons: Does not account for edge cases where two distinct role might share the same names.
@@ -1334,8 +1414,8 @@ The following sequence diagram shows how an AddRole operation goes through the L
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `AddCompanyRoleCommand` and `AddCompanyRoleCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>AddCompanyRoleCommand</b> and <b>AddCompanyRoleCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `roleadd` command:
 
@@ -1398,8 +1478,8 @@ The following sequence diagram shows how a DeleteRole operation goes through the
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `DeleteCompanyRoleCommand` and `DeleteCompanyRoleCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>DeleteCompanyRoleCommand</b> and <b>DeleteCompanyRoleCommandParser</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 The following activity diagram summarizes what happens when a user executes the `roledel` command:
 
@@ -1439,7 +1519,7 @@ Given below is an example usage scenario and how the undo/redo mechanism behaves
 Step 1. The user launches the application for the first time. The `VersionedHitList` will be initialized with the initial HitList state, and the `currentStatePointer` pointing to that single HitList state.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+  <puml src="diagrams/undo/UndoRedoState0.puml" alt="UndoRedoState0" />
 </div>
 
 <br>
@@ -1447,7 +1527,7 @@ Step 1. The user launches the application for the first time. The `VersionedHitL
 Step 2. The user executes `delete 5` command to delete the 5th person in HitList. The `delete` command calls `Model#commitHitList()`, causing the modified state of HitList after the `delete 5` command executes to be saved in the `hitListStateList`, and the `currentStatePointer` is shifted to the newly inserted HitList state.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+  <puml src="diagrams/undo/UndoRedoState1.puml" alt="UndoRedoState1" />
 </div>
 
 <br>
@@ -1455,46 +1535,44 @@ Step 2. The user executes `delete 5` command to delete the 5th person in HitList
 Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitHitList()`, causing another modified HitList state to be saved into the `hitListStateList`.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+  <puml src="diagrams/undo/UndoRedoState2.puml" alt="UndoRedoState2" />
 </div>
 
 <br>
 
 <box type="info" seamless>
-
-**Note:** If a command fails its execution, it will not call `Model#commitHitList()`, so HitList state will not be saved into the `hitListStateList`.
+If a command fails its execution, it will not call `Model#commitHitList()`, so HitList state will not be saved into the `hitListStateList`.
+</box>
 
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoHitList()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous HitList state, and restores HitList to that state.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+  <puml src="diagrams/undo/UndoRedoState3.puml" alt="UndoRedoState3" />
 </div>
 
 <br>
 
 <box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial HitList state, then there are no previous HitList states to restore. The `undo` command uses `Model#canUndoHitList()` to check if this is the case. If so, it will return an error to the user rather
+If the `currentStatePointer` is at index 0, pointing to the initial HitList state, then there are no previous HitList states to restore. The `undo` command uses `Model#canUndoHitList()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
-
 </box>
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
 <div class="text-center">
-  <puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+  <puml src="diagrams/undo/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
 </div>
 
 <br>
 
 <box type="info" seamless>
-
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+The lifeline for <b>UndoCommand</b> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
 
 <div class="text-center">
-  <puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+  <puml src="diagrams/undo/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
 </div>
 
 <br>
@@ -1502,13 +1580,13 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 The `redo` command does the opposite — it calls `Model#redoHitList()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores HitList to that state.
 
 <box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index `hitListStateList.size() - 1`, pointing to the latest HitList state, then there are no undone HitList states to restore. The `redo` command uses `Model#canRedoHitList()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+If the `currentStatePointer` is at index `hitListStateList.size() - 1`, pointing to the latest HitList state, then there are no undone HitList states to restore. The `redo` command uses `Model#canRedoHitList()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+</box>
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify HitList, such as `list`, will usually not call `Model#commitHitList()`, `Model#undoHitList()` or `Model#redoHitList()`. Thus, the `hitListStateList` remains unchanged.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+  <puml src="diagrams/undo/UndoRedoState4.puml" alt="UndoRedoState4" />
 </div>
 
 <br>
@@ -1516,7 +1594,7 @@ Step 5. The user then decides to execute the command `list`. Commands that do no
 Step 6. The user executes `clear`, which calls `Model#commitHitList()`. Since the `currentStatePointer` is not pointing at the end of the `hitListStateList`, all HitList states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
 <div class="text-center">
-  <puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+  <puml src="diagrams/undo/UndoRedoState5.puml" alt="UndoRedoState5" />
 </div>
 
 <br>
@@ -1524,14 +1602,10 @@ Step 6. The user executes `clear`, which calls `Model#commitHitList()`. Since th
 The following activity diagram summarizes what happens when a user executes a new command:
 
 <div class="text-center">
-  <puml src="diagrams/CommitActivityDiagram.puml" width="250" alt="CommitActivityDiagram" />
+  <puml src="diagrams/undo/CommitActivityDiagram.puml" width="250" alt="CommitActivityDiagram" />
 </div>
 
 <br>
-
-### [Proposed] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1929,7 +2003,9 @@ Use case ends.
 
 Given below are instructions to test the app manually.
 
-**Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
+<box type="info" seamless header="Note">
+These instructions only provide a starting point for testers to work on; testers are expected to do more <b>exploratory</b> testing.
+</box>
 
 ### Launch and shutdown
 
