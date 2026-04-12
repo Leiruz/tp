@@ -11,7 +11,7 @@ public class CompanyName {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Company names must be between 2 and 50 characters long, "
-                    + "cannot start with a space, and cannot contain forward slashes (/), or line breaks.";
+                    + "cannot contain forward slashes (/), or line breaks.";
 
     /**
      * The first character of the company name must not be a whitespace,
