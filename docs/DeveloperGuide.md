@@ -1688,8 +1688,6 @@ Use case ends.
 
 * 1a. System detects that a contact with the same name already exists.
   * 1a1. System shows previously added contact with the same name message
-* 1b. System detects that a contact with the same phone number already exists.
-  * 1b1. System shows previously added contact with the same phone number message
 
 Use case ends.
 </box>
@@ -1722,7 +1720,7 @@ Similar to Use case 1 (Add a contact), except the user requests to edit an exist
 
 * 1a. System detects that the requested contact does not exist.
   * 1a1. System shows requested contact does not exist message.
-* 1b. System detects that the new contact details conflict with an existing contact (e.g. same name or same phone number).
+* 1b. System detects that the new contact details conflict with an existing contact (i.e., same name).
   * 1b1. System shows contact details conflict with existing contact message.
 * 1c. System detects that the new contact details are the same as the existing contact details.
   * 1c1. System shows contact details are the same as existing contact message.
