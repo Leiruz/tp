@@ -32,10 +32,6 @@ public class FindCompanyCommandParser implements Parser<FindCompanyCommand> {
         for (String token : tokens) {
             String trimmedToken = token.trim();
 
-            if (trimmedToken.isEmpty()) {
-                continue;
-            }
-
             // Validate search keyword
             if (!isValidSearchKeyword(trimmedToken)) {
                 throw new ParseException(
@@ -85,11 +81,6 @@ public class FindCompanyCommandParser implements Parser<FindCompanyCommand> {
             if (Character.isISOControl(c)) {
                 return false;
             }
-        }
-
-        // Forbid vertical whitespace (same as CompanyName's \v)
-        if (trimmed.matches(".*\\v.*")) {
-            return false;
         }
 
         // SPECIAL EXCEPTION: Allow single character searches
