@@ -607,7 +607,8 @@ Format: `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`
 * The role name must be unique within the company and not the same as any existing role in that company.
 * The role description can be any string which does not include `/` or start with spaces.
 * The company name must be an existing company in HitList.
-* The company name typed must be the exact company name registered in HitList.
+* The company name search is **case-insensitive** (e.g., `google` matches `Google`).
+* The company will be displayed with its original registered name (e.g., `Google`) after the operation.
 
 Examples:
 * `roleadd /r Quality Assurance Engineer /d Ensures software products meet quality standards by developing test plans /c Google Inc.` adds a role named `Quality Assurance Engineer` to the company `Google`.
