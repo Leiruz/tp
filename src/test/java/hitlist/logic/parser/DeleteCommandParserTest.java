@@ -27,7 +27,7 @@ public class DeleteCommandParserTest {
         assertParseSuccess(parser, "1", new DeleteCommand(INDEX_FIRST_PERSON));
     }
 
-    @Test
+     @Test
     public void parse_validNameArgs_returnsDeleteCommand() {
         assertParseSuccess(parser, PREFIX_NAME + " Alice Pauline",
                 new DeleteCommand(new Name("Alice Pauline")));
@@ -38,6 +38,8 @@ public class DeleteCommandParserTest {
         assertParseFailure(parser, "a",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         assertParseFailure(parser, "1 " + PREFIX_NAME + " NonExistentName",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "123 " + PREFIX_NAME,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 }
