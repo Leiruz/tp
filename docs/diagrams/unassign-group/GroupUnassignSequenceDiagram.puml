@@ -11,11 +11,8 @@ participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
+participant "targetGroup:Group" as Group MODEL_COLOR
 participant "m:Model" as Model MODEL_COLOR
-end box
-
-box Group Domain
-participant ":Group" as Group MODEL_COLOR
 end box
 
 [-> LogicManager : execute("grpunassign /n Alex /g Students")
@@ -58,7 +55,7 @@ deactivate Model
 
 UnassignGroupCommand -> Model : getGroup(groupName)
 activate Model
-Model --> UnassignGroupCommand : targetGroup (Group object)
+Model --> UnassignGroupCommand : targetGroup
 deactivate Model
 
 UnassignGroupCommand -> Group : hasMember(personToUnassign)
