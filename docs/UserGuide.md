@@ -506,7 +506,8 @@ Deletes the specified company from HitList.
 Format: `cmpdel /c COMPANY_NAME`
 
 * The company name must be an existing company in HitList.
-* The company name search is **case-insensitive** (e.g., `google` matches `Google`).
+* The company name search is **case-insensitive** (e.g., `google` matches `Google`/`GoOgLe`/`GOOGLE`).
+* The search matches the **exact company name** as stored in HitList. For example, `cmpfind google` will match a company named exactly `Google`, but will **not** match `Google Inc.` or `google.com` since those are different company names.
 * The company will be displayed with its original registered name (e.g., `Google`) after the operation.
 
 Example:
@@ -607,7 +608,8 @@ Format: `roleadd /r ROLE_NAME /d ROLE_DESCRIPTION /c COMPANY_NAME`
 * The role name must be unique within the company and not the same as any existing role in that company.
 * The role description can be any string which does not include `/` or start with spaces.
 * The company name must be an existing company in HitList.
-* The company name search is **case-insensitive** (e.g., `google` matches `Google`).
+* The company name search is **case-insensitive** (e.g., `google` matches `Google`/`GoOgLe`/`GOOGLE`).
+* The search matches the **exact company name** as stored in HitList. For example, `cmpfind google` will match a company named exactly `Google`, but will **not** match `Google Inc.` or `google.com` since those are different company names.
 * The company will be displayed with its original registered name (e.g., `Google`) after the operation.
 
 Examples:
@@ -652,7 +654,8 @@ Format: `roledel /r ROLE_NAME /c COMPANY_NAME` or `roledel INDEX /c COMPANY_NAME
 * The role name must be an existing role within the company.
 * The index refers to the position of the role in the company's role list (1-based indexing).
 * The company name must be an existing company in HitList.
-* The company name search is **case-insensitive** (e.g., `google` matches `Google`).
+* The company name search is **case-insensitive** (e.g., `google` matches `Google`/`GoOgLe`/`GOOGLE`).
+* The search matches the **exact company name** as stored in HitList. For example, `cmpfind google` will match a company named exactly `Google`, but will **not** match `Google Inc.` or `google.com` since those are different company names.
 * The company will be displayed with its original registered name (e.g., `Google`) after the operation.
 
 Examples:
