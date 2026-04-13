@@ -2018,7 +2018,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 ### Deleting a person
 
-1. Prerequisites: List all persons using the `list` command, or find persons using the `find` command. Multiple persons in the list.
+1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
 1. Deleting a person while a list of persons is being shown (Index Deletion)
 
