@@ -11,7 +11,7 @@ end box
 
 box Model MODEL_COLOR_T1
 participant "d:EditPersonDescriptor" as EditPersonDescriptor MODEL_COLOR
-participant ":Model" as Model MODEL_COLOR
+participant "m:Model" as Model MODEL_COLOR
 
 end box
 
@@ -53,7 +53,7 @@ destroy EditCommandParser
 HitListParser --> LogicManager : c
 deactivate HitListParser
 
-LogicManager -> EditCommand : execute()
+LogicManager -> EditCommand : execute(m)
 activate EditCommand
 
 EditCommand -> Model : setPerson(personToEdit, editedPerson)
